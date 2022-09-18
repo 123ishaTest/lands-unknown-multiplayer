@@ -1,10 +1,12 @@
 import {GameServer} from "./GameServer";
-import {Player} from "lu-common/src/Player";
+import {DatabaseManager} from "src/DatabaseManager";
+import {PlayerManager} from "src/PlayerManager";
 
 const server = new GameServer(
-    // new DatabaseManager(connection),
-    // new PlayerManager(),
+    new PlayerManager(),
+    new DatabaseManager(),
 )
+
 // Sockets.init(game, connection, true)
 // FirebaseHelper.init();
 

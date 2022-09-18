@@ -12,10 +12,10 @@ export class IgtWallet extends IgtFeature {
 
     protected readonly _supportedCurrencies: CurrencyType[];
 
-    constructor(supportedCurrencies: CurrencyType[], saveKey: string = "wallet") {
-        super(saveKey);
+    constructor() {
+        super("wallet");
 
-        this._supportedCurrencies = supportedCurrencies;
+        this._supportedCurrencies = Object.values(Currency);
 
         // Initialize currencies and multipliers
         for (const type of this._supportedCurrencies) {
