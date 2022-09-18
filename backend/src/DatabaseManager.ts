@@ -1,4 +1,4 @@
-import {Player} from "lu-common/src/Player";
+import {Player} from "common/Player";
 
 /**
  * Responsible for saving and loading player data

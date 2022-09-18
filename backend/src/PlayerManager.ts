@@ -1,4 +1,4 @@
-import {Player} from "lu-common/src/Player";
+import {Player} from "common/Player";
 
 /**
  * Manage the list of online players

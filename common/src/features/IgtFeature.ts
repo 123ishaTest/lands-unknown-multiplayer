@@ -1,6 +1,6 @@
-import {Saveable} from "src/tools/saving/Saveable";
-import {IgtFeatures} from "src/features/IgtFeatures";
-import {SaveData} from "src/tools/saving/SaveData";
+import {Saveable} from "common/tools/saving/Saveable";
+import {IgtFeatures} from "common/features/IgtFeatures";
+import {SaveData} from "common/tools/saving/SaveData";
 
 /**
  * An abstract class that all features should extend from.

@@ -1,6 +1,6 @@
-import {GameServer} from "./GameServer";
-import {DatabaseManager} from "src/DatabaseManager";
+import {GameServer} from "src/GameServer";
 import {PlayerManager} from "src/PlayerManager";
+import {DatabaseManager} from "src/DatabaseManager";
 
 const server = new GameServer(
     new PlayerManager(),
@@ -11,10 +11,10 @@ const server = new GameServer(
 // FirebaseHelper.init();
 
 server.start();
-
-process.on('SIGINT', async function () {
-    console.log("Shutting down...")
-    server.logOutAllPlayers().then(() => {
-        process.exit();
-    });
-});
+//
+// process.on('SIGINT', async function () {
+//     console.log("Shutting down...")
+//     server.logOutAllPlayers().then(() => {
+//         process.exit();
+//     });
+// });

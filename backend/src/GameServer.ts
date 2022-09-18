@@ -1,6 +1,6 @@
 import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
-import {Player} from "lu-common/src/Player";
+import {Player} from "common/Player";
 
 export class GameServer {
     readonly TICK_DURATION = 1

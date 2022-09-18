@@ -1,4 +1,4 @@
-import {IgtWallet} from "./features/wallet/Wallet";
+import {IgtWallet} from "common/features/wallet/Wallet";
 
 export class Player {
     userId: string;
