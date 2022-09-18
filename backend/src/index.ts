@@ -1,4 +1,5 @@
-import {GameServer} from "src/GameServer";
+import {GameServer} from "./GameServer";
+import {Player} from "lu-common/src/Player";
 
 const server = new GameServer(
     // new DatabaseManager(connection),

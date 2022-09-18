@@ -12,6 +12,7 @@ export class GameServer {
     }
 
     private tick() {
+        process.stdout.write(".");
         // this.playerManager.onlinePlayers.forEach((player: Player) => {
         // TODO tick features
         // this.databaseManager.savePlayer(player);

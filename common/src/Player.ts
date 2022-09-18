@@ -1,3 +1,5 @@
+import {IgtWallet} from "./features/wallet/Wallet";
+
 export class Player {
     userId: string;
 
@@ -6,5 +8,5 @@ export class Player {
 
     isLoggedIn: boolean = false;
 
-    // wallet: IgtWallet;
+    wallet: IgtWallet;
 }
