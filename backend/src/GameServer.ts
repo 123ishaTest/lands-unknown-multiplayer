@@ -31,7 +31,7 @@ export class GameServer {
         })
 
         app.get('/login', (request, response, next) => {
-            this.login(request, response, next)
+            this.login(request, response)
         });
 
 
