@@ -1,8 +1,8 @@
 import {IgtFeature} from "common/features/IgtFeature";
 import {CurrencyType} from "common/features/wallet/CurrencyType";
-import {Currency} from "common/features/wallet/Currency";
-import {WalletSaveData} from "common/features/wallet/WalletSaveData";
-import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
+import type {Currency} from "common/features/wallet/Currency";
+import type {WalletSaveData} from "common/features/wallet/WalletSaveData";
+import {type ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 
 export class IgtWallet extends IgtFeature {
     protected currencies: Record<CurrencyType, number> = {} as Record<CurrencyType, number>

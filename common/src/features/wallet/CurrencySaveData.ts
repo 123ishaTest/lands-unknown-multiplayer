@@ -1,5 +1,5 @@
-import {CurrencyType} from "src/features/wallet/CurrencyType";
-import {SaveData} from "src/tools/saving/SaveData";
+import type {CurrencyType} from "common/features/wallet/CurrencyType";
+import type {SaveData} from "common/tools/saving/SaveData";
 
 export interface CurrencySaveData extends SaveData {
     type: CurrencyType;

@@ -1,4 +1,4 @@
-import {CurrencyType} from "./CurrencyType";
+import type {CurrencyType} from "./CurrencyType";
 
 /**
  * A data class to store currency amounts

@@ -1,14 +1,14 @@
 import {IgtWallet} from "common/features/wallet/Wallet";
-import {Response} from "express";
-import {UpdateGameState} from "common/connection/UpdateGameState";
-import {SyncEvent} from "common/connection/SyncEvent";
+import type {Response} from "express";
+import type {UpdateGameState} from "common/connection/UpdateGameState";
+import type {SyncEvent} from "common/connection/SyncEvent";
 import {SyncType} from "common/connection/SyncType";
 
 export class Player {
     userId: string;
     userName: string;
 
-    private response: Response;
+    private response?: Response;
     lastSeen: Date = new Date();
     isLoggedIn: boolean = false;
 
@@ -28,11 +28,11 @@ export class Player {
     logOut() {
         this.isLoggedIn = false;
         this.lastSeen = new Date();
-        this.response = null;
+        this.response = undefined;
     }
 
     sendDataToClient(data: SyncEvent) {
-        this.response.write(`data: ${JSON.stringify(data)}\n\n`)
+        this.response?.write(`data: ${JSON.stringify(data)}\n\n`)
     }
 
     sendGameState() {
