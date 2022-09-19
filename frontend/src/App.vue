@@ -8,14 +8,14 @@ import _ from "lodash";
 
 let ourPlayer = ref(player)
 Connection.onGameStateSync.subscribe((gameState) => {
-  ourPlayer = ref(_.merge(ourPlayer.value, gameState.data));
+  _.merge(ourPlayer.value, gameState.data);
 })
 </script>
 
 <template>
   <div>
-    <p>Epic game</p>
-
+    <p class="bg-red-100">Epic game</p>
+    Hello world!
     <LoginFlow></LoginFlow>
     <Wallet :wallet="ourPlayer.wallet"></Wallet>
   </div>
