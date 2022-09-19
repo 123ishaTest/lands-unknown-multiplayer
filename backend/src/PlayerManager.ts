@@ -14,6 +14,7 @@ export class PlayerManager {
             throw Error(`Player ${player.userName} is already online`);
         }
         console.debug(`New player ${player.userName} logged in`);
+        player.logIn()
         this.onlinePlayers.push(player);
     }
 

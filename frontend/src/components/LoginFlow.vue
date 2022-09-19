@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import LoginFlow from "@/components/LoginFlow.vue";
+
 </script>
 
 <template>
   <div>
-    <p>Epic game</p>
-
-    <LoginFlow></LoginFlow>
+    Log in
+    <div id="firebaseui-auth-container"></div>
 
   </div>
 </template>

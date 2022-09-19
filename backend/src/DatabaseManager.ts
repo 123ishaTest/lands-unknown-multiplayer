@@ -9,16 +9,20 @@ export class DatabaseManager {
     }
 
     public async loadPlayer(userId: string): Promise<Player> {
-        // TODO load player
-        return this.createPlayer("Isha", userId);
+        return null;
     }
 
     createPlayer(userName: string, userId: string) {
         // TODO save player
-        return new Player(userName, userId);
+        return new Player(userId, userName);
     }
 
     savePlayer(player: Player) {
         // TODO save player
+    }
+
+    async findOrCreatePlayer(userName: string, userId: string): Promise<Player> {
+        const player = await this.loadPlayer(userId);
+        return player ?? this.createPlayer(userName, userId);
     }
 }

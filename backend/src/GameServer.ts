@@ -1,6 +1,7 @@
 import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
 import {Player} from "common/Player";
+import {FirebaseHelper} from "src/connection/FirebaseHelper";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -14,6 +15,8 @@ export class GameServer {
     }
 
     public start() {
+        FirebaseHelper.init();
+
         const express = require('express');
         const app = express();
         const bodyParser = require('body-parser');
@@ -38,7 +41,6 @@ export class GameServer {
     }
 
     private tick() {
-        process.stdout.write(".");
         this.playerManager.onlinePlayers.forEach((player: Player) => {
             // TODO tick features
             this.databaseManager.savePlayer(player);
@@ -54,15 +56,24 @@ export class GameServer {
         }
     }
 
-    private async login(request, response, next) {
-        const headers = {
+    private async login(request, response) {
+        const jwt = request.query.jwt;
+        const userRecord = await FirebaseHelper.getUserRecord(jwt);
+        if (!userRecord) {
+            response.writeHead(401);
+            response.end();
+            return;
+        }
+
+        response.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Connection': 'keep-alive',
             'Cache-Control': 'no-cache'
-        };
-        response.writeHead(200, headers);
+        });
+        const userName = userRecord.displayName;
+        const userId = userRecord.uid
 
-        const player = await this.databaseManager.loadPlayer("test")
+        const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
         this.playerManager.addPlayer(player);
 

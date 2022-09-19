@@ -17,9 +17,15 @@ export class Player {
         this.userName = userName;
     }
 
+    logIn() {
+        this.isLoggedIn = true;
+        this.lastSeen = new Date();
+    }
+
     logOut() {
         this.isLoggedIn = false;
         this.lastSeen = new Date();
+        this.response = null;
     }
 
     sendDataToClient(data: any) {
