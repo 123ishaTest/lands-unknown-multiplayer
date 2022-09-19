@@ -15,7 +15,7 @@ export class IgtWallet extends IgtFeature {
     constructor() {
         super("wallet");
 
-        this._supportedCurrencies = Object.values(Currency);
+        this._supportedCurrencies = Object.values(CurrencyType);
 
         // Initialize currencies and multipliers
         for (const type of this._supportedCurrencies) {

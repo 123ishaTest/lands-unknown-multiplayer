@@ -35,4 +35,9 @@ export class Player {
     setResponse(response: Response) {
         this.response = response;
     }
+
+    save() {
+        // TODO register all features, combine with tick()
+        return this.wallet.save();
+    }
 }

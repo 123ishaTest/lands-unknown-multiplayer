@@ -18,6 +18,8 @@ export class DatabaseManager {
     }
 
     savePlayer(player: Player) {
+        const saveData = player.save();
+        console.log(saveData);
         // TODO save player
     }
 
