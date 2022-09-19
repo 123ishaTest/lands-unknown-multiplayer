@@ -1,4 +1,4 @@
-import {SaveData} from "common/src/tools/saving/SaveData";
+import type {SaveData} from "common/tools/saving/SaveData";
 
 export interface Saveable {
     saveKey: string;

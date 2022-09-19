@@ -2,13 +2,11 @@ import {createApp} from 'vue'
 import App from './App.vue'
 
 import './assets/main.css'
-import {Player} from "common/Player";
-import {SocketHelper} from "@/SocketHelper";
+import {Connection} from "@/Connection";
+import {player} from "common/Content";
 
 createApp(App).mount('#app')
 
-const player = new Player("asd", "asd");
-
 console.log(player);
 
-SocketHelper.init();
+Connection.init();

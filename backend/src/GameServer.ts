@@ -14,6 +14,24 @@ export class GameServer {
     }
 
     public start() {
+        const express = require('express');
+        const app = express();
+        const bodyParser = require('body-parser');
+        const cors = require('cors');
+        app.use(cors());
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({extended: false}));
+
+        const PORT = 3000
+        app.listen(PORT, () => {
+            console.log(`Server listening at http://localhost:${PORT}`)
+        })
+
+        app.get('/login', (request, response, next) => {
+            this.login(request, response, next)
+        });
+
+
         setInterval(() => {
             this.tick();
         }, this.TICK_DURATION * 1000);
@@ -24,6 +42,7 @@ export class GameServer {
         this.playerManager.onlinePlayers.forEach((player: Player) => {
             // TODO tick features
             this.databaseManager.savePlayer(player);
+            player.sendDataToClient("yooo")
         })
     }
 
@@ -35,5 +54,22 @@ export class GameServer {
         }
     }
 
+    private async login(request, response, next) {
+        const headers = {
+            'Content-Type': 'text/event-stream',
+            'Connection': 'keep-alive',
+            'Cache-Control': 'no-cache'
+        };
+        response.writeHead(200, headers);
 
+        const player = await this.databaseManager.loadPlayer("test")
+        player.setResponse(response);
+        this.playerManager.addPlayer(player);
+
+        player.sendDataToClient("Login successful");
+        request.on('close', () => {
+            console.log(`${player.userName} Connection closed`);
+            this.playerManager.removePlayer(player);
+        });
+    }
 }
