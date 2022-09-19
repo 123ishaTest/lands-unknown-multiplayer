@@ -5,7 +5,7 @@ import {WalletSaveData} from "common/features/wallet/WalletSaveData";
 import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 
 export class IgtWallet extends IgtFeature {
-    protected _currencies: Record<CurrencyType, number> = {} as Record<CurrencyType, number>
+    protected currencies: Record<CurrencyType, number> = {} as Record<CurrencyType, number>
     protected _multipliers: Record<CurrencyType, number> = {} as Record<CurrencyType, number>
 
     protected _onCurrencyGain = new SimpleEventDispatcher<Currency>();
@@ -19,9 +19,17 @@ export class IgtWallet extends IgtFeature {
 
         // Initialize currencies and multipliers
         for (const type of this._supportedCurrencies) {
-            this._currencies[type] = 0;
+            this.currencies[type] = 0;
             this._multipliers[type] = 1;
         }
+    }
+
+    public get money(): number {
+        return this.getAmount(CurrencyType.money);
+    }
+
+    public set money(amount: number) {
+        this.currencies[CurrencyType.money] = amount;
     }
 
     /**
@@ -31,7 +39,7 @@ export class IgtWallet extends IgtFeature {
         if (!this.supportsCurrencyType(type)) {
             return 0;
         }
-        return this._currencies[type];
+        return this.currencies[type];
     }
 
     /**
@@ -46,7 +54,7 @@ export class IgtWallet extends IgtFeature {
         }
 
         this._onCurrencyGain.dispatch(currency);
-        this._currencies[currency.type] += currency.amount;
+        this.currencies[currency.type] += currency.amount;
     }
 
     /**
@@ -68,7 +76,7 @@ export class IgtWallet extends IgtFeature {
         if (!this.supportsCurrencyType(currency.type)) {
             return false;
         }
-        return this._currencies[currency.type] >= currency.amount;
+        return this.currencies[currency.type] >= currency.amount;
     }
 
     /**
@@ -81,7 +89,7 @@ export class IgtWallet extends IgtFeature {
             console.warn(`Could not lose currency ${currency.toString()}`);
             return;
         }
-        this._currencies[currency.type] -= currency.amount;
+        this.currencies[currency.type] -= currency.amount;
     }
 
     /**
@@ -143,22 +151,13 @@ export class IgtWallet extends IgtFeature {
     }
 
     public save(): WalletSaveData {
-        const currencies = [];
-        for (const key in this._currencies) {
-            currencies.push({
-                type: key,
-                amount: this._currencies[key]
-            })
-        }
         return {
-            currencies: currencies
+            money: this.money
         }
     }
 
     public load(data: WalletSaveData): void {
-        data.currencies?.forEach(currencyData => {
-            this._currencies[currencyData.type] = currencyData.amount ?? this._currencies[currencyData.type];
-        })
+        this.money = data.money;
     }
 
     /**

@@ -47,7 +47,7 @@ export class GameServer {
             player.wallet.gainCurrency(new Currency(1, CurrencyType.money))
             // TODO tick features
             this.databaseManager.savePlayer(player);
-            player.sendDataToClient("yooo")
+            player.sendGameState();
         })
     }
 
@@ -80,7 +80,7 @@ export class GameServer {
         player.setResponse(response);
         this.playerManager.addPlayer(player);
 
-        player.sendDataToClient("Login successful");
+        // player.sendDataToClient("Login successful");
         request.on('close', () => {
             console.log(`${player.userName} Connection closed`);
             this.playerManager.removePlayer(player);

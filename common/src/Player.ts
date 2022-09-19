@@ -1,5 +1,8 @@
 import {IgtWallet} from "common/features/wallet/Wallet";
 import {Response} from "express";
+import {UpdateGameState} from "common/connection/UpdateGameState";
+import {SyncEvent} from "common/connection/SyncEvent";
+import {SyncType} from "common/connection/SyncType";
 
 export class Player {
     userId: string;
@@ -28,8 +31,16 @@ export class Player {
         this.response = null;
     }
 
-    sendDataToClient(data: any) {
+    sendDataToClient(data: SyncEvent) {
         this.response.write(`data: ${JSON.stringify(data)}\n\n`)
+    }
+
+    sendGameState() {
+        const sync: UpdateGameState = {
+            type: SyncType.GameState,
+            data: this.save(),
+        }
+        this.sendDataToClient(sync);
     }
 
     setResponse(response: Response) {
@@ -38,6 +49,8 @@ export class Player {
 
     save() {
         // TODO register all features, combine with tick()
-        return this.wallet.save();
+        return {
+            "wallet": this.wallet.save()
+        };
     }
 }
