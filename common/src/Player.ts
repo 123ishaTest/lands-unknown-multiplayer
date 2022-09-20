@@ -86,7 +86,9 @@ export class Player implements Saveable {
      * Recursively save all registered features
      */
     public save(): PlayerSaveData {
-        const res = {};
+        const res = {
+            userName: this.userName
+        };
         for (const feature of this.featureList) {
             res[feature.saveKey] = feature.save()
         }
@@ -101,6 +103,7 @@ export class Player implements Saveable {
         if (data == null) {
             return;
         }
+        this.userName = data.userName;
         for (const feature of this.featureList) {
             const featureSaveData: Record<string, unknown> = data[feature.saveKey] as Record<string, unknown>;
             if (featureSaveData == null) {

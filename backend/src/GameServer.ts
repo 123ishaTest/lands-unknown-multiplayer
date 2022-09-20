@@ -43,9 +43,9 @@ export class GameServer {
     private tick() {
         this.playerManager.onlinePlayers.forEach((player: Player) => {
             player.update(this.TICK_DURATION);
-            this.databaseManager.savePlayer(player);
             player.sendGameState();
         })
+        // TODO save sometimes
     }
 
     public async logOutAllPlayers() {
@@ -75,12 +75,13 @@ export class GameServer {
 
         const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
-        player.initialize();
         this.playerManager.addPlayer(player);
 
         // player.sendDataToClient("Login successful");
         request.on('close', () => {
             console.log(`${player.userName} Connection closed`);
+            player.logOut()
+            this.databaseManager.savePlayer(player);
             this.playerManager.removePlayer(player);
         });
     }

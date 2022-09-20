@@ -55,7 +55,6 @@ export abstract class Action implements Saveable {
             console.warn("Cannot complete action that is already finished");
             return;
         }
-        console.log("Action completed");
         this._onCompletion.dispatch(this);
         const canRepeat: boolean = this.gainReward();
         if (canRepeat && this.repeat > 0) {

@@ -3,6 +3,7 @@ import {ActionQueueSaveData} from "common/features/actionqueue/ActionQueueSaveDa
 import {WalletSaveData} from "common/features/wallet/WalletSaveData";
 
 export interface PlayerSaveData extends SaveData {
+    userName: string,
     actionQueue: ActionQueueSaveData;
     wallet: WalletSaveData;
 }
