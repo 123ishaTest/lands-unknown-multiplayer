@@ -2,8 +2,6 @@ import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
 import {Player} from "common/Player";
 import {FirebaseHelper} from "src/connection/FirebaseHelper";
-import {Currency} from "common/features/wallet/Currency";
-import {CurrencyType} from "common/features/wallet/CurrencyType";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -44,8 +42,7 @@ export class GameServer {
 
     private tick() {
         this.playerManager.onlinePlayers.forEach((player: Player) => {
-            player.wallet.gainCurrency(new Currency(1, CurrencyType.money))
-            // TODO tick features
+            player.update(this.TICK_DURATION * 1000);
             this.databaseManager.savePlayer(player);
             player.sendGameState();
         })
