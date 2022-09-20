@@ -2,8 +2,13 @@ import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 import {IgtFeature} from "common/features/IgtFeature";
 import {Action} from "common/tools/actions/Action";
 import {ActionQueueSaveData} from "common/features/actionqueue/ActionQueueSaveData";
+import {IgtFeatures} from "common/features/IgtFeatures";
+import {ActionList} from "common/features/actionlist/ActionList";
+import {ActionId} from "common/features/actionlist/ActionId";
 
 export class ActionQueue extends IgtFeature {
+    _actionList: ActionList;
+
     actions: Action[] = [];
     readonly MAX_ACTIONS = 10;
 
@@ -15,6 +20,15 @@ export class ActionQueue extends IgtFeature {
 
     constructor() {
         super('actionQueue');
+    }
+
+
+    initialize(features: IgtFeatures) {
+        this._actionList = features.actionList;
+
+        // TODO remove
+        const action = this._actionList.getAction(ActionId.GainMoney);
+        this.addAction(action);
     }
 
     update(delta: number) {
@@ -95,7 +109,11 @@ export class ActionQueue extends IgtFeature {
 
 
     load(data: ActionQueueSaveData): void {
-        // TODO implement loading of actions
+        this.actions = data.actions.map(actionData => {
+            const action = this._actionList.getAction(actionData.id);
+            action.load(actionData);
+            return action;
+        })
     }
 
     save(): ActionQueueSaveData {

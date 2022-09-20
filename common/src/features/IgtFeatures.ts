@@ -1,5 +1,9 @@
 import type {IgtWallet} from "common/features/wallet/Wallet";
+import type {ActionQueue} from "common/features/actionqueue/ActionQueue";
+import {ActionList} from "common/features/actionlist/ActionList";
 
 export interface IgtFeatures {
-    wallet?: IgtWallet;
+    actionList: ActionList
+    actionQueue: ActionQueue;
+    wallet: IgtWallet;
 }

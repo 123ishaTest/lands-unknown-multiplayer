@@ -4,8 +4,12 @@ import {NoRequirement} from "common/tools/requirements/NoRequirement";
 import {Progress} from "common/tools/requirements/Progress";
 import {Saveable} from "common/tools/saving/Saveable";
 import {ActionSaveData} from "common/tools/actions/ActionSaveData";
+import {ActionId} from "common/features/actionlist/ActionId";
+import {IgtFeatures} from "common/features/IgtFeatures";
 
 export abstract class Action implements Saveable {
+    abstract id: ActionId;
+
     description: string;
     abstract icon: string;
 
@@ -27,12 +31,14 @@ export abstract class Action implements Saveable {
         this.duration = duration;
     }
 
+    public get saveKey() {
+        return this.id;
+    }
+
     perform(delta: number): void {
         if (!this.isStarted || this.isFinished) {
             return;
         }
-
-
         this.currentProgress += delta;
 
         if (this.canBeCompleted()) {
@@ -49,7 +55,7 @@ export abstract class Action implements Saveable {
             console.warn("Cannot complete action that is already finished");
             return;
         }
-
+        console.log("Action completed");
         this._onCompletion.dispatch(this);
         const canRepeat: boolean = this.gainReward();
         if (canRepeat && this.repeat > 0) {
@@ -116,18 +122,33 @@ export abstract class Action implements Saveable {
     }
 
 
-    public setRepeat(count: number) {
+    public setRepeat(count: number): this {
         this.repeat = count;
+        return this;
     }
 
-    public setRequirement(req: Requirement) {
+    public setRequirement(req: Requirement): this {
         this.requirement = req;
+        return this;
     }
 
-    abstract load(data: ActionSaveData): void;
+    load(data: ActionSaveData): void {
+        this.currentProgress = data.currentProgress;
+        this.repeat = data.repeat;
+        this.duration = data.duration;
+    };
 
-    abstract save(): ActionSaveData;
+    save(): ActionSaveData {
+        return {
+            id: this.id,
+            currentProgress: this.currentProgress,
+            duration: this.duration,
+            repeat: this.repeat
+        }
+    }
 
-    abstract saveKey: string;
-
+    /**
+     * Grab the features your action need
+     */
+    abstract initialize(features: IgtFeatures): void;
 }

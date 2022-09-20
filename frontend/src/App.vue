@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import LoginFlow from "@/components/LoginFlow.vue";
-import Wallet from "@/components/Wallet.vue";
+import Wallet from "@/components/features/wallet/Wallet.vue";
 import {player} from "common/Content"
 import {Connection} from "@/Connection";
-import {ref} from "vue";
-import _ from "lodash";
+import {reactive} from "vue";
+import ActionQueue from "@/components/features/actionqueue/ActionQueue.vue";
 
-let ourPlayer = ref(player)
+player.initialize()
+let ourPlayer = reactive(player)
 Connection.onGameStateSync.subscribe((gameState) => {
-  _.merge(ourPlayer.value, gameState.data);
+  ourPlayer.load(gameState.data);
 })
 </script>
 
@@ -18,6 +19,7 @@ Connection.onGameStateSync.subscribe((gameState) => {
     Hello world!
     <LoginFlow></LoginFlow>
     <Wallet :wallet="ourPlayer.wallet"></Wallet>
+    <ActionQueue :queue="ourPlayer.actionQueue"></ActionQueue>
   </div>
 </template>
 

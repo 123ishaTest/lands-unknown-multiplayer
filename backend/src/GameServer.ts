@@ -42,7 +42,7 @@ export class GameServer {
 
     private tick() {
         this.playerManager.onlinePlayers.forEach((player: Player) => {
-            player.update(this.TICK_DURATION * 1000);
+            player.update(this.TICK_DURATION);
             this.databaseManager.savePlayer(player);
             player.sendGameState();
         })
@@ -75,6 +75,7 @@ export class GameServer {
 
         const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
+        player.initialize();
         this.playerManager.addPlayer(player);
 
         // player.sendDataToClient("Login successful");

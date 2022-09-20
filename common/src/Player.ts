@@ -7,6 +7,8 @@ import {ActionQueue} from "common/features/actionqueue/ActionQueue";
 import {IgtFeature} from "common/features/IgtFeature";
 import {Saveable} from "common/tools/saving/Saveable";
 import {PlayerSaveData} from "common/PlayerSaveData";
+import {IgtFeatures} from "common/features/IgtFeatures";
+import {ActionList} from "common/features/actionlist/ActionList";
 
 export class Player implements Saveable {
     userId: string;
@@ -19,24 +21,35 @@ export class Player implements Saveable {
     // Features
     wallet: IgtWallet = new IgtWallet();
     actionQueue: ActionQueue = new ActionQueue();
+    actionList: ActionList = new ActionList();
+
+    features: IgtFeatures;
+
+    constructor(userId: string, userName: string) {
+        this.userId = userId;
+        this.userName = userName;
+        this.saveKey = this.userId;
+        this.features = {
+            actionList: this.actionList,
+            actionQueue: this.actionQueue,
+            wallet: this.wallet
+        }
+    }
 
     private get featureList(): IgtFeature[] {
-        return [
-            this.actionQueue,
-            this.wallet
-        ]
+        return Object.values(this.features);
+    }
+
+    public initialize() {
+        this.featureList.forEach(feature => {
+            feature.initialize(this.features);
+        })
     }
 
     public update(delta: number) {
         this.featureList.forEach(feature => {
             feature.update(delta);
         })
-    }
-
-    constructor(userId: string, userName: string) {
-        this.userId = userId;
-        this.userName = userName;
-        this.saveKey = this.userId;
     }
 
     logIn() {
