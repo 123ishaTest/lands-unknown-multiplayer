@@ -8,9 +8,14 @@ defineProps<{
 </script>
 
 <template>
-  <div style="border: 1px solid black">
-    <p>Action Queue</p>
-    <ProgressBar v-if="queue.actions.length > 0" :percentage="queue.actions[0].getProgress().getPercentage()" bg-class="bg-red-100" fg-class="bg-black"></ProgressBar>
+  <div class="m-2 p-4 bg-pink-100 border-2 border-black">
+    <p class="text-xl">Action Queue</p>
+    <hr class="mb-4 border-black">
+    <div v-if="queue.actions.length > 0">
+      <ProgressBar :percentage="queue.actions[0].getProgress().getPercentage()" bg-class="bg-pink-200"
+                   fg-class="bg-pink-500"></ProgressBar>
+      <p>{{ queue.actions[0].description }}</p>
+    </div>
   </div>
 </template>
 

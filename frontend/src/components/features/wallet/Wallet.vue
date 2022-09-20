@@ -7,8 +7,9 @@ defineProps<{
 </script>
 
 <template>
-  <div style="border: 1px solid black">
-    <p>Wallet</p>
+  <div class="m-2 p-4 bg-pink-100 border-2 border-black">
+    <p class="text-xl">Wallet</p>
+    <hr class="mb-4 border-black">
     <p>You have {{ wallet.money }} money</p>
   </div>
 </template>

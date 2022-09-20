@@ -10,16 +10,21 @@ player.initialize()
 let ourPlayer = reactive(player)
 Connection.onGameStateSync.subscribe((gameState) => {
   ourPlayer.load(gameState.data);
+  ourPlayer.isLoggedIn = true;
 })
 </script>
 
 <template>
   <div>
-    <p class="bg-red-100">Epic game</p>
-    Hello world!
-    <LoginFlow></LoginFlow>
-    <Wallet :wallet="ourPlayer.wallet"></Wallet>
-    <ActionQueue :queue="ourPlayer.actionQueue"></ActionQueue>
+    <div class="flex flex-row h-24 bg-pink-600 justify-center items-center">
+      <p class="text-xl font-bold">Lands Unknown Multiplayer (for real this time)</p>
+    </div>
+    <LoginFlow v-if="!ourPlayer.isLoggedIn"></LoginFlow>
+
+    <div v-else>
+      <Wallet :wallet="ourPlayer.wallet"></Wallet>
+      <ActionQueue :queue="ourPlayer.actionQueue"></ActionQueue>
+    </div>
   </div>
 </template>
 
