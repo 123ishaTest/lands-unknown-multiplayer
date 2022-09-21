@@ -1,5 +1,4 @@
 import {Requirement} from "common/tools/requirements/Requirement";
-import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 import {NoRequirement} from "common/tools/requirements/NoRequirement";
 import {Progress} from "common/tools/requirements/Progress";
 import {Saveable} from "common/tools/saving/Saveable";
@@ -14,17 +13,9 @@ export abstract class Action implements Saveable {
     abstract icon: string;
 
     duration: number;
-    repeat: number = Infinity; //0, x, Infinity (until error)
 
-    isStarted: boolean = false;
     currentProgress: number = 0;
-    isFinished: boolean = false;
     requirement: Requirement = new NoRequirement();
-
-    // One iteration completed
-    private _onCompletion = new SimpleEventDispatcher<Action>();
-    // Entire action finished
-    private _onFinished = new SimpleEventDispatcher<Action>();
 
     protected constructor(description: string, duration: number) {
         this.description = description;
@@ -35,41 +26,26 @@ export abstract class Action implements Saveable {
         return this.id;
     }
 
-    perform(delta: number): void {
-        if (!this.isStarted || this.isFinished) {
-            return;
-        }
+    perform(delta: number):void {
         this.currentProgress += delta;
-
-        if (this.canBeCompleted()) {
-            this.complete();
-        }
     }
 
     canBeCompleted() {
-        return this.isStarted && this.currentProgress >= this.duration;
+        return this.currentProgress >= this.duration;
     }
 
-    complete(): void {
-        if (this.isFinished) {
-            console.warn("Cannot complete action that is already finished");
-            return;
-        }
-        this._onCompletion.dispatch(this);
-        const canRepeat: boolean = this.gainReward();
-        if (canRepeat && this.repeat > 0) {
-            this.repeatAction();
-        } else {
-            this.finish();
-        }
+    /**
+     * Returns whether this action can be repeated
+     */
+    complete(): boolean {
+        return this.gainReward();
     }
 
     getProgress(): Progress {
         return new Progress(this.currentProgress, this.duration);
     }
 
-    repeatAction() {
-        this.repeat--;
+    resetAction() {
         this.currentProgress = 0;
     }
 
@@ -87,23 +63,19 @@ export abstract class Action implements Saveable {
         return this.requirement.isCompleted;
     }
 
+    /**
+     * Returns whether this action was actually started
+     */
     start(): boolean {
         if (!this.canPerform()) {
             console.log(`Can't start action ${this.description}`)
             return false;
         }
-        this.isStarted = true;
         return true;
-    }
-
-    finish(): void {
-        this.isFinished = true;
-        this._onFinished.dispatch(this);
     }
 
     stop() {
         this.currentProgress = 0;
-        this.isStarted = false;
     }
 
     /**
@@ -112,20 +84,6 @@ export abstract class Action implements Saveable {
      */
     abstract gainReward(): boolean;
 
-    public get onCompletion(): ISimpleEvent<Action> {
-        return this._onCompletion.asEvent();
-    }
-
-    public get onFinished(): ISimpleEvent<Action> {
-        return this._onFinished.asEvent();
-    }
-
-
-    public setRepeat(count: number): this {
-        this.repeat = count;
-        return this;
-    }
-
     public setRequirement(req: Requirement): this {
         this.requirement = req;
         return this;
@@ -133,7 +91,6 @@ export abstract class Action implements Saveable {
 
     load(data: ActionSaveData): void {
         this.currentProgress = data.currentProgress;
-        this.repeat = data.repeat;
         this.duration = data.duration;
     };
 
@@ -142,12 +99,11 @@ export abstract class Action implements Saveable {
             id: this.id,
             currentProgress: this.currentProgress,
             duration: this.duration,
-            repeat: this.repeat
         }
     }
 
     /**
-     * Grab the features your action need
+     * Grab the features your action needs
      */
     abstract initialize(features: IgtFeatures): void;
 }

@@ -5,11 +5,14 @@ import {ActionQueueSaveData} from "common/features/actionqueue/ActionQueueSaveDa
 import {IgtFeatures} from "common/features/IgtFeatures";
 import {ActionList} from "common/features/actionlist/ActionList";
 import {ActionId} from "common/features/actionlist/ActionId";
+import {ActionGenerator} from "common/tools/actions/ActionGenerator";
+import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
+import {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
 
 export class ActionQueue extends IgtFeature {
     _actionList: ActionList;
 
-    actions: Action[] = [];
+    generators: ActionGenerator[] = [];
     readonly MAX_ACTIONS = 10;
 
     private _onActionCompletion = new SimpleEventDispatcher<Action>();
@@ -25,35 +28,35 @@ export class ActionQueue extends IgtFeature {
 
     initialize(features: IgtFeatures) {
         this._actionList = features.actionList;
+    }
 
-        // TODO remove
-        const action = this._actionList.getAction(ActionId.GainMoney);
-        this.addAction(action);
+    public get currentAction(): Action | null {
+        return this.generators.length === 0 ? null : this.generators[0].currentAction;
     }
 
     update(delta: number) {
-        if (this.actions.length > 0) {
-            if (!this.actions[0].isStarted) {
-                const couldStart = this.actions[0].start();
-                if (!couldStart) {
-                    this.removeFirstAction();
-                }
-            }
+        if (this.generators.length === 0) {
+            return;
         }
-        if (this.actions.length > 0) {
-            if (this.actions[0].isFinished) {
+        if (!this.generators[0].isStarted()) {
+            const couldStart = this.generators[0].start();
+            if (!couldStart || this.generators[0].isFinished()) {
                 this.removeFirstAction();
             }
         }
 
         // Check again in case first action is removed
-        if (this.actions.length > 0) {
-            this.actions[0].perform(delta);
+        if (this.generators.length > 0) {
+            this.generators[0].perform(delta);
+            this.generators[0].checkCompletion();
+            if (this.generators[0].isFinished()) {
+                this.removeFirstAction();
+            }
         }
     }
 
     cancelAction(index: number) {
-        const action = this.actions[index];
+        const action = this.generators[index];
 
         if (action == null) {
             console.error(`Could not find and cancel action at index ${index}`);
@@ -67,59 +70,78 @@ export class ActionQueue extends IgtFeature {
 
     cancelActionsFromIndex(index: number, cascade: boolean) {
         if (!cascade) {
-            this.actions[index].stop();
-            this.actions.splice(index, 1);
+            this.generators[index].stop();
+            this.generators.splice(index, 1);
             return;
         }
-        for (let i = index; i < this.actions.length; i++) {
-            this.actions[i].stop();
+        for (let i = index; i < this.generators.length; i++) {
+            this.generators[i].stop();
         }
-        this.actions = this.actions.slice(0, index);
+        this.generators = this.generators.slice(0, index);
     }
 
-    addAction(action: Action, repeat: number = -1) {
-        if (repeat !== -1) {
-            action.repeat = repeat;
-        }
+    /**
+     * Helper method to more easily add actions by id
+     */
+    public addActionById(actionId: ActionId) {
+        this.addActionGenerator(this._actionList.getActionGenerator(actionId));
+    }
 
+    /**
+     * Add an action by wrapping it in a generator
+     */
+    public addAction(action: Action) {
+        this.addActionGenerator(new SingleActionGenerator(action));
+    }
+
+    addActionGenerator(action: ActionGenerator) {
         // No need to schedule an action for now if we can't perform it.
-        if (this.actions.length === 0 && !action.canPerform()) {
+        if (this.generators.length === 0 && !action.canPerform()) {
             return;
         }
 
-        if (this.actions.length >= this.MAX_ACTIONS) {
+        if (this.generators.length >= this.MAX_ACTIONS) {
             console.log(`You already have ${this.MAX_ACTIONS} actions scheduled.`);
             return;
         }
 
-        const sub = action.onCompletion.subscribe((action) => {
-            this._onActionCompletion.dispatch(action);
-        })
-        action.onFinished.one(() => {
-            sub();
-        })
+        // TODO fix pubsub
+        // const sub = action.onCompletion.subscribe((action) => {
+        //     this._onActionCompletion.dispatch(action);
+        // })
+        // action.onFinished.one(() => {
+        //     sub();
+        // })
 
-        this.actions.push(action);
+        this.generators.push(action);
     }
 
     // Could be improved to be more bug-safe
     removeFirstAction() {
-        this.actions.shift();
+        this.generators.shift();
     }
 
 
     load(data: ActionQueueSaveData): void {
-        this.actions = data.actions.map(actionData => {
-            const action = this._actionList.getAction(actionData.id);
-            action.load(actionData);
-            return action;
+        this.generators = [];
+        data.generators?.forEach(generatorData => {
+            let generator;
+
+            if (generatorData.id === ActionId.SingleActionGenerator) {
+                generator = this._actionList.getActionGenerator((generatorData as SingleActionGeneratorSaveData).currentAction.id);
+            } else {
+                generator = this._actionList.getActionGenerator(generatorData.id);
+            }
+
+            generator.load(generatorData);
+            this.addActionGenerator(generator);
         })
     }
 
     save(): ActionQueueSaveData {
         return {
-            actions: this.actions.map(action => action.save()),
-        }
+            generators: this.generators.map(generator => generator.save()),
+        };
     }
 
 }

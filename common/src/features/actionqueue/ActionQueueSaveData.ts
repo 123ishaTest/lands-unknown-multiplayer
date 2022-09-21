@@ -1,6 +1,6 @@
 import {SaveData} from "common/tools/saving/SaveData";
-import {ActionSaveData} from "common/tools/actions/ActionSaveData";
+import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
 
 export interface ActionQueueSaveData extends SaveData {
-    actions: ActionSaveData[]
+    generators: ActionGeneratorSaveData[]
 }

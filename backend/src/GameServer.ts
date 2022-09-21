@@ -2,6 +2,7 @@ import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
 import {Player} from "common/Player";
 import {FirebaseHelper} from "src/connection/FirebaseHelper";
+import {ActionId} from "common/features/actionlist/ActionId";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -76,6 +77,13 @@ export class GameServer {
         const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
         this.playerManager.addPlayer(player);
+
+        // TODO remove default actions
+        player.actionQueue.generators = [];
+        player.actionQueue.addActionById(ActionId.GainMoney);
+        player.actionQueue.addActionById(ActionId.MoneyTutorial);
+        player.actionQueue.addActionById(ActionId.GainMoney);
+        player.actionQueue.addActionById(ActionId.MoneyTutorial);
 
         // player.sendDataToClient("Login successful");
         request.on('close', () => {

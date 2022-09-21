@@ -5,5 +5,4 @@ export interface ActionSaveData extends SaveData {
     id: ActionId;
     currentProgress: number;
     duration: number;
-    repeat: number;
 }

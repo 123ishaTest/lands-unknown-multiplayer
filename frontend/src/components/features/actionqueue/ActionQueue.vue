@@ -11,10 +11,20 @@ defineProps<{
   <div class="m-2 p-4 bg-pink-100 border-2 border-black">
     <p class="text-xl">Action Queue</p>
     <hr class="mb-4 border-black">
-    <div v-if="queue.actions.length > 0">
-      <ProgressBar :percentage="queue.actions[0].getProgress().getPercentage()" bg-class="bg-pink-200"
-                   fg-class="bg-pink-500"></ProgressBar>
-      <p>{{ queue.actions[0].description }}</p>
+    <div v-if="queue.currentAction">
+
+      <div v-for="(generator, index) in queue.generators">
+        <div v-if="index === 0">
+          <p>{{ generator.description }}</p>
+
+<!--          {{generator.currentAction}}-->
+          {{ generator.currentAction.currentProgress }}
+          <ProgressBar :percentage="generator.currentAction.getProgress().getPercentage()" bg-class="bg-pink-200"
+                       fg-class="bg-pink-500"></ProgressBar>
+          <hr class="mb-4 border-black">
+        </div>
+        <p v-else>{{ generator.description }}</p>
+      </div>
     </div>
   </div>
 </template>
