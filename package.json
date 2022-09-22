@@ -10,6 +10,6 @@
   "scripts": {
     "backend": "npm run dev -w ./backend",
     "frontend": "npm run dev -w ./frontend",
-    "start": "npm run backend"
+    "start": "npm install && npm run backend"
   }
 }
