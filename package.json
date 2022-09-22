@@ -10,12 +10,5 @@
   "scripts": {
     "backend": "npm run dev -w ./backend",
     "frontend": "npm run dev -w ./frontend"
-  },
-  "dependencies": {
-    "lodash": "^4.17.21",
-    "strongly-typed-events": "^3.0.5"
-  },
-  "devDependencies": {
-
   }
 }

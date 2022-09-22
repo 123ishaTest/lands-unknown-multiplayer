@@ -1,0 +1,12 @@
+{
+  "name": "common",
+  "version": "0.0.1",
+  "description": "Common game logic used by both the backend and the frontend",
+  "devDependencies": {
+    "typescript": "4.8.3"
+  },
+  "dependencies": {
+    "strongly-typed-events": "^3.0.5"
+  },
+  "scripts": {}
+}
