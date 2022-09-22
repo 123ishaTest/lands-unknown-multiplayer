@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "backend": "npm run dev -w ./backend",
-    "frontend": "npm run dev -w ./frontend"
+    "frontend": "npm run dev -w ./frontend",
+    "start": "npm run build -w ./frontend"
   },
   "dependencies": {
     "lodash": "^4.17.21",
