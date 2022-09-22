@@ -6,6 +6,7 @@ import {Connection} from "@/Connection";
 import {reactive} from "vue";
 import ActionQueue from "@/components/features/actionqueue/ActionQueue.vue";
 import type {Player} from "common/Player";
+import Skills from "@/components/features/skills/Skills.vue";
 
 player.initialize()
 let ourPlayer: Player = reactive(player) as Player
@@ -25,6 +26,7 @@ Connection.onGameStateSync.subscribe((gameState) => {
     <div v-else>
       <Wallet :wallet="ourPlayer.wallet"></Wallet>
       <ActionQueue :queue="ourPlayer.actionQueue"></ActionQueue>
+      <Skills :skills="ourPlayer.skills"></Skills>
     </div>
   </div>
 </template>

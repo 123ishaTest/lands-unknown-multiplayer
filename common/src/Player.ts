@@ -10,6 +10,7 @@ import type {PlayerSaveData} from "common/PlayerSaveData";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import {ActionList} from "common/features/actionlist/ActionList";
 import type {SaveData} from "common/tools/saving/SaveData";
+import {Skills} from "common/features/skills/Skills";
 
 export class Player implements Saveable {
     userId: string;
@@ -23,6 +24,7 @@ export class Player implements Saveable {
     wallet: IgtWallet = new IgtWallet();
     actionQueue: ActionQueue = new ActionQueue();
     actionList: ActionList = new ActionList();
+    skills: Skills = new Skills();
 
     features: IgtFeatures;
 
@@ -33,7 +35,8 @@ export class Player implements Saveable {
         this.features = {
             actionList: this.actionList,
             actionQueue: this.actionQueue,
-            wallet: this.wallet
+            wallet: this.wallet,
+            skills: this.skills,
         }
     }
 

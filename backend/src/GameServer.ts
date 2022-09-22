@@ -31,7 +31,7 @@ export class GameServer {
             console.log(`Server listening at http://localhost:${PORT}`)
         })
 
-        app.get('/login', (request, response, next) => {
+        app.get('/login', (request, response) => {
             this.login(request, response)
         });
 
@@ -95,9 +95,9 @@ export class GameServer {
         // TODO remove default actions
         player.actionQueue.generators = [];
         player.actionQueue.addActionById(ActionId.GainMoney);
-        player.actionQueue.addActionById(ActionId.MoneyTutorial);
+        player.actionQueue.addActionById(ActionId.MiningTutorial);
         player.actionQueue.addActionById(ActionId.GainMoney);
-        player.actionQueue.addActionById(ActionId.MoneyTutorial);
+        player.actionQueue.addActionById(ActionId.MiningTutorial);
 
         // player.sendDataToClient("Login successful");
         request.on('close', () => {

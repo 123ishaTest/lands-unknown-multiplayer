@@ -1,12 +1,13 @@
 import {IgtFeature} from "common/features/IgtFeature";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {SaveData} from "common/tools/saving/SaveData";
-import {GainMoneyAction} from "common/features/actionqueue/GainMoneyAction";
+import {MineAction} from "common/features/actionqueue/MineAction";
 import {ActionId} from "common/features/actionlist/ActionId";
 import {Action} from "common/tools/actions/Action";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
 import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator";
+import {GainMoneyAction} from "common/features/actionqueue/GainMoneyAction";
 
 type ActionFunction = () => Action | ActionGenerator;
 
@@ -36,11 +37,12 @@ export class ActionList extends IgtFeature {
 
             [ActionId.GainMoney]: () => new GainMoneyAction("Gain money", 4),
             [ActionId.DoesNotExist]: () => new GainMoneyAction("Gain money", 4),
-            [ActionId.MoneyTutorial]: () => new LinearActionGenerator(ActionId.MoneyTutorial, [
-                new GainMoneyAction("First we gain 1 money", 1),
-                new GainMoneyAction("Then we get 2", 2),
-                new GainMoneyAction("Then 100", 100),
-                new GainMoneyAction("And then we're done...", 0),
+            [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
+            [ActionId.MiningTutorial]: () => new LinearActionGenerator(ActionId.MiningTutorial, [
+                new MineAction("Chop a rock", 1),
+                new MineAction("Chop more rock", 2),
+                new MineAction("Chop a big rock", 100),
+                new MineAction("Be proud of yourself", 1),
             ]),
         }
     }
