@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ActionQueue} from "common/features/actionqueue/ActionQueue";
+import type {ActionQueue} from "common/features/actionqueue/ActionQueue";
 import ProgressBar from "@/components/tools/ProgressBar.vue";
 
 defineProps<{

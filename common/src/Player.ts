@@ -4,11 +4,12 @@ import type {UpdateGameState} from "common/connection/UpdateGameState";
 import type {SyncEvent} from "common/connection/SyncEvent";
 import {SyncType} from "common/connection/SyncType";
 import {ActionQueue} from "common/features/actionqueue/ActionQueue";
-import {IgtFeature} from "common/features/IgtFeature";
-import {Saveable} from "common/tools/saving/Saveable";
-import {PlayerSaveData} from "common/PlayerSaveData";
-import {IgtFeatures} from "common/features/IgtFeatures";
+import type {IgtFeature} from "common/features/IgtFeature";
+import type {Saveable} from "common/tools/saving/Saveable";
+import type {PlayerSaveData} from "common/PlayerSaveData";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 import {ActionList} from "common/features/actionlist/ActionList";
+import type {SaveData} from "common/tools/saving/SaveData";
 
 export class Player implements Saveable {
     userId: string;
@@ -86,14 +87,14 @@ export class Player implements Saveable {
      * Recursively save all registered features
      */
     public save(): PlayerSaveData {
-        const res = {
+        const res: Record<string, unknown> = {
             userName: this.userName
         };
         for (const feature of this.featureList) {
             res[feature.saveKey] = feature.save()
         }
         // TODO check if this is creating the interface correctly
-        return res as PlayerSaveData;
+        return res as unknown as PlayerSaveData;
     }
 
     /**
@@ -105,7 +106,8 @@ export class Player implements Saveable {
         }
         this.userName = data.userName;
         for (const feature of this.featureList) {
-            const featureSaveData: Record<string, unknown> = data[feature.saveKey] as Record<string, unknown>;
+            // @ts-ignore
+            const featureSaveData: SaveData = data[feature.saveKey] as SaveData
             if (featureSaveData == null) {
                 continue;
             }

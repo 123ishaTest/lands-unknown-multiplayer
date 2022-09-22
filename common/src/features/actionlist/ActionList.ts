@@ -1,10 +1,10 @@
 import {IgtFeature} from "common/features/IgtFeature";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {SaveData} from "common/tools/saving/SaveData";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {SaveData} from "common/tools/saving/SaveData";
 import {GainMoneyAction} from "common/features/actionqueue/GainMoneyAction";
 import {ActionId} from "common/features/actionlist/ActionId";
 import {Action} from "common/tools/actions/Action";
-import {ActionGenerator} from "common/tools/actions/ActionGenerator";
+import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
 import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator";
 
@@ -14,13 +14,13 @@ type ActionFunction = () => Action | ActionGenerator;
  * A giant repository of all possible actions
  */
 export class ActionList extends IgtFeature {
-    _features: IgtFeatures
+    _features!: IgtFeatures
 
     constructor() {
         super("actionList");
     }
 
-    actions: Record<ActionId, ActionFunction>;
+    actions!: Record<ActionId, ActionFunction>;
 
 
     initialize(features: IgtFeatures) {

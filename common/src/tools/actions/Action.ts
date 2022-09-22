@@ -1,10 +1,10 @@
-import {Requirement} from "common/tools/requirements/Requirement";
+import type {Requirement} from "common/tools/requirements/Requirement";
 import {NoRequirement} from "common/tools/requirements/NoRequirement";
 import {Progress} from "common/tools/requirements/Progress";
-import {Saveable} from "common/tools/saving/Saveable";
-import {ActionSaveData} from "common/tools/actions/ActionSaveData";
-import {ActionId} from "common/features/actionlist/ActionId";
-import {IgtFeatures} from "common/features/IgtFeatures";
+import type {Saveable} from "common/tools/saving/Saveable";
+import type {ActionSaveData} from "common/tools/actions/ActionSaveData";
+import type {ActionId} from "common/features/actionlist/ActionId";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 
 export abstract class Action implements Saveable {
     abstract id: ActionId;

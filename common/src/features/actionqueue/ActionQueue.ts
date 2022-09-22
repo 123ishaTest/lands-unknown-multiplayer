@@ -1,16 +1,16 @@
-import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
+import {type ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 import {IgtFeature} from "common/features/IgtFeature";
-import {Action} from "common/tools/actions/Action";
-import {ActionQueueSaveData} from "common/features/actionqueue/ActionQueueSaveData";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {ActionList} from "common/features/actionlist/ActionList";
+import type {Action} from "common/tools/actions/Action";
+import type {ActionQueueSaveData} from "common/features/actionqueue/ActionQueueSaveData";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {ActionList} from "common/features/actionlist/ActionList";
 import {ActionId} from "common/features/actionlist/ActionId";
-import {ActionGenerator} from "common/tools/actions/ActionGenerator";
+import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
-import {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
+import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
 
 export class ActionQueue extends IgtFeature {
-    _actionList: ActionList;
+    _actionList!: ActionList;
 
     generators: ActionGenerator[] = [];
     readonly MAX_ACTIONS = 10;

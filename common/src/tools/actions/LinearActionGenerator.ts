@@ -1,8 +1,8 @@
 import {ActionGenerator} from "common/tools/actions/ActionGenerator";
-import {Action} from "common/tools/actions/Action";
-import {LinearActionGeneratorSaveData} from "common/tools/actions/LinearActionGeneratorSaveData";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {ActionId} from "common/features/actionlist/ActionId";
+import type {Action} from "common/tools/actions/Action";
+import type {LinearActionGeneratorSaveData} from "common/tools/actions/LinearActionGeneratorSaveData";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {ActionId} from "common/features/actionlist/ActionId";
 
 /**
  * Linearly feeds a list of actions

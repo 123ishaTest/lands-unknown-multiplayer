@@ -1,14 +1,14 @@
 import {Action} from "common/tools/actions/Action";
-import {IgtWallet} from "common/features/wallet/Wallet";
+import type {IgtWallet} from "common/features/wallet/Wallet";
 import {Currency} from "common/features/wallet/Currency";
 import {CurrencyType} from "common/features/wallet/CurrencyType";
 import {ActionId} from "common/features/actionlist/ActionId";
-import {IgtFeatures} from "common/features/IgtFeatures";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 
 export class GainMoneyAction extends Action {
     id: ActionId = ActionId.GainMoney;
 
-    _wallet: IgtWallet;
+    _wallet!: IgtWallet;
 
     icon: string = 'icon';
     value: number;

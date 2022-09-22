@@ -1,10 +1,10 @@
-import {Action} from "common/tools/actions/Action";
-import {Requirement} from "common/tools/requirements/Requirement";
+import type {Action} from "common/tools/actions/Action";
+import type {Requirement} from "common/tools/requirements/Requirement";
 import {NoRequirement} from "common/tools/requirements/NoRequirement";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {Saveable} from "common/tools/saving/Saveable";
-import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
-import {ActionId} from "common/features/actionlist/ActionId";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {Saveable} from "common/tools/saving/Saveable";
+import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
+import type {ActionId} from "common/features/actionlist/ActionId";
 
 export abstract class ActionGenerator implements Saveable {
     abstract id: ActionId;
@@ -35,7 +35,7 @@ export abstract class ActionGenerator implements Saveable {
         return this.requirement.isCompleted;
     }
 
-    public abstract initialize(features: IgtFeatures);
+    public abstract initialize(features: IgtFeatures): void;
 
     public abstract isStarted(): boolean;
 

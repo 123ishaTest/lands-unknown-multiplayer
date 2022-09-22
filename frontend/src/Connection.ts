@@ -7,7 +7,7 @@ export class Connection {
 
 
     public static init(jwt: string) {
-        const events = new EventSource(`http://localhost:3000/login?jwt=${jwt}`);
+        const events = new EventSource(`https://lands-unknown-multiplayer.ishadijcks.repl.co/login?jwt=${jwt}`);
         events.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (!data.type) {

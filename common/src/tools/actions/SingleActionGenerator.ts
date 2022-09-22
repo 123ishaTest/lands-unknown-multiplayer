@@ -1,7 +1,7 @@
 import {ActionGenerator} from "common/tools/actions/ActionGenerator";
-import {Action} from "common/tools/actions/Action";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
+import type {Action} from "common/tools/actions/Action";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
 import {ActionId} from "common/features/actionlist/ActionId";
 
 export class SingleActionGenerator extends ActionGenerator {

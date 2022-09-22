@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IgtWallet} from "common/features/wallet/Wallet";
+import type {IgtWallet} from "common/features/wallet/Wallet";
 
 defineProps<{
   wallet: IgtWallet

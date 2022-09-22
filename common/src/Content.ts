@@ -1,4 +1,4 @@
 import {Player} from "common/Player";
 
-export const player = new Player("", "")
+export const player: Player = new Player("", "")
 

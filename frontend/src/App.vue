@@ -5,9 +5,10 @@ import {player} from "common/Content"
 import {Connection} from "@/Connection";
 import {reactive} from "vue";
 import ActionQueue from "@/components/features/actionqueue/ActionQueue.vue";
+import type {Player} from "common/Player";
 
 player.initialize()
-let ourPlayer = reactive(player)
+let ourPlayer: Player = reactive(player) as Player
 Connection.onGameStateSync.subscribe((gameState) => {
   ourPlayer.load(gameState.data);
   ourPlayer.isLoggedIn = true;
