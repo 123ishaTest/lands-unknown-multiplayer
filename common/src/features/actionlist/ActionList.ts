@@ -8,8 +8,10 @@ import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
 import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator";
 import {GainMoneyAction} from "common/features/actionqueue/GainMoneyAction";
+import {TravelAction} from "common/features/worldmap/TravelAction";
+import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
 
-type ActionFunction = () => Action | ActionGenerator;
+type ActionFunction = (...args) => Action | ActionGenerator;
 
 /**
  * A giant repository of all possible actions
@@ -35,6 +37,9 @@ export class ActionList extends IgtFeature {
                 throw new Error("Do not query for this generator directly")
             },
 
+            [ActionId.TravelAction]: (road, isReversed) => {
+                return new TravelAction(road, isReversed)
+            },
             [ActionId.GainMoney]: () => new GainMoneyAction("Gain money", 4),
             [ActionId.DoesNotExist]: () => new GainMoneyAction("Gain money", 4),
             [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
@@ -47,13 +52,17 @@ export class ActionList extends IgtFeature {
         }
     }
 
-    public getActionGenerator(id: ActionId): ActionGenerator {
+    public getActionGenerator(id: ActionId, saveData: ActionGeneratorSaveData = null, ...args): ActionGenerator {
         if (id == undefined) {
             console.trace("Cannot get action of undefined ID")
         }
         const actionFunction = this.actions[id];
-        const actionOrGenerator = actionFunction();
+        const actionOrGenerator = actionFunction(...args);
+
         const generator = actionOrGenerator instanceof Action ? new SingleActionGenerator(actionOrGenerator) : actionOrGenerator;
+        if(saveData) {
+            generator.load(saveData);
+        }
         generator.initialize(this._features);
         return generator;
     }

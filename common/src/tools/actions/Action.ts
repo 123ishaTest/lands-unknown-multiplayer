@@ -12,21 +12,29 @@ export abstract class Action implements Saveable {
     description: string;
     abstract icon: string;
 
-    duration: number;
+    private _duration: number;
 
     currentProgress: number = 0;
     requirement: Requirement = new NoRequirement();
 
     protected constructor(description: string, duration: number) {
         this.description = description;
-        this.duration = duration;
+        this._duration = duration;
+    }
+
+    public get duration(): number {
+        return this._duration;
+    }
+
+    public set duration(value: number) {
+        this._duration = value;
     }
 
     public get saveKey() {
         return this.id;
     }
 
-    perform(delta: number):void {
+    perform(delta: number): void {
         this.currentProgress += delta;
     }
 
@@ -91,7 +99,7 @@ export abstract class Action implements Saveable {
 
     load(data: ActionSaveData): void {
         this.currentProgress = data.currentProgress;
-        this.duration = data.duration;
+        this._duration = data.duration;
     };
 
     save(): ActionSaveData {

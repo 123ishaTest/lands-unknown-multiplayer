@@ -7,10 +7,12 @@ import {reactive} from "vue";
 import ActionQueue from "@/components/features/actionqueue/ActionQueue.vue";
 import type {Player} from "common/Player";
 import Skills from "@/components/features/skills/Skills.vue";
+import WorldMap from "@/components/features/worldmap/WorldMap.vue";
 
 player.initialize()
 let ourPlayer: Player = reactive(player) as Player
 Connection.onGameStateSync.subscribe((gameState) => {
+  console.log(gameState.data)
   ourPlayer.load(gameState.data);
   ourPlayer.isLoggedIn = true;
 })
@@ -27,6 +29,7 @@ Connection.onGameStateSync.subscribe((gameState) => {
       <Wallet :wallet="ourPlayer.wallet"></Wallet>
       <ActionQueue :queue="ourPlayer.actionQueue"></ActionQueue>
       <Skills :skills="ourPlayer.skills"></Skills>
+      <WorldMap :world-map="ourPlayer.worldMap"></WorldMap>
     </div>
   </div>
 </template>

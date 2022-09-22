@@ -8,6 +8,8 @@ import {ActionId} from "common/features/actionlist/ActionId";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
 import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
+import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
+import {TravelAction} from "common/features/worldmap/TravelAction";
 
 export class ActionQueue extends IgtFeature {
     _actionList!: ActionList;
@@ -127,10 +129,11 @@ export class ActionQueue extends IgtFeature {
         data.generators?.forEach(generatorData => {
             let generator;
 
+            console.log("loading generators", generatorData)
             if (generatorData.id === ActionId.SingleActionGenerator) {
-                generator = this._actionList.getActionGenerator((generatorData as SingleActionGeneratorSaveData).currentAction.id);
+                generator = this._actionList.getActionGenerator((generatorData as SingleActionGeneratorSaveData).currentAction.id, generatorData);
             } else {
-                generator = this._actionList.getActionGenerator(generatorData.id);
+                generator = this._actionList.getActionGenerator(generatorData.id, generatorData);
             }
 
             generator.load(generatorData);
@@ -144,4 +147,12 @@ export class ActionQueue extends IgtFeature {
         };
     }
 
+    getPlayerLocationAtEndOfQueue(): WorldLocationIdentifier | null {
+        for (let i = this.generators.length - 1; i >= 0; i--) {
+            if (this.generators[i].currentAction instanceof TravelAction) {
+                return (this.generators[i].currentAction as TravelAction).to;
+            }
+        }
+        return null;
+    }
 }

@@ -11,6 +11,11 @@ import type {IgtFeatures} from "common/features/IgtFeatures";
 import {ActionList} from "common/features/actionlist/ActionList";
 import type {SaveData} from "common/tools/saving/SaveData";
 import {Skills} from "common/features/skills/Skills";
+import {WorldMap} from "common/features/worldmap/WorldMap";
+import {Road} from "common/features/worldmap/roads/Road";
+import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
+import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
+import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
 
 export class Player implements Saveable {
     userId: string;
@@ -26,6 +31,11 @@ export class Player implements Saveable {
     actionList: ActionList = new ActionList();
     skills: Skills = new Skills();
 
+    // TODO get worldmap from builder
+    worldMap: WorldMap = new WorldMap([
+        new Road(new RoadLocationIdentifier("from-docks-to-somewhere" as WorldLocationId), "Some Road", new RoiLocationIdentifier(WorldLocationId.Docks), new RoiLocationIdentifier(WorldLocationId.OtherPlace), [], 10)
+    ], []);
+
     features: IgtFeatures;
 
     constructor(userId: string, userName: string) {
@@ -37,6 +47,7 @@ export class Player implements Saveable {
             actionQueue: this.actionQueue,
             wallet: this.wallet,
             skills: this.skills,
+            worldMap: this.worldMap,
         }
     }
 
