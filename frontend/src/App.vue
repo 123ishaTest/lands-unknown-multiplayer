@@ -12,7 +12,6 @@ import WorldMap from "@/components/features/worldmap/WorldMap.vue";
 player.initialize()
 let ourPlayer: Player = reactive(player) as Player
 Connection.onGameStateSync.subscribe((gameState) => {
-  console.log(gameState.data)
   ourPlayer.load(gameState.data);
   ourPlayer.isLoggedIn = true;
 })
