@@ -33,7 +33,7 @@ export class Player implements Saveable {
 
     // TODO get worldmap from builder
     worldMap: WorldMap = new WorldMap([
-        new Road(new RoadLocationIdentifier("from-docks-to-somewhere" as WorldLocationId), "Some Road", new RoiLocationIdentifier(WorldLocationId.Docks), new RoiLocationIdentifier(WorldLocationId.OtherPlace), [], 10)
+        new Road(new RoadLocationIdentifier("from-docks-to-somewhere" as WorldLocationId), "Some Road", new RoiLocationIdentifier(WorldLocationId.Docks), new RoiLocationIdentifier(WorldLocationId.OtherPlace), [{x:1, y:2}], 10)
     ], []);
 
     features: IgtFeatures;

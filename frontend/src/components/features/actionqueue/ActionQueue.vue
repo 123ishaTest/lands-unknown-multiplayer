@@ -16,9 +16,6 @@ defineProps<{
       <div v-for="(generator, index) in queue.generators">
         <div v-if="index === 0">
           <p>{{ generator.description }}</p>
-
-<!--          {{generator.currentAction}}-->
-          {{ generator.currentAction.currentProgress }}
           <ProgressBar :percentage="generator.currentAction.getProgress().getPercentage()" bg-class="bg-pink-200"
                        fg-class="bg-pink-500"></ProgressBar>
           <hr class="mb-4 border-black">

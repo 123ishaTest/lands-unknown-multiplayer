@@ -98,10 +98,8 @@ export class GameServer {
         player.actionQueue.generators = [];
         player.actionQueue.addActionById(ActionId.GainMoney);
         player.actionQueue.addActionById(ActionId.MiningTutorial);
-        player.actionQueue.addActionById(ActionId.GainMoney);
-        player.actionQueue.addActionById(ActionId.MiningTutorial);
-        const success = player.worldMap.moveToLocation(new RoiLocationIdentifier(WorldLocationId.OtherPlace))
-        console.log("Move was success?", success);
+        player.worldMap.moveToLocation(new RoiLocationIdentifier(WorldLocationId.OtherPlace))
+        player.worldMap.moveToLocation(new RoiLocationIdentifier(WorldLocationId.Docks))
 
         // player.sendDataToClient("Login successful");
         request.on('close', () => {
