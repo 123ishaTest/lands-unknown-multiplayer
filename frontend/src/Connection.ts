@@ -7,7 +7,9 @@ export class Connection {
 
 
     public static init(jwt: string) {
-        const events = new EventSource(`https://lands-unknown-multiplayer.ishadijcks.repl.co/login?jwt=${jwt}`);
+        const serverUrl = process.env.NODE_ENV === 'production' ?
+            `localhost:3000/login?jwt=${jwt}` : `https://lands-unknown-multiplayer.ishadijcks.repl.co/login?jwt=${jwt}`;
+        const events = new EventSource(serverUrl);
         events.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (!data.type) {
