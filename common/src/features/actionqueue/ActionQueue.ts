@@ -129,7 +129,6 @@ export class ActionQueue extends IgtFeature {
         data.generators?.forEach(generatorData => {
             let generator;
 
-            console.log("loading generators", generatorData)
             if (generatorData.id === ActionId.SingleActionGenerator) {
                 generator = this._actionList.getActionGenerator((generatorData as SingleActionGeneratorSaveData).currentAction.id, generatorData);
             } else {
