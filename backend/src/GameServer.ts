@@ -42,10 +42,15 @@ export class GameServer {
     }
 
     private tick() {
+        const start = Date.now();
+        process.stdout.write("tick took: ");
+
         this.playerManager.onlinePlayers.forEach((player: Player) => {
             player.update(this.TICK_DURATION);
             player.sendGameState();
         })
+        const end = Date.now();
+        console.log((end - start), "ms for", this.playerManager.getPlayerCount(), "players")
         // TODO save sometimes
     }
 
