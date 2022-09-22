@@ -8,7 +8,7 @@
     "test:unit": "vitest --environment jsdom",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "heroku" : "npm install && npm run build-only"
+    "start" : "npm run build"
   },
   "dependencies": {
     "firebase": "^9.10.0",
