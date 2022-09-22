@@ -18,9 +18,9 @@ export class PlayerManager {
         this.onlinePlayers.push(player);
     }
 
-    getPlayer(userName: string): Player {
+    getPlayer(userId: string): Player {
         return this.onlinePlayers.find(player => {
-            return player.userName === userName;
+            return player.userId === userId;
         })
     }
 

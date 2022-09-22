@@ -71,14 +71,23 @@ export class GameServer {
             return;
         }
 
+        const userName = userRecord.displayName;
+        const userId = userRecord.uid
+
+        const isAlreadyOnline = await this.playerManager.getPlayer(userId) != null;
+        console.log("already onlnie", isAlreadyOnline);
+        if (isAlreadyOnline) {
+            console.log(`Player ${userName} tried to login twice`)
+            response.writeHead(401);
+            response.end();
+            return;
+        }
+
         response.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Connection': 'keep-alive',
             'Cache-Control': 'no-cache'
         });
-        const userName = userRecord.displayName;
-        const userId = userRecord.uid
-
         const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
         this.playerManager.addPlayer(player);

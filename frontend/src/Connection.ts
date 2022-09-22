@@ -8,8 +8,12 @@ export class Connection {
 
     public static init(jwt: string) {
         const serverUrl = process.env.NODE_ENV === 'production' ?
-            `localhost:3000/login?jwt=${jwt}` : `https://lands-unknown-multiplayer.ishadijcks.repl.co/login?jwt=${jwt}`;
-        const events = new EventSource(serverUrl);
+            `https://lands-unknown-multiplayer.ishadijcks.repl.co` : `http://localhost:3000`;
+        const path = serverUrl + `/login?jwt=${jwt}`;
+
+        console.log(`Connecting to server ${serverUrl}`);
+
+        const events = new EventSource(path);
         events.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (!data.type) {
