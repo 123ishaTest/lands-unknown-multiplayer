@@ -8,9 +8,10 @@
     "test:unit": "vitest --environment jsdom",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "start" : "npm run build"
+    "start": "npm run build"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "firebase": "^9.10.0",
     "firebaseui": "^6.0.1",
     "lodash": "^4.17.21",

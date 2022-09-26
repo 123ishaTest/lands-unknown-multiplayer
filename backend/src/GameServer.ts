@@ -2,9 +2,8 @@ import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
 import {Player} from "common/Player";
 import {FirebaseHelper} from "src/connection/FirebaseHelper";
-import {ActionId} from "common/features/actionlist/ActionId";
-import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
-import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
+import {TravelRequest} from "common/api/TravelRequest";
+import {ServerRequest} from "common/connection/ServerRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -22,11 +21,9 @@ export class GameServer {
 
         const express = require('express');
         const app = express();
-        const bodyParser = require('body-parser');
         const cors = require('cors');
         app.use(cors());
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({extended: false}));
+        app.use(express.json())
 
         const PORT = 3000
         app.listen(PORT, () => {
@@ -37,6 +34,30 @@ export class GameServer {
             this.login(request, response)
         });
 
+        // TODO get all requests cleanly
+        const requests: ServerRequest[] = [
+            new TravelRequest(),
+        ]
+
+        // Register all requests
+        for (const request of requests) {
+            app.post(request.route, async (req, res) => {
+                try {
+                    // TODO authenticate
+                    const player: Player = this.playerManager.onlinePlayers[0]
+
+                    const data = req.body;
+                    console.log(`Player ${player.userName} request ${request.route} with data ${JSON.stringify(data)}`);
+                    await request.validateSchema(data);
+                    const result = await request.perform(player, data)
+                    res.status(200).send({
+                        result
+                    });
+                } catch (e) {
+                    res.status(400).send(e.message);
+                }
+            });
+        }
 
         setInterval(() => {
             this.tick();
@@ -77,7 +98,7 @@ export class GameServer {
         const userId = userRecord.uid
 
         const isAlreadyOnline = await this.playerManager.getPlayer(userId) != null;
-        console.log("already onlnie", isAlreadyOnline);
+        console.log("already online", isAlreadyOnline);
         if (isAlreadyOnline) {
             console.log(`Player ${userName} tried to login twice`)
             response.writeHead(401);
@@ -94,14 +115,6 @@ export class GameServer {
         player.setResponse(response);
         this.playerManager.addPlayer(player);
 
-        // TODO remove default actions
-        player.actionQueue.generators = [];
-        player.actionQueue.addActionById(ActionId.GainMoney);
-        player.actionQueue.addActionById(ActionId.MiningTutorial);
-        player.worldMap.moveToLocation(new RoiLocationIdentifier(WorldLocationId.OtherPlace))
-        player.worldMap.moveToLocation(new RoiLocationIdentifier(WorldLocationId.Docks))
-
-        // player.sendDataToClient("Login successful");
         request.on('close', () => {
             console.log(`${player.userName} Connection closed`);
             player.logOut()

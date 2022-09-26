@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import LoginFlow from "@/components/LoginFlow.vue";
 import Wallet from "@/components/features/wallet/Wallet.vue";
-import {player} from "common/Content"
-import {Connection} from "@/Connection";
-import {reactive} from "vue";
 import ActionQueue from "@/components/features/actionqueue/ActionQueue.vue";
-import type {Player} from "common/Player";
 import Skills from "@/components/features/skills/Skills.vue";
 import WorldMap from "@/components/features/worldmap/WorldMap.vue";
+import {ApiClient} from "@/model/ApiClient";
+import {LocalPlayer} from "@/model/LocalPlayer";
 
-player.initialize()
-let ourPlayer: Player = reactive(player) as Player
-Connection.onGameStateSync.subscribe((gameState) => {
-  ourPlayer.load(gameState.data);
-  ourPlayer.isLoggedIn = true;
+LocalPlayer.init()
+
+ApiClient.onGameStateSync.subscribe((gameState) => {
+  LocalPlayer.player.load(gameState.data);
+  LocalPlayer.player.isLoggedIn = true;
 })
+
 </script>
 
 <template>
@@ -22,13 +21,13 @@ Connection.onGameStateSync.subscribe((gameState) => {
     <div class="flex flex-row h-24 bg-pink-600 justify-center items-center">
       <p class="text-xl font-bold">Lands Unknown Multiplayer (for real this time)</p>
     </div>
-    <LoginFlow v-if="!ourPlayer.isLoggedIn"></LoginFlow>
+    <LoginFlow v-if="!LocalPlayer.player.isLoggedIn"></LoginFlow>
 
     <div v-else>
-      <Wallet :wallet="ourPlayer.wallet"></Wallet>
-      <ActionQueue :queue="ourPlayer.actionQueue"></ActionQueue>
-      <Skills :skills="ourPlayer.skills"></Skills>
-      <WorldMap :world-map="ourPlayer.worldMap"></WorldMap>
+      <Wallet :wallet="LocalPlayer.player.wallet"></Wallet>
+      <ActionQueue :queue="LocalPlayer.player.actionQueue"></ActionQueue>
+      <Skills :skills="LocalPlayer.player.skills"></Skills>
+      <WorldMap :world-map="LocalPlayer.player.worldMap"></WorldMap>
     </div>
   </div>
 </template>

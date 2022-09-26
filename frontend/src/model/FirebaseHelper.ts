@@ -4,7 +4,7 @@ import 'firebaseui/dist/firebaseui.css'
 import AuthUI = firebaseui.auth.AuthUI;
 // @ts-ignore
 import User = firebase.User;
-import {Connection} from "@/Connection";
+import {ApiClient} from "@/model/ApiClient";
 
 export class FirebaseHelper {
     public static ui: AuthUI;
@@ -57,7 +57,7 @@ export class FirebaseHelper {
             user.getIdToken(true).then((idToken: string) => {
                 this.token = idToken;
                 console.log("Got token", this.token)
-                Connection.init(idToken);
+                ApiClient.login(idToken);
             }).catch(function (error: any) {
                 console.error(error);
             });
