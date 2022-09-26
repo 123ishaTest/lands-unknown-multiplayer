@@ -4,6 +4,7 @@ import {Player} from "common/Player";
 import {FirebaseHelper} from "src/connection/FirebaseHelper";
 import {TravelRequest} from "common/api/TravelRequest";
 import {ServerRequest} from "common/connection/ServerRequest";
+import {randomUUID} from "crypto";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -43,9 +44,15 @@ export class GameServer {
         for (const request of requests) {
             app.post(request.route, async (req, res) => {
                 try {
-                    // TODO authenticate
-                    const player: Player = this.playerManager.onlinePlayers[0]
+                    console.log(JSON.stringify(req.headers));
 
+                    const token = req.get('Authorization')
+                    console.log("got request for token", JSON.stringify(token));
+                    const player: Player = this.playerManager.getBySessionToken(token)
+                    if (!player || token == null || token == "") {
+                        console.warn(`Could not find player with session token ${token}`);
+                        return res.status(400).send("Unauthorized");
+                    }
                     const data = req.body;
                     console.log(`Player ${player.userName} request ${request.route} with data ${JSON.stringify(data)}`);
                     await request.validateSchema(data);
@@ -98,7 +105,7 @@ export class GameServer {
         const userId = userRecord.uid
 
         const isAlreadyOnline = await this.playerManager.getPlayer(userId) != null;
-        console.log("already online", isAlreadyOnline);
+        console.log(`Player ${userName} is online?:`, isAlreadyOnline);
         if (isAlreadyOnline) {
             console.log(`Player ${userName} tried to login twice`)
             response.writeHead(401);
@@ -115,9 +122,10 @@ export class GameServer {
         player.setResponse(response);
         this.playerManager.addPlayer(player);
 
+        player.sessionToken = randomUUID();
+        player.sendSessionToken();
         request.on('close', () => {
             console.log(`${player.userName} Connection closed`);
-            player.logOut()
             this.databaseManager.savePlayer(player);
             this.playerManager.removePlayer(player);
         });

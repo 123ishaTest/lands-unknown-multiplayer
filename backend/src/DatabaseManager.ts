@@ -10,8 +10,12 @@ export class DatabaseManager {
     }
 
     public async loadPlayer(userId: string): Promise<Player> {
-        const player = new Player(userId, 'placeholder');
         const data = await FirebaseHelper.loadPlayerData(userId);
+        if (!data) {
+            return null;
+        }
+        const player = new Player(userId, 'placeholder');
+
         player.initialize();
         player.load(data);
 

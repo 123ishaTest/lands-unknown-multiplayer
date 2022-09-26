@@ -9,21 +9,23 @@ import type {InferType} from "yup";
 export class ApiClient {
     public static readonly serverUrl = process.env.NODE_ENV === 'production' ?
         `https://lands-unknown-multiplayer.ishadijcks.repl.co` : `http://localhost:3000`;
+
     protected static _onGameStateSync = new SimpleEventDispatcher<UpdateGameState>();
+
     private static client: AxiosInstance;
 
-
-    public static login(jwt: string) {
-        console.log(`Connecting to server ${this.serverUrl}`);
-
-        // Setup an Axios client
+    private static initializeClient(sessionToken: string) {
         this.client = axios.create({
             baseURL: this.serverUrl,
             headers: {
-                'Authorization': jwt,
-                'Content-Type': 'application/json'
-            },
-        });
+                'Authorization': sessionToken,
+                'Content-Type': 'application/json',
+            }
+        })
+    }
+
+    public static login(jwt: string) {
+        console.log(`Connecting to server ${this.serverUrl}`);
 
         const path = this.serverUrl + `/login?jwt=${jwt}`;
         const events = new EventSource(path);
@@ -34,6 +36,9 @@ export class ApiClient {
             }
             const type: SyncType = data.type;
             switch (type) {
+                case SyncType.SessionToken:
+                    this.initializeClient(data.data);
+                    return;
                 case SyncType.GameState:
                     this._onGameStateSync.dispatch(data);
                     return;
@@ -44,7 +49,7 @@ export class ApiClient {
     }
 
     /**
-     * Emitted whenever a currency is gained
+     * Emitted whenever the gamestate changes
      */
     public static get onGameStateSync(): ISimpleEvent<UpdateGameState> {
         return this._onGameStateSync.asEvent();
@@ -61,7 +66,6 @@ export class ApiClient {
         await this.client.post(request.route, data)
 
         if (request.canBePredicted) {
-            console.log("predicting");
             await request.perform(LocalPlayer.player, data);
         }
     }

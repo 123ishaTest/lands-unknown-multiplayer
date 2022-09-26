@@ -16,10 +16,12 @@ import {Road} from "common/features/worldmap/roads/Road";
 import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
+import {SessionTokenSync} from "common/connection/SessionTokenSync";
 
 export class Player implements Saveable {
     userId: string;
     userName: string;
+    sessionToken: string;
 
     private response?: Response;
     lastSeen: Date = new Date();
@@ -33,7 +35,10 @@ export class Player implements Saveable {
 
     // TODO get worldmap from builder
     worldMap: WorldMap = new WorldMap([
-        new Road(new RoadLocationIdentifier("from-docks-to-somewhere" as WorldLocationId), "Some Road", new RoiLocationIdentifier(WorldLocationId.Docks), new RoiLocationIdentifier(WorldLocationId.OtherPlace), [{x:1, y:2}], 10)
+        new Road(new RoadLocationIdentifier("from-docks-to-somewhere" as WorldLocationId), "Some Road", new RoiLocationIdentifier(WorldLocationId.Docks), new RoiLocationIdentifier(WorldLocationId.OtherPlace), [{
+            x: 1,
+            y: 2
+        }], 10)
     ], []);
 
     features: IgtFeatures;
@@ -76,6 +81,7 @@ export class Player implements Saveable {
         this.isLoggedIn = false;
         this.lastSeen = new Date();
         this.response = undefined;
+        this.sessionToken = undefined;
     }
 
     sendDataToClient(data: SyncEvent) {
@@ -87,6 +93,14 @@ export class Player implements Saveable {
         const sync: UpdateGameState = {
             type: SyncType.GameState,
             data: this.save(),
+        }
+        this.sendDataToClient(sync);
+    }
+
+    sendSessionToken() {
+        const sync: SessionTokenSync = {
+            type: SyncType.SessionToken,
+            data: this.sessionToken
         }
         this.sendDataToClient(sync);
     }
@@ -118,7 +132,9 @@ export class Player implements Saveable {
         if (data == null) {
             return;
         }
-        this.userName = data.userName;
+        if (data.userName != null && data.userName != "") {
+            this.userName = data.userName;
+        }
         for (const feature of this.featureList) {
             // @ts-ignore
             const featureSaveData: SaveData = data[feature.saveKey] as SaveData

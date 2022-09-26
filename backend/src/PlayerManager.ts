@@ -13,7 +13,7 @@ export class PlayerManager {
         if (this.onlinePlayers.includes(player)) {
             throw Error(`Player ${player.userName} is already online`);
         }
-        console.debug(`New player ${player.userName} logged in`);
+        console.debug(`Player ${player.userName} logged in`);
         player.logIn()
         this.onlinePlayers.push(player);
     }
@@ -31,7 +31,14 @@ export class PlayerManager {
     removePlayer(player: Player) {
         const index = this.onlinePlayers.indexOf(player);
         if (index > -1) {
+            player.logOut();
             this.onlinePlayers.splice(index, 1);
         }
+    }
+
+    getBySessionToken(token: string): Player {
+        return this.onlinePlayers.find(player => {
+            return player.sessionToken === token;
+        })
     }
 }
