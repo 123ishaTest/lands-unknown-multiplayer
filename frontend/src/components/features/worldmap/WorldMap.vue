@@ -4,6 +4,7 @@ import {onMounted, Ref, ref} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
+import grass from "@/assets/tiled/images/grass.png"
 
 defineProps<{
   worldMap: WorldMap
@@ -72,6 +73,9 @@ onMounted(() => {
   <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
+      <div class="w-full h-12 p-2 flex flex-row items-center text-white bg-gray-700 opacity-70 absolute z-30">
+        <span>You are currently at {{ worldMap.playerLocation.id }}</span>
+      </div>
       <canvas id="world-canvas" class="pixelated absolute z-10"
               :class="{'cursor-pointer': showPointer}">
       </canvas>
