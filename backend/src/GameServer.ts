@@ -103,10 +103,11 @@ export class GameServer {
 
         const isAlreadyOnline = await this.playerManager.getPlayer(userId) != null;
         if (isAlreadyOnline) {
-            console.log(`Player ${userName} tried to login twice`)
-            response.writeHead(401);
-            response.end();
-            return;
+            console.log(`Player ${userName} tried to login twice, logging out the old one`)
+            const player = await this.playerManager.getPlayer(userId)
+            await this.databaseManager.savePlayer(player)
+            await this.playerManager.removePlayer(player);
+            return this.login(request, response);
         }
 
         response.writeHead(200, {
