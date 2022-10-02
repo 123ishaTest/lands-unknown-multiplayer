@@ -45,7 +45,6 @@ export class GameServer {
             app.post(request.route, async (req, res) => {
                 try {
                     const token = req.get('Authorization')
-                    console.log("got request for token", JSON.stringify(token));
                     const player: Player = this.playerManager.getBySessionToken(token)
                     if (!player || token == null || token == "") {
                         console.warn(`Could not find player with session token ${token}`);
