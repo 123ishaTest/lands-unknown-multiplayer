@@ -1,7 +1,7 @@
 import {Action} from "common/tools/actions/Action";
 import {ActionId} from "common/features/actionlist/ActionId";
 import type {IgtFeatures} from "common/features/IgtFeatures";
-import {Skill} from "common/features/skills/Skill";
+import type {Skill} from "common/features/skills/Skill";
 
 export class MineAction extends Action {
     id: ActionId = ActionId.MineAction;

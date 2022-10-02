@@ -1,16 +1,16 @@
 import {IgtFeature} from "common/features/IgtFeature";
-import {ActionQueue} from "common/features/actionqueue/ActionQueue";
-import {ActionList} from "common/features/actionlist/ActionList";
+import type {ActionQueue} from "common/features/actionqueue/ActionQueue";
+import type {ActionList} from "common/features/actionlist/ActionList";
 import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
-import {WorldLocation} from "common/features/worldmap/WorldLocation";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {Road} from "common/features/worldmap/roads/Road";
+import type {WorldLocation} from "common/features/worldmap/WorldLocation";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {Road} from "common/features/worldmap/roads/Road";
 import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
-import {RegionOfInterest} from "common/features/worldmap/roi/RegionOfInterest";
-import {TravelAction} from "common/features/worldmap/TravelAction";
-import {WorldSaveData} from "common/features/worldmap/WorldSaveData";
+import type {RegionOfInterest} from "common/features/worldmap/roi/RegionOfInterest";
+import type {TravelAction} from "common/features/worldmap/TravelAction";
+import type {WorldSaveData} from "common/features/worldmap/WorldSaveData";
 import {Dijkstra} from "common/features/worldmap/Dijkstra";
 import {ActionId} from "common/features/actionlist/ActionId";
 

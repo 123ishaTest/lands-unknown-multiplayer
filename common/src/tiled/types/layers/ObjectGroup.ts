@@ -1,5 +1,5 @@
-import {TiledLayer} from "common/tiled/types/layers/TiledLayer";
-import {TiledObject} from "common/tiled/types/objects/TiledObject";
+import type {TiledLayer} from "common/tiled/types/layers/TiledLayer";
+import type {TiledObject} from "common/tiled/types/objects/TiledObject";
 
 /**
  * A layer containing objects

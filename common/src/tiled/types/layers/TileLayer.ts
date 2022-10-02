@@ -1,4 +1,4 @@
-import {TiledLayer} from "common/tiled/types/layers/TiledLayer";
+import type {TiledLayer} from "common/tiled/types/layers/TiledLayer";
 
 /**
  * The layer which holds actual tile data

@@ -1,4 +1,4 @@
-import {SkillsSaveData} from "common/features/skills/SkillsSaveData";
+import type {SkillsSaveData} from "common/features/skills/SkillsSaveData";
 import {SkillId} from "common/features/skills/SkillId";
 import {IgtFeature} from "common/features/IgtFeature";
 import {Skill} from "common/features/skills/Skill";

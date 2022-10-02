@@ -1,7 +1,7 @@
 import {WorldLocation} from "common/features/worldmap/WorldLocation";
-import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
-import {WorldPosition} from "common/tiled/types/WorldPosition";
-import {ActionId} from "common/features/actionlist/ActionId";
+import type {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {ActionId} from "common/features/actionlist/ActionId";
 
 export abstract class RegionOfInterest extends WorldLocation {
 

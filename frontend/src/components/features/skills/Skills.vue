@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Skills} from "common/features/skills/Skills";
+import type {Skills} from "common/features/skills/Skills";
 import Skill from "@/components/features/skills/Skill.vue";
 
 defineProps<{
