@@ -3,7 +3,7 @@ import {WorldMap} from "common/features/worldmap/WorldMap";
 import {Road} from "common/features/worldmap/roads/Road";
 import {ActionId} from "common/features/actionlist/ActionId";
 import {IgtFeatures} from "common/features/IgtFeatures";
-import {WorldPosition} from "common/tiled/WorldPosition";
+import {WorldPosition} from "common/tiled/types/WorldPosition";
 import {TravelActionSaveData} from "common/features/worldmap/TravelActionSaveData";
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 
