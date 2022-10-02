@@ -1,4 +1,4 @@
 export enum LayerType {
-    TileLayer = 'tile-layer',
-    ObjectGroup = 'object-group',
+    TileLayer = 'tilelayer',
+    ObjectGroup = 'objectgroup',
 }
