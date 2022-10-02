@@ -1,4 +1,4 @@
-import {ClickBox} from "common/tiled/ClickBox";
+import {ClickBox} from "common/tiled/types/clickboxes/ClickBox";
 
 export interface RoiClickBox extends ClickBox {
     id: string;

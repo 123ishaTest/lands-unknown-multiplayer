@@ -1,5 +1,5 @@
 import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
-import {WorldPosition} from "common/tiled/WorldPosition";
+import {WorldPosition} from "common/tiled/types/WorldPosition";
 import {ActionId} from "common/features/actionlist/ActionId";
 import {FacilityType} from "common/features/worldmap/FacilityType";
 import {Requirement} from "common/tools/requirements/Requirement";

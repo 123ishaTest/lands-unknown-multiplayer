@@ -1,6 +1,6 @@
 import {WorldLocation} from "common/features/worldmap/WorldLocation";
 import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
-import {WorldPosition} from "common/tiled/WorldPosition";
+import {WorldPosition} from "common/tiled/types/WorldPosition";
 import {TravelType} from "common/features/worldmap/roads/TravelType";
 import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
 
