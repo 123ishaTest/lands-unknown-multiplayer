@@ -102,7 +102,6 @@ export class GameServer {
         const userId = userRecord.uid
 
         const isAlreadyOnline = await this.playerManager.getPlayer(userId) != null;
-        console.log(`Player ${userName} is online?:`, isAlreadyOnline);
         if (isAlreadyOnline) {
             console.log(`Player ${userName} tried to login twice`)
             response.writeHead(401);
