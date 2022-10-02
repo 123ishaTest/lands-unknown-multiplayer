@@ -154,4 +154,12 @@ export class ActionQueue extends IgtFeature {
         }
         return null;
     }
+
+    isTraveling(): boolean {
+        if (this.generators.length === 0) {
+            return false;
+        }
+        return this.generators[0].currentAction instanceof TravelAction;
+
+    }
 }

@@ -32,7 +32,7 @@ export class WorldMap extends IgtFeature {
 
         this.locations = [...roads, ...rois];
 
-        this.playerLocation = new RoiLocationIdentifier(WorldLocationId.Docks);
+        this.playerLocation = new RoiLocationIdentifier(WorldLocationId.StartingHouse);
     }
 
 

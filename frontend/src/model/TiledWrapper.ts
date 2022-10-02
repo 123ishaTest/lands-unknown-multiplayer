@@ -11,6 +11,7 @@ import type {WorldMapId} from "common/tiled/WorldMapId";
 import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import * as TileSets from "@/assets/tiled/tilesets";
 import * as Images from "@/assets/tiled/images";
+import player from "@/assets/tiled/images/player.png";
 
 /**
  * Wrapper to work with Tiled maps.
@@ -38,19 +39,21 @@ export class TiledWrapper {
      * Called when a ClickBox is clicked
      */
     onClickBoxClicked: Function
+    onInitialized: Function
 
     playerImage: HTMLImageElement;
     // TODO load player
-    playerImagedLoaded = true;
+    playerImagedLoaded = false;
 
     currentScale: number = 1;
 
-    constructor(canvas: HTMLCanvasElement, playerCanvas: HTMLCanvasElement, onClickBoxClicked: Function) {
+    constructor(canvas: HTMLCanvasElement, playerCanvas: HTMLCanvasElement, onInitialized: Function, onClickBoxClicked: Function) {
         this.canvas = canvas;
         this.playerCanvas = playerCanvas;
 
         this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
 
+        this.onInitialized = onInitialized;
         this.onClickBoxClicked = onClickBoxClicked;
 
         this.playerImage = new Image();
@@ -58,8 +61,7 @@ export class TiledWrapper {
             this.playerImagedLoaded = true;
             this.checkIfReady()
         }
-
-        // this.playerImage.src = Images.character;
+        this.playerImage.src = player;
     }
 
     renderTileMap(id: WorldMapId) {
@@ -94,10 +96,17 @@ export class TiledWrapper {
         });
     }
 
-    globalToTilePosition(global: WorldPosition): WorldPosition {
+    toTilePosition(global: WorldPosition): WorldPosition {
         return {
             x: Math.floor(global.x / this.tileWidth),
             y: Math.floor(global.y / this.tileHeight),
+        }
+    }
+
+    toCanvasPosition(local: WorldPosition): WorldPosition {
+        return {
+            x: local.x * this.tileWidth,
+            y: local.y * this.tileHeight,
         }
     }
 
@@ -109,6 +118,7 @@ export class TiledWrapper {
             return false;
         }
 
+        this.onInitialized();
         this.render();
     }
 
