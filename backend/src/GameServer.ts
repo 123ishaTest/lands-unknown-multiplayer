@@ -44,8 +44,6 @@ export class GameServer {
         for (const request of requests) {
             app.post(request.route, async (req, res) => {
                 try {
-                    console.log(JSON.stringify(req.headers));
-
                     const token = req.get('Authorization')
                     console.log("got request for token", JSON.stringify(token));
                     const player: Player = this.playerManager.getBySessionToken(token)

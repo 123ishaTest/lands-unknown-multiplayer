@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import type {ActionQueue} from "common/features/actionqueue/ActionQueue";
 import type {WorldMap} from "common/features/worldmap/WorldMap";
-import {onMounted, type Ref, ref} from "vue";
+import {computed, onMounted, type Ref, ref, watch} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
+import {TravelAction} from "common/features/worldmap/TravelAction";
+import {ApiClient} from "@/model/ApiClient";
+import {TravelRequest} from "common/api/TravelRequest";
+import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
+import {TravelType} from "common/features/worldmap/roads/TravelType";
 
-defineProps<{
-  worldMap: WorldMap
+const {worldMap, queue} = defineProps<{
+  worldMap: WorldMap,
+  queue: ActionQueue
 }>()
 
 const stackHeight = ref()
@@ -20,7 +27,36 @@ function updateStackHeight() {
   return stackHeight;
 }
 
-const showPointer = true;
+const playerPosition = computed(() => {
+  if (queue.isTraveling()) {
+    return (queue.generators[0].currentAction as TravelAction).getWorldPosition()
+  }
+});
+
+
+watch(playerPosition, (newPosition) => {
+  if (!newPosition) {
+    return;
+  }
+  const travelType = queue.isTraveling() ? ((queue.generators[0].currentAction as TravelAction).road.travelType) : TravelType.Walk;
+  // TODO render planned roads
+  tiledWrapper.value.renderPlayer(newPosition.x, newPosition.y, [], travelType);
+});
+
+const currentLocation = computed(() => {
+  return worldMap.getCurrentLocation();
+})
+
+watch(currentLocation, (newLocation) => {
+  if (!newLocation) {
+    return;
+  }
+  tiledWrapper.value.renderPlayer(newLocation.worldPosition.x, newLocation.worldPosition.y)
+})
+
+const showPointer = computed(() => {
+  return tiledWrapper.value && tiledWrapper.value.isHoveringOverClickBox;
+});
 
 onMounted(() => {
   window.onresize = () => {
@@ -36,10 +72,19 @@ onMounted(() => {
   tiledWrapper.value = new TiledWrapper(
       worldCanvas,
       playerCanvas,
+      () => {
+        const currentLocation = worldMap.getCurrentLocation();
+        if (currentLocation) {
+          tiledWrapper.value.renderPlayer(currentLocation.worldPosition.x, currentLocation.worldPosition.y)
+        }
+      },
       // TODO check type
       (clickBox: any) => {
-        const townId = clickBox.properties[0].value;
-        // this.showHighlight(new TownLocationIdentifier(townId));
+        console.log("clicked box", clickBox)
+        ApiClient.send(new TravelRequest(), {
+          "type": WorldLocationType.RegionOfInterest,
+          "target": clickBox.properties[0].value,
+        })
       }
   )
   tiledWrapper.value.renderTileMap(WorldMapId.Tutorial);
@@ -57,13 +102,6 @@ onMounted(() => {
   tiledWrapper.value.canvas.parentElement?.addEventListener('wheel', () => {
     tiledWrapper.value.currentScale = worldPanzoom.value.getScale();
   })
-  tiledWrapper.value.playerCanvas.parentElement?.addEventListener('wheel', playerPanzoom.value.zoomWithWheel)
-  // setTimeout(() => {
-  //   this.worldPanZoom.pan(-770, -800);
-  // })
-  // setTimeout(() => {
-  //   this.playerPanZoom.pan(-770, -800);
-  // })
 })
 
 </script>
@@ -73,7 +111,7 @@ onMounted(() => {
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
       <div class="w-full h-12 p-2 flex flex-row items-center text-white bg-gray-700 opacity-70 absolute z-30">
-        <span>You are currently at {{ worldMap.playerLocation.id }}</span>
+        <span>You are currently at {{ worldMap.playerLocation.id }}: {{ playerPosition }}</span>
       </div>
       <canvas id="world-canvas" class="pixelated absolute z-10"
               :class="{'cursor-pointer': showPointer}">
@@ -85,5 +123,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.pixelated {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
 </style>

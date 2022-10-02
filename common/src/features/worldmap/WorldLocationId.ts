@@ -1,4 +1,4 @@
 export enum WorldLocationId {
-    Docks = 'docks',
-    OtherPlace = 'somewhere else',
+    StartingHouse = 'starting-house',
+    OtherPlace = 'somewhere-else',
 }

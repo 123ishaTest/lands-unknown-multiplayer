@@ -12,11 +12,11 @@ import {ActionList} from "common/features/actionlist/ActionList";
 import type {SaveData} from "common/tools/saving/SaveData";
 import {Skills} from "common/features/skills/Skills";
 import {WorldMap} from "common/features/worldmap/WorldMap";
-import {Road} from "common/features/worldmap/roads/Road";
-import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
-import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
-import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
+
 import type {SessionTokenSync} from "common/connection/SessionTokenSync";
+import {WorldBuilder} from "common/features/worldmap/WorldBuilder";
+import {WorldMapRepository} from "common/tiled/WorldMapRepository";
+import {WorldMapId} from "common/tiled/WorldMapId";
 
 export class Player implements Saveable {
     userId: string;
@@ -34,12 +34,7 @@ export class Player implements Saveable {
     skills: Skills = new Skills();
 
     // TODO get worldmap from builder
-    worldMap: WorldMap = new WorldMap([
-        new Road(new RoadLocationIdentifier("from-docks-to-somewhere" as WorldLocationId), "Some Road", new RoiLocationIdentifier(WorldLocationId.Docks), new RoiLocationIdentifier(WorldLocationId.OtherPlace), [{
-            x: 1,
-            y: 2
-        }], 10)
-    ], []);
+    worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
 
     features: IgtFeatures;
 
@@ -54,6 +49,7 @@ export class Player implements Saveable {
             skills: this.skills,
             worldMap: this.worldMap,
         }
+        console.log(this.worldMap);
     }
 
     private get featureList(): IgtFeature[] {
