@@ -49,7 +49,6 @@ export class Player implements Saveable {
             skills: this.skills,
             worldMap: this.worldMap,
         }
-        console.log(this.worldMap);
     }
 
     private get featureList(): IgtFeature[] {
