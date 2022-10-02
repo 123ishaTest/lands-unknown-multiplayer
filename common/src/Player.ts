@@ -16,12 +16,12 @@ import {Road} from "common/features/worldmap/roads/Road";
 import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
-import {SessionTokenSync} from "common/connection/SessionTokenSync";
+import type {SessionTokenSync} from "common/connection/SessionTokenSync";
 
 export class Player implements Saveable {
     userId: string;
     userName: string;
-    sessionToken: string;
+    sessionToken!: string;
 
     private response?: Response;
     lastSeen: Date = new Date();
@@ -81,7 +81,7 @@ export class Player implements Saveable {
         this.isLoggedIn = false;
         this.lastSeen = new Date();
         this.response = undefined;
-        this.sessionToken = undefined;
+        this.sessionToken = "";
     }
 
     sendDataToClient(data: SyncEvent) {

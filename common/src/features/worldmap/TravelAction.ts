@@ -1,11 +1,11 @@
 import {Action} from "common/tools/actions/Action";
-import {WorldMap} from "common/features/worldmap/WorldMap";
-import {Road} from "common/features/worldmap/roads/Road";
+import type {WorldMap} from "common/features/worldmap/WorldMap";
+import type {Road} from "common/features/worldmap/roads/Road";
 import {ActionId} from "common/features/actionlist/ActionId";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {WorldPosition} from "common/tiled/types/WorldPosition";
-import {TravelActionSaveData} from "common/features/worldmap/TravelActionSaveData";
-import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {TravelActionSaveData} from "common/features/worldmap/TravelActionSaveData";
+import type {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 
 export class TravelAction extends Action {
     id = ActionId.TravelAction;

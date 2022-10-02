@@ -1,5 +1,5 @@
-import {ServerRequestRoute} from "common/connection/ServerRequestRoute";
-import {Player} from "common/Player";
+import type {ServerRequestRoute} from "common/connection/ServerRequestRoute";
+import type {Player} from "common/Player";
 
 export abstract class ServerRequest {
     abstract route: ServerRequestRoute;

@@ -1,6 +1,6 @@
-import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
-import {Road} from "common/features/worldmap/roads/Road";
-import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
+import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
+import type {Road} from "common/features/worldmap/roads/Road";
+import type {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 
 export class Dijkstra {
 

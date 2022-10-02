@@ -1,7 +1,7 @@
-import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
-import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
-import {Saveable} from "common/tools/saving/Saveable";
-import {WorldLocationIdentifierSaveData} from "common/features/worldmap/WorldLocationIdentifierSaveData";
+import type {WorldLocationType} from "common/features/worldmap/WorldLocationType";
+import type {WorldLocationId} from "common/features/worldmap/WorldLocationId";
+import type {Saveable} from "common/tools/saving/Saveable";
+import type {WorldLocationIdentifierSaveData} from "common/features/worldmap/WorldLocationIdentifierSaveData";
 
 export class WorldLocationIdentifier implements Saveable {
     type: WorldLocationType;

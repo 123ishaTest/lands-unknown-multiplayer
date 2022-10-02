@@ -1,4 +1,4 @@
-import {TiledLayer} from "common/tiled/types/layers/TiledLayer";
+import type {TiledLayer} from "common/tiled/types/layers/TiledLayer";
 
 export interface TiledMap {
     compressionlevel: number;

@@ -1,5 +1,5 @@
 import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
-import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
+import type {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
 
 export class RoiLocationIdentifier extends WorldLocationIdentifier {

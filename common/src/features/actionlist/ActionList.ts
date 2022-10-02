@@ -7,11 +7,10 @@ import {Action} from "common/tools/actions/Action";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
 import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator";
-import {GainMoneyAction} from "common/features/actionqueue/GainMoneyAction";
 import {TravelAction} from "common/features/worldmap/TravelAction";
-import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
+import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
 
-type ActionFunction = (...args) => Action | ActionGenerator;
+type ActionFunction = (...args: any[]) => Action | ActionGenerator;
 
 /**
  * A giant repository of all possible actions
@@ -40,8 +39,6 @@ export class ActionList extends IgtFeature {
             [ActionId.TravelAction]: (road, isReversed) => {
                 return new TravelAction(road, isReversed)
             },
-            [ActionId.GainMoney]: () => new GainMoneyAction("Gain money", 4),
-            [ActionId.DoesNotExist]: () => new GainMoneyAction("Gain money", 4),
             [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
             [ActionId.MiningTutorial]: () => new LinearActionGenerator(ActionId.MiningTutorial, [
                 new MineAction("Chop a rock", 1),
@@ -52,7 +49,7 @@ export class ActionList extends IgtFeature {
         }
     }
 
-    public getActionGenerator(id: ActionId, saveData: ActionGeneratorSaveData = null, ...args): ActionGenerator {
+    public getActionGenerator(id: ActionId, saveData: ActionGeneratorSaveData | null = null, ...args: any[]): ActionGenerator {
         if (id == undefined) {
             console.trace("Cannot get action of undefined ID")
         }
@@ -60,7 +57,7 @@ export class ActionList extends IgtFeature {
         const actionOrGenerator = actionFunction(...args);
 
         const generator = actionOrGenerator instanceof Action ? new SingleActionGenerator(actionOrGenerator) : actionOrGenerator;
-        if(saveData) {
+        if (saveData) {
             generator.load(saveData);
         }
         generator.initialize(this._features);

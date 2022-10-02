@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ProgressBar from "@/components/tools/ProgressBar.vue";
-import {Skill} from "common/features/skills/Skill";
+import type {Skill} from "common/features/skills/Skill";
 import {computed} from "vue";
 
 const props = defineProps<{
@@ -22,7 +22,6 @@ const percentage = computed(() => {
   <div class="border-2 border-black m-2 p-2">
     <div class="relative pt-1">
       <div class="flex justify-between">
-        {{skill.fgColor}}
         <p>{{ skill.name }}. {{ skill.getLevel() }} / {{ skill.maxLevel }}</p>
         <p>{{ progress.actual }} / {{ progress.target }}</p>
       </div>

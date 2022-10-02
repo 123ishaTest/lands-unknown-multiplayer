@@ -8,7 +8,7 @@ import {ActionId} from "common/features/actionlist/ActionId";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
 import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
-import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
+import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 
 export class ActionQueue extends IgtFeature {

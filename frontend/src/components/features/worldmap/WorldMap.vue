@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import {WorldMap} from "common/features/worldmap/WorldMap";
-import {onMounted, Ref, ref} from "vue";
+import type {WorldMap} from "common/features/worldmap/WorldMap";
+import {onMounted, type Ref, ref} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
-import grass from "@/assets/tiled/images/grass.png"
 
 defineProps<{
   worldMap: WorldMap

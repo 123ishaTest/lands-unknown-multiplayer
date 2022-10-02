@@ -1,8 +1,8 @@
 import {WorldLocation} from "common/features/worldmap/WorldLocation";
-import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
-import {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import {TravelType} from "common/features/worldmap/roads/TravelType";
-import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
+import type {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
 
 export class Road extends WorldLocation {
     from: WorldLocationIdentifier;

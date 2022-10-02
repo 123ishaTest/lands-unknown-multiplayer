@@ -1,5 +1,5 @@
-import {ObjectProperty} from "common/tiled/types/objects/ObjectProperty";
-import {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {ObjectProperty} from "common/tiled/types/objects/ObjectProperty";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
 
 export interface TiledObject {
     height: number;

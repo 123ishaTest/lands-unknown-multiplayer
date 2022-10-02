@@ -1,4 +1,4 @@
-import {LayerType} from "common/tiled/types/layers/LayerType";
+import type {LayerType} from "common/tiled/types/layers/LayerType";
 
 /**
  * A common interface which all layers created in Tiled must share

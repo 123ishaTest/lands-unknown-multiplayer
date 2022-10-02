@@ -1,4 +1,4 @@
-import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
+import {type ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 import {Progress} from "common/tools/requirements/Progress";
 
 /**
