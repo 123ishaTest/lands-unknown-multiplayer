@@ -102,6 +102,7 @@ onMounted(() => {
   tiledWrapper.value.canvas.parentElement?.addEventListener('wheel', () => {
     tiledWrapper.value.currentScale = worldPanzoom.value.getScale();
   })
+  tiledWrapper.value.playerCanvas.parentElement?.addEventListener('wheel', playerPanzoom.value.zoomWithWheel)
 })
 
 </script>
