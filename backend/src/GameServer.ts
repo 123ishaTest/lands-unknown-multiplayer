@@ -24,7 +24,23 @@ export class GameServer {
         const express = require('express');
         const app = express();
         const cors = require('cors');
-        app.use(cors());
+        const allowedOrigins = [
+            'http://localhost:5173',
+            'https://123ishatest.github.io/lands-unknown-multiplayer/'
+        ];
+        app.use(cors({
+            origin: function (origin, callback) {
+                if (!origin) {
+                    return callback(null, true);
+                }
+                if (allowedOrigins.indexOf(origin) === -1) {
+                    const msg = 'The CORS policy for this site does not ' +
+                        'allow access from the specified Origin.';
+                    return callback(new Error(msg), false);
+                }
+                return callback(null, true);
+            }
+        }));
         app.use(express.json())
 
         const PORT = 3000
@@ -79,8 +95,8 @@ export class GameServer {
         })
         const positions: PlayerPosition[] = this.playerManager.onlinePlayers.map(player => {
             return {
-               displayName: player.userName,
-               position: player.worldMap.getCurrentLocation().worldPosition
+                displayName: player.userName,
+                position: player.worldMap.getCurrentLocation().worldPosition
             }
         })
         this.playerManager.onlinePlayers.forEach((player: Player) => {
