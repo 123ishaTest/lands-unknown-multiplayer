@@ -11,13 +11,12 @@ import type {IgtFeatures} from "common/features/IgtFeatures";
 import {ActionList} from "common/features/actionlist/ActionList";
 import type {SaveData} from "common/tools/saving/SaveData";
 import {Skills} from "common/features/skills/Skills";
-import {WorldMap} from "common/features/worldmap/WorldMap";
-
+import type {WorldMap} from "common/features/worldmap/WorldMap";
 import type {SessionTokenSync} from "common/connection/SessionTokenSync";
 import {WorldBuilder} from "common/features/worldmap/WorldBuilder";
 import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import {WorldMapId} from "common/tiled/WorldMapId";
-import {PlayerPosition, PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
+import type {PlayerPosition, PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
 
 export class Player implements Saveable {
     userId: string;

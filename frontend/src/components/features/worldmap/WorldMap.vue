@@ -5,7 +5,7 @@ import {computed, onMounted, type Ref, ref} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
-import {TravelAction} from "common/features/worldmap/TravelAction";
+import type {TravelAction} from "common/features/worldmap/TravelAction";
 import {ApiClient} from "@/model/ApiClient";
 import {TravelRequest} from "common/api/TravelRequest";
 import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
