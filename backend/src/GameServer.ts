@@ -26,7 +26,7 @@ export class GameServer {
         const cors = require('cors');
         const allowedOrigins = [
             'http://localhost:5173',
-            'https://123ishatest.github.io/lands-unknown-multiplayer/'
+            'https://123ishatest.github.io'
         ];
         app.use(cors({
             origin: function (origin, callback) {
