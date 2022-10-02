@@ -11,6 +11,7 @@
     "start": "npm run build"
   },
   "dependencies": {
+    "@panzoom/panzoom": "^4.5.1",
     "axios": "^0.27.2",
     "firebase": "^9.10.0",
     "firebaseui": "^6.0.1",

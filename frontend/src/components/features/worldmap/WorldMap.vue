@@ -3,6 +3,7 @@ import {WorldMap} from "common/features/worldmap/WorldMap";
 import {onMounted, Ref, ref} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
+import Panzoom from "@panzoom/panzoom";
 
 defineProps<{
   worldMap: WorldMap
@@ -10,6 +11,9 @@ defineProps<{
 
 const stackHeight = ref()
 const tiledWrapper: Ref<TiledWrapper> = ref() as Ref<TiledWrapper>;
+
+const worldPanzoom = ref();
+const playerPanzoom = ref();
 
 function updateStackHeight() {
   stackHeight.value = window.innerHeight - 200;
@@ -47,13 +51,13 @@ onMounted(() => {
     contain: 'outside',
     canvas: true,
   };
-  // this.worldPanZoom = Panzoom(this.tiledWrapper.canvas, panZoomOptions)
-  // this.playerPanZoom = Panzoom(this.tiledWrapper.playerCanvas, panZoomOptions)
-  // this.tiledWrapper.canvas.parentElement.addEventListener('wheel', this.worldPanZoom.zoomWithWheel)
-  // this.tiledWrapper.canvas.parentElement.addEventListener('wheel', () => {
-  //   this.tiledWrapper.currentScale = this.worldPanZoom.getScale();
-  // })
-  // this.tiledWrapper.playerCanvas.parentElement.addEventListener('wheel', this.playerPanZoom.zoomWithWheel)
+  worldPanzoom.value = Panzoom(tiledWrapper.value.canvas, panZoomOptions)
+  playerPanzoom.value = Panzoom(tiledWrapper.value.playerCanvas, panZoomOptions)
+  tiledWrapper.value.canvas.parentElement?.addEventListener('wheel', worldPanzoom.value.zoomWithWheel)
+  tiledWrapper.value.canvas.parentElement?.addEventListener('wheel', () => {
+    tiledWrapper.value.currentScale = worldPanzoom.value.getScale();
+  })
+  tiledWrapper.value.playerCanvas.parentElement?.addEventListener('wheel', playerPanzoom.value.zoomWithWheel)
   // setTimeout(() => {
   //   this.worldPanZoom.pan(-770, -800);
   // })
@@ -65,8 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="m-2 p-4 bg-pink-100 border-2 border-black">
-    <p>You are here: {{ worldMap.playerLocation }}</p>
+  <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
       <canvas id="world-canvas" class="pixelated absolute z-10"

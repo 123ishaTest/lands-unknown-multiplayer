@@ -40,6 +40,7 @@ export class TiledWrapper {
     onClickBoxClicked: Function
 
     playerImage: HTMLImageElement;
+    // TODO load player
     playerImagedLoaded = true;
 
     currentScale: number = 1;
@@ -107,12 +108,9 @@ export class TiledWrapper {
 
     checkIfReady() {
         if (this.tileSetsLoaded !== this.tileSets.length) {
-            console.log("not enough sets")
             return false;
         }
         if (!this.playerImagedLoaded) {
-            console.log("player not loaded")
-
             return false;
         }
 
@@ -206,6 +204,7 @@ export class TiledWrapper {
     }
 
     private renderTileLayer(layer: TileLayer) {
+        console.log("rendering tiles")
         const data = layer.data;
         const width = layer.width;
         for (let i = 0; i < data.length; i++) {
@@ -241,9 +240,7 @@ export class TiledWrapper {
 
 
     render() {
-        console.log("Rendering world map")
-        const layerCount = this.worldMap.layers.length;
-        for (let i = 0; i < layerCount; i++) {
+        for (let i = 0; i < this.worldMap.layers.length; i++) {
             this.renderLayer(this.worldMap.layers[i])
         }
 
