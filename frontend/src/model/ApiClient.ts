@@ -9,7 +9,7 @@ import type {PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
 
 export class ApiClient {
     public static readonly serverUrl = process.env.NODE_ENV === 'production' ?
-        `https://lands-unknown-multiplayer.ishadijcks.repl.co` : `http://localhost:3000`;
+        `https://lands-unknown-multiplayer.herokuapp.com/` : `http://localhost:3000`;
 
     protected static _onGameStateSync = new SimpleEventDispatcher<UpdateGameState>();
     protected static _onPlayerPositionsSync = new SimpleEventDispatcher<PlayerPositionsSync>();
