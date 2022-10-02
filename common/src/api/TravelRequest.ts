@@ -1,6 +1,6 @@
 import {ServerRequest} from "common/connection/ServerRequest";
 import {ServerRequestRoute} from "common/connection/ServerRequestRoute";
-import {InferType, mixed, object} from "yup";
+import {InferType, mixed, object, string} from "yup";
 import {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
@@ -12,12 +12,12 @@ export class TravelRequest extends ServerRequest {
     canBePredicted: boolean = true;
 
     schema = object({
-        target: mixed<WorldLocationId>().oneOf(Object.values(WorldLocationId)).required(),
+        target: string().required(),
         type: mixed<WorldLocationType>().oneOf(Object.values(WorldLocationType)).required()
     });
 
     async perform(player: Player, data: InferType<typeof this.schema>): Promise<boolean> {
-        const destination = new WorldLocationIdentifier(data.type, data.target)
+        const destination = new WorldLocationIdentifier(data.type, data.target as WorldLocationId)
         player.worldMap.moveToLocation(destination);
         return false;
     }

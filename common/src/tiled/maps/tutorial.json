@@ -780,6 +780,126 @@
                  "width":0,
                  "x":1064,
                  "y":728
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":16,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":-16,
+                         "y":0
+                        }, 
+                        {
+                         "x":-16,
+                         "y":-16
+                        }, 
+                        {
+                         "x":-16,
+                         "y":-32
+                        }, 
+                        {
+                         "x":-32,
+                         "y":-32
+                        }, 
+                        {
+                         "x":-32,
+                         "y":-48
+                        }, 
+                        {
+                         "x":-48,
+                         "y":-48
+                        }, 
+                        {
+                         "x":-48,
+                         "y":-64
+                        }, 
+                        {
+                         "x":-64,
+                         "y":-64
+                        }, 
+                        {
+                         "x":-64,
+                         "y":-80
+                        }, 
+                        {
+                         "x":-64,
+                         "y":-96
+                        }, 
+                        {
+                         "x":-80,
+                         "y":-96
+                        }, 
+                        {
+                         "x":-80,
+                         "y":-112
+                        }, 
+                        {
+                         "x":-96,
+                         "y":-112
+                        }, 
+                        {
+                         "x":-96,
+                         "y":-128
+                        }, 
+                        {
+                         "x":-112,
+                         "y":-128
+                        }, 
+                        {
+                         "x":-128,
+                         "y":-128
+                        }, 
+                        {
+                         "x":-128,
+                         "y":-144
+                        }, 
+                        {
+                         "x":-144,
+                         "y":-144
+                        }, 
+                        {
+                         "x":-160,
+                         "y":-144
+                        }, 
+                        {
+                         "x":-160,
+                         "y":-160
+                        }, 
+                        {
+                         "x":-176,
+                         "y":-160
+                        }, 
+                        {
+                         "x":-192,
+                         "y":-160
+                        }],
+                 "properties":[
+                        {
+                         "name":"baseDuration",
+                         "type":"float",
+                         "value":1
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"string",
+                         "value":"somewhere-else"
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"crossroads"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":984,
+                 "y":440
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -849,6 +969,35 @@
                  "width":148,
                  "x":924,
                  "y":416
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":14,
+                 "name":"crossroads",
+                 "point":true,
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":792,
+                 "y":280
+                }, 
+                {
+                 "class":"",
+                 "height":108,
+                 "id":15,
+                 "name":"Crossroads",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"string",
+                         "value":"crossroads"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":148,
+                 "x":712,
+                 "y":216
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -857,7 +1006,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":14,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

@@ -5,6 +5,7 @@ import {FirebaseHelper} from "src/connection/FirebaseHelper";
 import {TravelRequest} from "common/api/TravelRequest";
 import {ServerRequest} from "common/connection/ServerRequest";
 import {randomUUID} from "crypto";
+import {PlayerPosition} from "common/connection/PlayerPositionsSync";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -76,6 +77,16 @@ export class GameServer {
             player.update(this.TICK_DURATION);
             player.sendGameState();
         })
+        const positions: PlayerPosition[] = this.playerManager.onlinePlayers.map(player => {
+            return {
+               displayName: player.userName,
+               position: player.worldMap.getCurrentLocation().worldPosition
+            }
+        })
+        this.playerManager.onlinePlayers.forEach((player: Player) => {
+            player.sendPlayerPositions(positions);
+        })
+
         const end = Date.now();
         console.log((end - start), "ms for", this.playerManager.getPlayerCount(), "players")
         // TODO save sometimes
