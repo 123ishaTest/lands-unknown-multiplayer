@@ -1,15 +1,15 @@
-import {WorldPosition} from "common/tiled/types/WorldPosition";
-import {ObjectProperty} from "common/tiled/types/objects/ObjectProperty";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {ObjectProperty} from "common/tiled/types/objects/ObjectProperty";
 import {Road} from "common/features/worldmap/roads/Road";
-import {ObjectGroup} from "common/tiled/types/layers/ObjectGroup";
+import type {ObjectGroup} from "common/tiled/types/layers/ObjectGroup";
 import {TravelType} from "common/features/worldmap/roads/TravelType";
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 import {RoadLocationIdentifier} from "common/features/worldmap/roads/RoadLocationIdentifier";
-import {TiledLayer} from "common/tiled/types/layers/TiledLayer";
+import type {TiledLayer} from "common/tiled/types/layers/TiledLayer";
 import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
 import {RegionOfInterest} from "common/features/worldmap/roi/RegionOfInterest";
 import {WorldMap} from "common/features/worldmap/WorldMap";
-import {TiledMap} from "common/tiled/types/TiledMap";
+import type {TiledMap} from "common/tiled/types/TiledMap";
 import {EmptyRoi} from "common/features/worldmap/roi/EmptyRoi";
 
 export class WorldBuilder {
