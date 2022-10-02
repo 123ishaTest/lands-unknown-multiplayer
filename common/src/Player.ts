@@ -17,6 +17,7 @@ import type {SessionTokenSync} from "common/connection/SessionTokenSync";
 import {WorldBuilder} from "common/features/worldmap/WorldBuilder";
 import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import {WorldMapId} from "common/tiled/WorldMapId";
+import {PlayerPosition, PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
 
 export class Player implements Saveable {
     userId: string;
@@ -96,6 +97,14 @@ export class Player implements Saveable {
         const sync: SessionTokenSync = {
             type: SyncType.SessionToken,
             data: this.sessionToken
+        }
+        this.sendDataToClient(sync);
+    }
+
+    sendPlayerPositions(positions: PlayerPosition[]) {
+        const sync: PlayerPositionsSync = {
+            type: SyncType.PlayerPositions,
+            data: positions
         }
         this.sendDataToClient(sync);
     }

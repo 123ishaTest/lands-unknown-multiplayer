@@ -1,6 +1,5 @@
 import type {TiledMap} from "common/tiled/types/TiledMap";
 import type {TileSet} from "common/tiled/types/TileSet";
-import {TravelType} from "common/features/worldmap/roads/TravelType";
 import type {ObjectGroup} from "common/tiled/types/layers/ObjectGroup";
 import type {TileLayer} from "common/tiled/types/layers/TileLayer";
 import type {TiledLayer} from "common/tiled/types/layers/TiledLayer";
@@ -12,6 +11,8 @@ import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import * as TileSets from "@/assets/tiled/tilesets";
 import * as Images from "@/assets/tiled/images";
 import player from "@/assets/tiled/images/player.png";
+import type {PlayerPosition} from "common/connection/PlayerPositionsSync";
+import {LocalPlayer} from "@/model/LocalPlayer";
 
 /**
  * Wrapper to work with Tiled maps.
@@ -39,7 +40,6 @@ export class TiledWrapper {
      * Called when a ClickBox is clicked
      */
     onClickBoxClicked: Function
-    onInitialized: Function
 
     playerImage: HTMLImageElement;
     // TODO load player
@@ -47,13 +47,12 @@ export class TiledWrapper {
 
     currentScale: number = 1;
 
-    constructor(canvas: HTMLCanvasElement, playerCanvas: HTMLCanvasElement, onInitialized: Function, onClickBoxClicked: Function) {
+    constructor(canvas: HTMLCanvasElement, playerCanvas: HTMLCanvasElement, onClickBoxClicked: Function) {
         this.canvas = canvas;
         this.playerCanvas = playerCanvas;
 
         this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
 
-        this.onInitialized = onInitialized;
         this.onClickBoxClicked = onClickBoxClicked;
 
         this.playerImage = new Image();
@@ -118,30 +117,7 @@ export class TiledWrapper {
             return false;
         }
 
-        this.onInitialized();
         this.render();
-    }
-
-    renderPlayer(x: number, y: number, roads: WorldPosition[][] = [[]], travelType: TravelType = TravelType.Walk) {
-        const ctx = this.playerCanvas.getContext("2d") as CanvasRenderingContext2D;
-        ctx.clearRect(0, 0, this.playerCanvas.width, this.playerCanvas.height);
-
-        // Paths
-        ctx.lineWidth = 2;
-        roads.forEach((worldPositions) => {
-            ctx.strokeStyle = 'red';
-
-            ctx.beginPath();
-
-            worldPositions.forEach(position => {
-                const x = (position.x + 0.5) * this.tileWidth;
-                const y = (position.y + 0.5) * this.tileHeight;
-                ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-        });
-
-        ctx.drawImage(this.playerImage, x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight)
     }
 
     getJsonId(source: string): string {
@@ -272,4 +248,19 @@ export class TiledWrapper {
         }
     }
 
+    renderPlayers(positions: PlayerPosition[]) {
+        const ctx = this.playerCanvas.getContext("2d") as CanvasRenderingContext2D;
+        ctx.clearRect(0, 0, this.playerCanvas.width, this.playerCanvas.height);
+
+        for (const position of positions) {
+
+            const x = position.position.x;
+            const y = position.position.y;
+            if (position.displayName === LocalPlayer.player.userName) {
+                ctx.fillStyle = 'orange';
+                ctx.fillRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight)
+            }
+            ctx.drawImage(this.playerImage, x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight)
+        }
+    }
 }

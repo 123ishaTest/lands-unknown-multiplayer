@@ -5,12 +5,14 @@ import type {UpdateGameState} from "common/connection/UpdateGameState";
 import {SyncType} from "common/connection/SyncType";
 import {LocalPlayer} from "@/model/LocalPlayer";
 import type {InferType} from "yup";
+import type {PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
 
 export class ApiClient {
     public static readonly serverUrl = process.env.NODE_ENV === 'production' ?
         `https://lands-unknown-multiplayer.ishadijcks.repl.co` : `http://localhost:3000`;
 
     protected static _onGameStateSync = new SimpleEventDispatcher<UpdateGameState>();
+    protected static _onPlayerPositionsSync = new SimpleEventDispatcher<PlayerPositionsSync>();
 
     private static client: AxiosInstance;
 
@@ -36,6 +38,9 @@ export class ApiClient {
             }
             const type: SyncType = data.type;
             switch (type) {
+                case SyncType.PlayerPositions:
+                    this._onPlayerPositionsSync.dispatch(data);
+                    return;
                 case SyncType.SessionToken:
                     this.initializeClient(data.data);
                     return;
@@ -53,6 +58,13 @@ export class ApiClient {
      */
     public static get onGameStateSync(): ISimpleEvent<UpdateGameState> {
         return this._onGameStateSync.asEvent();
+    }
+
+    /**
+     * Emitted whenever the positions of other player changes
+     */
+    public static get onPlayerPositionsSync(): ISimpleEvent<PlayerPositionsSync> {
+        return this._onPlayerPositionsSync.asEvent();
     }
 
     public static async send(request: ServerRequest, data: InferType<typeof request.schema>) {

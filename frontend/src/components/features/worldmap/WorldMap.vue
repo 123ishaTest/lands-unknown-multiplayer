@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {ActionQueue} from "common/features/actionqueue/ActionQueue";
 import type {WorldMap} from "common/features/worldmap/WorldMap";
-import {computed, onMounted, type Ref, ref, watch} from "vue";
+import {computed, onMounted, type Ref, ref} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
@@ -9,7 +9,8 @@ import {TravelAction} from "common/features/worldmap/TravelAction";
 import {ApiClient} from "@/model/ApiClient";
 import {TravelRequest} from "common/api/TravelRequest";
 import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
-import {TravelType} from "common/features/worldmap/roads/TravelType";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
+import {LocalPlayer} from "@/model/LocalPlayer";
 
 const {worldMap, queue} = defineProps<{
   worldMap: WorldMap,
@@ -31,32 +32,25 @@ const playerPosition = computed(() => {
   if (queue.isTraveling()) {
     return (queue.generators[0].currentAction as TravelAction).getWorldPosition()
   }
+  return worldMap.getCurrentLocation()?.worldPosition as WorldPosition;
 });
-
-
-watch(playerPosition, (newPosition) => {
-  if (!newPosition) {
-    return;
-  }
-  const travelType = queue.isTraveling() ? ((queue.generators[0].currentAction as TravelAction).road.travelType) : TravelType.Walk;
-  // TODO render planned roads
-  tiledWrapper.value.renderPlayer(newPosition.x, newPosition.y, [], travelType);
-});
-
-const currentLocation = computed(() => {
-  return worldMap.getCurrentLocation();
-})
-
-watch(currentLocation, (newLocation) => {
-  if (!newLocation) {
-    return;
-  }
-  tiledWrapper.value.renderPlayer(newLocation.worldPosition.x, newLocation.worldPosition.y)
-})
 
 const showPointer = computed(() => {
   return tiledWrapper.value && tiledWrapper.value.isHoveringOverClickBox;
 });
+
+ApiClient.onPlayerPositionsSync.subscribe((sync) => {
+  // Throw away ourselves from the server, overwrite with more accurate local data
+  sync.data = sync.data.filter(position => {
+    return position.displayName !== LocalPlayer.player.userName;
+  })
+  sync.data.push({
+    displayName: LocalPlayer.player.userName,
+    position: playerPosition.value,
+  })
+  tiledWrapper.value.renderPlayers(sync.data);
+})
+
 
 onMounted(() => {
   window.onresize = () => {
@@ -72,12 +66,6 @@ onMounted(() => {
   tiledWrapper.value = new TiledWrapper(
       worldCanvas,
       playerCanvas,
-      () => {
-        const currentLocation = worldMap.getCurrentLocation();
-        if (currentLocation) {
-          tiledWrapper.value.renderPlayer(currentLocation.worldPosition.x, currentLocation.worldPosition.y)
-        }
-      },
       // TODO check type
       (clickBox: any) => {
         console.log("clicked box", clickBox)

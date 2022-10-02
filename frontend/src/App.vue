@@ -19,7 +19,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
 <template>
   <div>
     <div class="flex flex-row h-24 bg-pink-600 justify-center items-center">
-      <p class="text-xl font-bold">Lands Unknown Multiplayer (for real this time)</p>
+      <p class="text-xl font-bold">Lands Unknown Multiplayer ({{LocalPlayer.player.userName}})</p>
     </div>
     <LoginFlow v-if="!LocalPlayer.player.isLoggedIn"></LoginFlow>
 
