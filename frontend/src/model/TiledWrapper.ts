@@ -46,7 +46,6 @@ export class TiledWrapper {
     currentScale: number = 1;
 
     constructor(canvas: HTMLCanvasElement, playerCanvas: HTMLCanvasElement, onClickBoxClicked: Function) {
-        // this.worldMap = worldMap;
         this.canvas = canvas;
         this.playerCanvas = playerCanvas;
 
@@ -79,11 +78,9 @@ export class TiledWrapper {
 
             const imageCache = new Image();
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
             imageCache.src = Images[jsonId]
 
-            console.log(imageCache.src);
             imageCache.onload = () => {
                 this.tileSetsLoaded++;
                 this.checkIfReady();
@@ -91,12 +88,10 @@ export class TiledWrapper {
             return {
                 imageCache: imageCache,
                 firstgid: tileSet.firstgid,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                 // @ts-ignore
                 ...TileSets[jsonId],
             };
         });
-        console.log(this.tileSets);
     }
 
     globalToTilePosition(global: WorldPosition): WorldPosition {
@@ -204,7 +199,6 @@ export class TiledWrapper {
     }
 
     private renderTileLayer(layer: TileLayer) {
-        console.log("rendering tiles")
         const data = layer.data;
         const width = layer.width;
         for (let i = 0; i < data.length; i++) {
