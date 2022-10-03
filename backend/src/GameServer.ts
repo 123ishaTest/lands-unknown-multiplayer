@@ -96,7 +96,7 @@ export class GameServer {
         const positions: PlayerPosition[] = this.playerManager.onlinePlayers.map(player => {
             return {
                 displayName: player.userName,
-                position: player.worldMap.getCurrentLocation().worldPosition
+                position: player.getCurrentPosition(),
             }
         })
         this.playerManager.onlinePlayers.forEach((player: Player) => {
