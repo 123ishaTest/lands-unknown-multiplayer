@@ -5,7 +5,6 @@ import {computed, onMounted, type Ref, ref} from "vue";
 import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
-import type {TravelAction} from "common/features/worldmap/TravelAction";
 import {ApiClient} from "@/model/ApiClient";
 import {TravelRequest} from "common/api/TravelRequest";
 import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
@@ -29,10 +28,7 @@ function updateStackHeight() {
 }
 
 const playerPosition = computed(() => {
-  if (queue.isTraveling()) {
-    return (queue.generators[0].currentAction as TravelAction).getWorldPosition()
-  }
-  return worldMap.getCurrentLocation()?.worldPosition as WorldPosition;
+  return queue.getTravelingPosition() ?? worldMap.getCurrentLocation()?.worldPosition as WorldPosition;
 });
 
 const showPointer = computed(() => {
