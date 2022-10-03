@@ -17,7 +17,7 @@ import {WorldBuilder} from "common/features/worldmap/WorldBuilder";
 import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import type {PlayerPosition, PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
-import {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
 
 export class Player implements Saveable {
     userId: string;
@@ -149,7 +149,7 @@ export class Player implements Saveable {
         }
     }
 
-    getCurrentPosition(): WorldPosition {
-        return this.actionQueue.getTravelingPosition() ?? this.worldMap.getCurrentLocation().worldPosition;
+    getCurrentPosition(): WorldPosition | undefined {
+        return this.actionQueue.getTravelingPosition() ?? this.worldMap.getCurrentLocation()?.worldPosition;
     }
 }
