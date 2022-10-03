@@ -10,7 +10,7 @@ import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator"
 import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import {TravelAction} from "common/features/worldmap/TravelAction";
-import {WorldPosition} from "common/tiled/types/WorldPosition";
+import type {WorldPosition} from "common/tiled/types/WorldPosition";
 
 export class ActionQueue extends IgtFeature {
     _actionList!: ActionList;
@@ -163,9 +163,10 @@ export class ActionQueue extends IgtFeature {
         return this.generators[0].currentAction instanceof TravelAction;
     }
 
-    getTravelingPosition(): WorldPosition {
+    getTravelingPosition(): WorldPosition | null {
         if (this.isTraveling()) {
             return (this.generators[0]?.currentAction as TravelAction).getWorldPosition()
         }
+        return null;
     }
 }
