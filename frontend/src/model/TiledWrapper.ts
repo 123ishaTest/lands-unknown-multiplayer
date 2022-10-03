@@ -235,7 +235,7 @@ export class TiledWrapper {
             this.isHoveringOverClickBox = false;
         }
 
-        this.playerCanvas.onclick = (event: MouseEvent) => {
+        this.playerCanvas.onpointerdown = (event: MouseEvent) => {
             // get the mouse position
             const [mouseX, mouseY] = this.getCursorPosition(event);
             // iterate each shape in the shapes array
