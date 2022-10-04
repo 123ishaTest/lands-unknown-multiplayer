@@ -6,6 +6,7 @@ import {TravelRequest} from "common/api/TravelRequest";
 import {ServerRequest} from "common/connection/ServerRequest";
 import {randomUUID} from "crypto";
 import {PlayerPosition} from "common/connection/PlayerPositionsSync";
+import {ActionId} from "common/features/actionlist/ActionId";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -145,6 +146,8 @@ export class GameServer {
         const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
         this.playerManager.addPlayer(player);
+
+        player.actionQueue.addActionById(ActionId.FishShrimpAction, 1000);
 
         player.sessionToken = randomUUID();
         player.sendSessionToken();

@@ -9,6 +9,7 @@ import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator"
 import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
+import {FishShrimp} from "common/features/actionlist/instances/fishing/FishShrimp";
 
 type ActionFunction = (...args: any[]) => Action | ActionGenerator;
 
@@ -40,6 +41,7 @@ export class ActionList extends IgtFeature {
                 return new TravelAction(road, isReversed)
             },
             [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
+            [ActionId.FishShrimpAction]: () => new FishShrimp(),
             [ActionId.MiningTutorial]: () => new LinearActionGenerator(ActionId.MiningTutorial, [
                 new MineAction("Chop a rock", 1),
                 new MineAction("Chop more rock", 2),

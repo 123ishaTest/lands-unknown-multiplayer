@@ -15,8 +15,8 @@ export abstract class AbstractItem implements Saveable {
         this.id = config.id;
         this.name = config.name;
         this.description = config.description;
-        this.type = config.type;
-        this.maxStack = config.maxStack;
+        this.type = config.type ?? ItemType.Default;
+        this.maxStack = config.maxStack ?? Infinity;
 
         this.saveKey = this.id;
     }
