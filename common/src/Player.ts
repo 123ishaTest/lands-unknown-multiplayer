@@ -18,6 +18,8 @@ import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import type {PlayerPosition, PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
+import {ItemList} from "common/features/items/ItemList";
+import {Inventory} from "common/features/inventory/Inventory";
 
 export class Player implements Saveable {
     userId: string;
@@ -32,6 +34,8 @@ export class Player implements Saveable {
     wallet: IgtWallet = new IgtWallet();
     actionQueue: ActionQueue = new ActionQueue();
     actionList: ActionList = new ActionList();
+    itemList: ItemList = new ItemList();
+    inventory: Inventory = new Inventory();
     skills: Skills = new Skills();
 
     // TODO get worldmap from builder
@@ -46,6 +50,8 @@ export class Player implements Saveable {
         this.features = {
             actionList: this.actionList,
             actionQueue: this.actionQueue,
+            itemList: this.itemList,
+            inventory: this.inventory,
             wallet: this.wallet,
             skills: this.skills,
             worldMap: this.worldMap,
