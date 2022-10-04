@@ -1,4 +1,3 @@
-import {cloneDeep} from 'lodash';
 import {IgtFeature} from "common/features/IgtFeature";
 import {InventorySlot} from "common/features/inventory/InventorySlot";
 import {ItemList} from "common/features/items/ItemList";
@@ -22,18 +21,21 @@ export class Inventory extends IgtFeature {
     private _onItemGain = new EventDispatcher<AbstractItem, number>();
 
 
-    constructor(slots: number = 10) {
+    constructor(slots: number = 20) {
         super('inventory');
         this.slotCount = slots;
-        this.slots = new Array(this.slotCount).fill(new InventorySlot(new EmptyItem(), 0));
+
+        this.slots = [];
+        for (let i = 0; i < slots; i++) {
+            this.slots.push(new InventorySlot(new EmptyItem(), 0));
+        }
     }
 
 
     initialize(features: IgtFeatures) {
         super.initialize(features);
         this._itemList = features.itemList;
-        console.log("initializng inventory")
-        this.gainItemById(ItemId.RawShrimp, 10);
+        this.gainItemById(ItemId.RawShrimp, 1);
     }
 
     interactIndices(indexFrom: number, indexTo: number) {
@@ -128,48 +130,39 @@ export class Inventory extends IgtFeature {
         this.gainItem(item, amount);
     }
 
-    public gainItem(item: AbstractItem, amount: number = 1): number {
-        const amountLeft = this._gainItem(item, amount);
-        this._onItemGain.dispatch(item, amount);
-        return amountLeft;
-    }
-
     /**
      * Add items to this inventory, prefer an existing stack
-     * Recursively calls itself if stacks are overflowing
-     * Returns the number of items that need to be added
      */
-    private _gainItem(item: AbstractItem, amount: number = 1): number {
+    public gainItem(item: AbstractItem, amount: number = 1): void {
+        console.log(`Gaining ${amount} of ${item.id}`);
 
-        // Find stack and add to it or create a new one
-        const nonFullStackIndex = this.getIndexOfNonFullStack(item.id);
-        if (nonFullStackIndex === -1) {
-            // Create a new stack
-            const emptyIndex = this.getIndexOfFirstEmptySlot();
-            if (emptyIndex === -1) {
-                console.log(`Cannot add ${amount} of ${item.id}, no empty slots left`);
-                return amount;
+        // First find non-full stacks, add to those
+        const nonFullStacks = this.getIndicesOfNonFullStacks(item.id);
+        console.log("indices", nonFullStacks)
+        for (const index of nonFullStacks) {
+            const amountToAdd = Math.min(amount, this.slots[index].spaceLeft())
+            this.slots[index].gainItems(amountToAdd)
+            amount -= amountToAdd;
+            if (amount === 0) {
+                return;
             }
-            const amountToAdd = Math.min(amount, item.maxStack);
-            this.slots.splice(emptyIndex, 1, new InventorySlot(item, amountToAdd));
-
-            const amountLeft = amount - amountToAdd;
-            if (amountLeft <= 0) {
-                return 0;
-            }
-            return this._gainItem(item, amountLeft);
-        } else {
-            // Add to existing stack
-            const amountToAdd = Math.min(amount, this.slots[nonFullStackIndex].spaceLeft());
-
-            this.slots[nonFullStackIndex].gainItems(amountToAdd);
-            const amountLeft = amount - amountToAdd;
-            if (amountLeft <= 0) {
-                return 0;
-            }
-            return this._gainItem(item, amountLeft);
         }
+        // Then create empty stacks for the rest
+        const emptySlots = this.getIndicesOfEmptySlots();
+        for (const index of emptySlots) {
+            const amountToAdd = Math.min(amount, item.maxStack)
+            amount -= amountToAdd;
+            this.slots.splice(index, 1, new InventorySlot(item, amountToAdd));
+
+            if (amount === 0) {
+                return;
+            }
+        }
+        // TODO
+        // this._onItemGain.dispatch(item, amount);
+        console.warn("Still items left", amount);
     }
+
 
     getSpotsLeftForItem(item: AbstractItem) {
         let total = 0;
@@ -188,16 +181,16 @@ export class Inventory extends IgtFeature {
      * It's also the only reason we're using lodash...
      * TODO do this in a smart way.
      */
-    canTakeItemAmounts(itemAmounts: ItemAmount[]) {
-        const clonedInventory = cloneDeep(this);
-        for (const item of itemAmounts) {
-            const amountLeft = clonedInventory.gainItem(this._itemList[item.id], item.amount);
-            if (amountLeft !== 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+    // canTakeItemAmounts(itemAmounts: ItemAmount[]) {
+    //     const clonedInventory = cloneDeep(this);
+    //     for (const item of itemAmounts) {
+    //         const amountLeft = clonedInventory.gainItem(this._itemList[item.id], item.amount);
+    //         if (amountLeft !== 0) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     hasItemAmounts(amounts: ItemAmount[]) {
         for (const amount of amounts) {
@@ -216,6 +209,16 @@ export class Inventory extends IgtFeature {
         return this.getSpotsLeftForItem(item) >= amount;
     }
 
+    getIndicesOfNonFullStacks(id: ItemId): number[] {
+        const indices = [];
+        for (let i = 0; i < this.slots.length; i++) {
+            if (this.slots[i].item.id === id && !this.slots[i].isFull()) {
+                indices.push(i)
+            }
+        }
+        return indices;
+    }
+
     getIndexOfNonFullStack(id: ItemId) {
         for (let i = 0; i < this.slots.length; i++) {
             if (this.slots[i].item.id === id && !this.slots[i].isFull()) {
@@ -232,6 +235,16 @@ export class Inventory extends IgtFeature {
             }
         }
         return -1;
+    }
+
+    getIndicesOfEmptySlots(): number[] {
+        const indices = [];
+        for (let i = 0; i < this.slots.length; i++) {
+            if (this.slots[i].isEmpty()) {
+                indices.push(i);
+            }
+        }
+        return indices;
     }
 
     getIndexOfFirstEmptySlot(): number {
@@ -303,6 +316,7 @@ export class Inventory extends IgtFeature {
     }
 
     load(data: InventorySaveData): void {
+        console.log("pre load", this.slots)
         if (!data.slots) {
             return;
         }

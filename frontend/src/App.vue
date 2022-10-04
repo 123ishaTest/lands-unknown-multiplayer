@@ -6,6 +6,7 @@ import Skills from "@/components/features/skills/Skills.vue";
 import WorldMap from "@/components/features/worldmap/WorldMap.vue";
 import {ApiClient} from "@/model/ApiClient";
 import {LocalPlayer} from "@/model/LocalPlayer";
+import Inventory from "@/components/features/inventory/Inventory.vue";
 
 LocalPlayer.init()
 
@@ -29,6 +30,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
         <WorldMap class="flex-grow w-96" :world-map="LocalPlayer.player.worldMap" :queue="LocalPlayer.player.actionQueue"></WorldMap>
         <ActionQueue class="w-96" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
       </div>
+      <Inventory :inventory="LocalPlayer.player.inventory"></Inventory>
       <Skills :skills="LocalPlayer.player.skills"></Skills>
 
     </div>

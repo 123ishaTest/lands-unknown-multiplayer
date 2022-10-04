@@ -4,4 +4,5 @@ export enum ActionId {
     MineAction = 'mine-test',
     SingleActionGenerator = 'internal/single-action-generator',
     LinearActionGenerator = 'internal/linear-action-generator',
+    FishShrimpAction = 'fish-shrimp',
 }

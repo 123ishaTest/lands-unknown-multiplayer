@@ -86,8 +86,10 @@ export class ActionQueue extends IgtFeature {
     /**
      * Helper method to more easily add actions by id
      */
-    public addActionById(actionId: ActionId) {
-        this.addActionGenerator(this._actionList.getActionGenerator(actionId));
+    public addActionById(actionId: ActionId, repeats: number = 0) {
+        const generator = this._actionList.getActionGenerator(actionId);
+        generator.repeats = repeats;
+        this.addActionGenerator(generator);
     }
 
     /**
