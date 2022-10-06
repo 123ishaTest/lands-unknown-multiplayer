@@ -8,7 +8,7 @@ export class FishShrimp extends RecipeAction {
 
     constructor() {
         super("Fish shrimp", 10, [], [
-            new ItemAmount(ItemId.RawShrimp, 5)
+            new ItemAmount(ItemId.RawShrimp)
         ]);
     }
 }

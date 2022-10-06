@@ -35,7 +35,6 @@ export class Inventory extends IgtFeature {
     initialize(features: IgtFeatures) {
         super.initialize(features);
         this._itemList = features.itemList;
-        this.gainItemById(ItemId.RawShrimp, 1);
     }
 
     interactIndices(indexFrom: number, indexTo: number) {
@@ -130,15 +129,16 @@ export class Inventory extends IgtFeature {
         this.gainItem(item, amount);
     }
 
+    public gainItemByAmount(itemAmount: ItemAmount) {
+        this.gainItemById(itemAmount.id, itemAmount.amount);
+    }
+
     /**
      * Add items to this inventory, prefer an existing stack
      */
     public gainItem(item: AbstractItem, amount: number = 1): void {
-        console.log(`Gaining ${amount} of ${item.id}`);
-
         // First find non-full stacks, add to those
         const nonFullStacks = this.getIndicesOfNonFullStacks(item.id);
-        console.log("indices", nonFullStacks)
         for (const index of nonFullStacks) {
             const amountToAdd = Math.min(amount, this.slots[index].spaceLeft())
             this.slots[index].gainItems(amountToAdd)
@@ -163,13 +163,13 @@ export class Inventory extends IgtFeature {
         console.warn("Still items left", amount);
     }
 
-
-    getSpotsLeftForItem(item: AbstractItem) {
+    /**
+     * The amount of items that can be placed in non-full stacks
+     */
+    getStackSpaceForItem(id: ItemId): number {
         let total = 0;
         for (const inventoryItem of this.slots) {
-            if (inventoryItem.isEmpty()) {
-                total += item.maxStack;
-            } else if (inventoryItem.item.id === item.id) {
+            if (inventoryItem.item.id === id) {
                 total += inventoryItem.spaceLeft();
             }
         }
@@ -177,20 +177,19 @@ export class Inventory extends IgtFeature {
     }
 
     /**
-     * This method very inefficiently clones the inventory, and simulates adding the items see if they can be taken.
-     * It's also the only reason we're using lodash...
-     * TODO do this in a smart way.
+     * Calculate how many stacks are needed to place each of the items, subtract amounts that can be placed on non-full stacks
+     * True if the amount of stacks needed is leq than how many we have available.
      */
-    // canTakeItemAmounts(itemAmounts: ItemAmount[]) {
-    //     const clonedInventory = cloneDeep(this);
-    //     for (const item of itemAmounts) {
-    //         const amountLeft = clonedInventory.gainItem(this._itemList[item.id], item.amount);
-    //         if (amountLeft !== 0) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+    canTakeItemAmounts(itemAmounts: ItemAmount[]) {
+        let totalStacksNeeded = 0;
+        for (const item of itemAmounts) {
+            let amount = item.amount;
+            const placedInNonFullStacks = this.getStackSpaceForItem(item.id);
+            amount -= placedInNonFullStacks
+            totalStacksNeeded += Math.ceil(amount / this._itemList.getItem(item.id).maxStack);
+        }
+        return totalStacksNeeded <= this.getEmptySlotCount();
+    }
 
     hasItemAmounts(amounts: ItemAmount[]) {
         for (const amount of amounts) {
@@ -203,10 +202,6 @@ export class Inventory extends IgtFeature {
 
     hasItemAmount(amount: ItemAmount) {
         return this.getTotalAmount(amount.id) >= amount.amount;
-    }
-
-    canTakeItem(item: AbstractItem, amount: number) {
-        return this.getSpotsLeftForItem(item) >= amount;
     }
 
     getIndicesOfNonFullStacks(id: ItemId): number[] {
@@ -276,13 +271,7 @@ export class Inventory extends IgtFeature {
     }
 
     getEmptySlotCount(): number {
-        let count = 0;
-        for (const inventoryItem of this.slots) {
-            if (inventoryItem.isEmpty()) {
-                count++;
-            }
-        }
-        return count;
+        return this.getIndicesOfEmptySlots().length;
     }
 
     getTotalAmount(id: ItemId): number {
