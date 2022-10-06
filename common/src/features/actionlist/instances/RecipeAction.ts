@@ -28,10 +28,10 @@ export abstract class RecipeAction extends Action {
         if (!this._inventory.hasItemAmounts(this.input)) {
             return false;
         }
-        // TODO check if we can take the output
-        // if (!this._inventory.canTakeItemAmounts(this.output)) {
-        //     return false
-        // }
+
+        if (!this._inventory.canTakeItemAmounts(this.output)) {
+            return false
+        }
 
         return super.canPerform();
     }
