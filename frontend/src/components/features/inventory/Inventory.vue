@@ -18,10 +18,13 @@ const selectedSlot = computed(() => {
   return slots.value[selectedIndex.value]
 })
 
+const maxAmountForSelectedId = computed(() => {
+  return props.inventory.getTotalAmount(selectedSlot.value.item.id);
+})
+
 const showDetails = computed(() => {
   return selectedSlot.value && !selectedSlot.value.isEmpty();
 })
-
 
 function selectItem(index: number) {
   selectedIndex.value = index;
@@ -44,6 +47,7 @@ function selectItem(index: number) {
 
       <!-- TODO properly check if we're at a bank-->
       <InventorySlotDetails
+          :max-amount="maxAmountForSelectedId"
           :class="{'invisible': !showDetails}"
           :slot="selectedSlot"
           :is-at-bank="true"

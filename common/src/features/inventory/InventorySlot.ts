@@ -22,7 +22,6 @@ export class InventorySlot {
     }
 
     gainItems(amount: number) {
-        console.trace("gaining items", amount)
         this.amount += amount;
         if (this.amount > this.item.maxStack) {
             console.error(`Tried to have more than ${this.item.maxStack} of ${this.item.id} in one stack`);

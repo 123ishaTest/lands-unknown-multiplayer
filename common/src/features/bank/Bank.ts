@@ -92,7 +92,12 @@ export class Bank extends IgtFeature {
 
 
     public loseItemAmount(itemId: ItemId, amount: number) {
-        this.getSlotForItemId(itemId).loseItems(amount);
+        const slot = this.getSlotForItemId(itemId);
+        slot.loseItems(amount);
+        const index = this.getIndexOfId(itemId);
+        if (slot.amount <= 0) {
+            this.slots.splice(index, 1);
+        }
     }
 
 
@@ -104,7 +109,6 @@ export class Bank extends IgtFeature {
      * Create new items in the bank of the given id
      */
     public gainItemsById(itemId: ItemId, amount: number) {
-        console.log("gaining", itemId, amount)
         const slot = this.getSlotForItemId(itemId);
         const item = this._itemList.getItem(itemId);
         if (!slot) {

@@ -4,7 +4,6 @@ import {BankSlot} from "common/features/bank/BankSlot";
 
 const props = defineProps<{
   slot: BankSlot,
-  isSelected: boolean,
   index: number,
 }>()
 
@@ -44,7 +43,7 @@ function startDrag(evt: DragEvent, index: number) {
        @drop="onDrop($event, index)"
        @dragover.prevent
        @dragenter.prevent
-       :class="{'border-red-400': isSelected}">
+  >
     <div class="flex flex-col">
       <div>{{ slot.item.name }}</div>
       <div>{{ slot.amount }}</div>
