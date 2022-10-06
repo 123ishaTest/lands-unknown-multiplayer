@@ -7,6 +7,7 @@ import WorldMap from "@/components/features/worldmap/WorldMap.vue";
 import {ApiClient} from "@/model/ApiClient";
 import {LocalPlayer} from "@/model/LocalPlayer";
 import Inventory from "@/components/features/inventory/Inventory.vue";
+import Bank from "@/components/features/bank/Bank.vue";
 
 LocalPlayer.init()
 
@@ -31,6 +32,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
         <ActionQueue class="w-96" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
       </div>
       <Inventory :inventory="LocalPlayer.player.inventory"></Inventory>
+      <Bank :bank="LocalPlayer.player.bank"></Bank>
       <Skills :skills="LocalPlayer.player.skills"></Skills>
 
     </div>

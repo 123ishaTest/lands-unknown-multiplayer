@@ -20,6 +20,7 @@ import type {PlayerPosition, PlayerPositionsSync} from "common/connection/Player
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import {ItemList} from "common/features/items/ItemList";
 import {Inventory} from "common/features/inventory/Inventory";
+import {Bank} from "common/features/bank/Bank";
 
 export class Player implements Saveable {
     userId: string;
@@ -36,6 +37,7 @@ export class Player implements Saveable {
     actionList: ActionList = new ActionList();
     itemList: ItemList = new ItemList();
     inventory: Inventory = new Inventory();
+    bank: Bank = new Bank();
     skills: Skills = new Skills();
 
     // TODO get worldmap from builder
@@ -52,6 +54,7 @@ export class Player implements Saveable {
             actionQueue: this.actionQueue,
             itemList: this.itemList,
             inventory: this.inventory,
+            bank: this.bank,
             wallet: this.wallet,
             skills: this.skills,
             worldMap: this.worldMap,

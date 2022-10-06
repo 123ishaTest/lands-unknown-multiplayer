@@ -2,9 +2,13 @@
 import {InventorySlot} from "common/features/inventory/InventorySlot";
 import {computed, ref} from "vue";
 import {Consumable} from "common/features/items/instances/Consumable";
+import {ItemId} from "common/features/items/ItemId";
+import {ApiClient} from "@/model/ApiClient";
+import {DepositItemByIdRequest} from "common/api/DepositItemByIdRequest";
 
 const props = defineProps<{
   slot: InventorySlot,
+  isAtBank: boolean
 }>()
 
 const item = computed(() => {
@@ -20,6 +24,13 @@ const isConsumable = computed(() => {
 });
 
 const selectedAmount = ref(0);
+
+const depositItems = (id: ItemId, amount: number) => {
+  ApiClient.send(new DepositItemByIdRequest(), {
+    "id": id,
+    "amount": amount,
+  })
+};
 </script>
 
 <template>
@@ -41,12 +52,15 @@ const selectedAmount = ref(0);
       <button class="btn btn-blue" @click="selectedAmount=maxAmount - 1">All but one</button>
       <button class="btn btn-blue" @click="selectedAmount=maxAmount">All</button>
     </div>
+    <div v-if="isAtBank" class="flex flex-row flex-wrap items-center">
+      <button @click="depositItems(item.id, selectedAmount)" class="border-2 border-black p-2 m-2">Deposit</button>
+    </div>
     <div class="flex flex-row flex-wrap items-center">
       <button> Actiosn go ehre</button>
-<!--      <button v-if="isConsumable" class="btn btn-blue" @click="consumeItem">{{ item.consumeLabel }}-->
-<!--        ({{ selectedAmount }})-->
-<!--      </button>-->
-<!--      <button class="btn btn-red" @click="dropItem">Drop Stack</button>-->
+      <!--      <button v-if="isConsumable" class="btn btn-blue" @click="consumeItem">{{ item.consumeLabel }}-->
+      <!--        ({{ selectedAmount }})-->
+      <!--      </button>-->
+      <!--      <button class="btn btn-red" @click="dropItem">Drop Stack</button>-->
     </div>
   </div>
 </template>

@@ -191,6 +191,11 @@ export class Inventory extends IgtFeature {
         return totalStacksNeeded <= this.getEmptySlotCount();
     }
 
+    spaceLeftForItem(itemId: ItemId): number {
+        const placedInNonFullStacks = this.getStackSpaceForItem(itemId);
+        return placedInNonFullStacks + this.getEmptySlotCount() * this._itemList.getItem(itemId).maxStack;
+    }
+
     hasItemAmounts(amounts: ItemAmount[]) {
         for (const amount of amounts) {
             if (!this.hasItemAmount(amount)) {
