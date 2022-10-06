@@ -26,23 +26,18 @@ export class FirebaseHelper {
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
-
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                FirebaseHelper.updateToken();
+            }
+        });
         this.ui = new firebaseui.auth.AuthUI(firebase.auth());
         this.ui.start('#firebaseui-auth-container', {
             signInOptions: [
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             ],
             callbacks: {
-                signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-                    const credential = authResult.credential;
-                    const isNewUser = authResult.additionalUserInfo.isNewUser;
-                    const providerId = authResult.additionalUserInfo.providerId;
-                    const operationType = authResult.operationType;
-                    // Do something with the returned AuthResult.
-                    // Return type determines whether we continue the redirect
-                    // automatically or whether we leave that to developer to handle.
-                    FirebaseHelper.user = authResult.user;
-                    FirebaseHelper.userSet = true;
+                signInSuccessWithAuthResult: function () {
                     FirebaseHelper.updateToken();
                     return false;
                 },
@@ -53,14 +48,16 @@ export class FirebaseHelper {
 
     public static updateToken() {
         const user = firebase.auth().currentUser;
-        if (user) {
-            user.getIdToken(true).then((idToken: string) => {
-                this.token = idToken;
-                console.log("Got token", this.token)
-                ApiClient.login(idToken);
-            }).catch(function (error: any) {
-                console.error(error);
-            });
+        if (!user) {
+            return;
         }
+        this.user = user
+        this.userSet = true;
+        user.getIdToken(true).then((idToken: string) => {
+            this.token = idToken;
+            ApiClient.login(idToken);
+        }).catch(function (error: any) {
+            console.error(error);
+        });
     }
 }
