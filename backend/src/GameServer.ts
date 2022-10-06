@@ -147,8 +147,6 @@ export class GameServer {
         player.setResponse(response);
         this.playerManager.addPlayer(player);
 
-        player.actionQueue.addActionById(ActionId.FishShrimpAction, 1000);
-
         player.sessionToken = randomUUID();
         player.sendSessionToken();
         request.on('close', () => {
