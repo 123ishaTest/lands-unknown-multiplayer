@@ -1,5 +1,4 @@
 import {IgtFeature} from "common/features/IgtFeature";
-import {InventorySlot} from "common/features/inventory/InventorySlot";
 import {ItemList} from "common/features/items/ItemList";
 import {IgtFeatures} from "common/features/IgtFeatures";
 import {Inventory} from "common/features/inventory/Inventory";
@@ -62,20 +61,67 @@ export class Bank extends IgtFeature {
         return -1;
     }
 
-    // /**
-    //  * Deposit an amount of items by id
-    //  */
-    // depositByItemId(itemId: number, amount: number): void {
-    //     if(this)
-    //     const slots = this.slots[index];
-    //     const actualAmount = Math.min(slots.amount, amount);
-    //
-    //     const toGain = new ItemAmount(slots.item.id, actualAmount);
-    //     if (this._inventory.canTakeItemAmounts([toGain])) {
-    //         this._inventory.gainItemByAmount(toGain);
-    //         this.loseItemAtIndex(index, actualAmount);
-    //     }
-    // }
+    /**
+     * Deposit an amount of items by id
+     */
+    depositByItemId(itemId: ItemId, amount: number): void {
+        const actualAmount = Math.min(this._inventory.getTotalAmount(itemId), amount);
+        const toLose = new ItemAmount(itemId, actualAmount);
+
+        // TODO check if we have the space
+        if (this._inventory.hasItemAmounts([toLose])) {
+            this._inventory.loseItemAmount(itemId, actualAmount);
+            this.gainItemsById(itemId, actualAmount);
+        }
+    }
+
+    /**
+     * Withdraw an amount of items by id
+     */
+    withdrawItemById(itemId: ItemId, amount: number) {
+        // The minimum of what is requested, how much we actually have, and how much the inventory can take
+        const actualAmount = Math.min(this.getTotalAmount(itemId), this._inventory.spaceLeftForItem(itemId), amount);
+        const toGain = new ItemAmount(itemId, actualAmount);
+        if (this._inventory.canTakeItemAmounts([toGain])) {
+            this.loseItemAmount(itemId, actualAmount);
+            this._inventory.gainItemById(itemId, actualAmount);
+        } else {
+            console.error("Logic error, there should always be enough space left", amount, actualAmount, this._inventory)
+        }
+    }
+
+
+    public loseItemAmount(itemId: ItemId, amount: number) {
+        this.getSlotForItemId(itemId).loseItems(amount);
+    }
+
+
+    public getTotalAmount(itemId: ItemId): number {
+        return this.getSlotForItemId(itemId).amount;
+    }
+
+    /**
+     * Create new items in the bank of the given id
+     */
+    public gainItemsById(itemId: ItemId, amount: number) {
+        console.log("gaining", itemId, amount)
+        const slot = this.getSlotForItemId(itemId);
+        const item = this._itemList.getItem(itemId);
+        if (!slot) {
+            this.slots.push(new BankSlot(item, amount))
+        } else {
+            slot.gainItems(amount);
+        }
+    }
+
+    public getSlotForItemId(itemId: ItemId): BankSlot | null {
+        for (const slot of this.slots) {
+            if (slot.item.id === itemId) {
+                return slot;
+            }
+        }
+        return null;
+    }
 
     /**
      * Remove items at an index
@@ -94,7 +140,7 @@ export class Bank extends IgtFeature {
         this.slots = data.slots.map((slotData: InventorySlotSaveData) => {
             const item = this._itemList.getItem(slotData.id);
             item.load(slotData.data);
-            return new InventorySlot(item, slotData.amount);
+            return new BankSlot(item, slotData.amount);
         });
     }
 

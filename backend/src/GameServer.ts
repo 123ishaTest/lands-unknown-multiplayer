@@ -6,7 +6,8 @@ import {TravelRequest} from "common/api/TravelRequest";
 import {ServerRequest} from "common/connection/ServerRequest";
 import {randomUUID} from "crypto";
 import {PlayerPosition} from "common/connection/PlayerPositionsSync";
-import {ActionId} from "common/features/actionlist/ActionId";
+import {DepositItemByIdRequest} from "common/api/DepositItemByIdRequest";
+import {WithdrawItemByIdRequest} from "common/api/WithdrawItemByIdRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -56,6 +57,8 @@ export class GameServer {
         // TODO get all requests cleanly
         const requests: ServerRequest[] = [
             new TravelRequest(),
+            new DepositItemByIdRequest(),
+            new WithdrawItemByIdRequest(),
         ]
 
         // Register all requests

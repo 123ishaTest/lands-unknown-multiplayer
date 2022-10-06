@@ -31,30 +31,25 @@ function selectItem(index: number) {
 
 <template>
   <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
-
-    <!--                     @interact="interact"-->
-
     <div class="flex flex-row">
-
-    <div class="flex flex-row flex-wrap justify-center sm:justify-start">
-      <div v-for="(slot, index) in slots" :key="index + '-' + slot.item.id">
-        <InventorySlot :slot="slot"
-                       :is-selected="index === selectedIndex"
-                       :index="index"
-                       @click.native="selectItem(index)"
-        ></InventorySlot>
+      <div class="flex flex-row flex-wrap justify-center sm:justify-start">
+        <div v-for="(slot, index) in slots" :key="index + '-' + slot.item.id">
+          <InventorySlot :slot="slot"
+                         :is-selected="index === selectedIndex"
+                         :index="index"
+                         @click.native="selectItem(index)"
+          ></InventorySlot>
+        </div>
       </div>
-    </div>
 
-    <InventorySlotDetails
-        :class="{'invisible': !showDetails}"
-        :slot="selectedSlot"
-    >
-    </InventorySlotDetails>
+      <!-- TODO properly check if we're at a bank-->
+      <InventorySlotDetails
+          :class="{'invisible': !showDetails}"
+          :slot="selectedSlot"
+          :is-at-bank="true"
+      >
+      </InventorySlotDetails>
     </div>
-
-    <!--      @consume="consumeItem"-->
-    <!--      @drop="dropStack"-->
   </div>
 
 </template>

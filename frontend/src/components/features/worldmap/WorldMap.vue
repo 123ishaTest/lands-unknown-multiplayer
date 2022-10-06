@@ -64,7 +64,6 @@ onMounted(() => {
       playerCanvas,
       // TODO check type
       (clickBox: any) => {
-        console.log("clicked box", clickBox)
         ApiClient.send(new TravelRequest(), {
           "type": WorldLocationType.RegionOfInterest,
           "target": clickBox.properties[0].value,
