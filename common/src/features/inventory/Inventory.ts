@@ -305,7 +305,6 @@ export class Inventory extends IgtFeature {
     }
 
     load(data: InventorySaveData): void {
-        console.log("pre load", this.slots)
         if (!data.slots) {
             return;
         }
