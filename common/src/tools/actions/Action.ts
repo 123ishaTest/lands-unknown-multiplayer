@@ -100,11 +100,13 @@ export abstract class Action implements Saveable {
     load(data: ActionSaveData): void {
         this.currentProgress = data.currentProgress;
         this._duration = data.duration;
+        this.description = data.description;
     };
 
     save(): ActionSaveData {
         return {
             id: this.id,
+            description: this.description,
             currentProgress: this.currentProgress,
             duration: this.duration,
         }

@@ -25,7 +25,7 @@ defineProps<{
     <hr class="mb-4 border-black">
 
     <div v-for="(generator) in queue.generators">
-      <span>- {{ generator.description }}</span>
+      <span>- {{ generator.description }} ({{ generator.repeats }})</span>
     </div>
   </div>
 </template>
