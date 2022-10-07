@@ -8,7 +8,6 @@ import {randomUUID} from "crypto";
 import {PlayerPosition} from "common/connection/PlayerPositionsSync";
 import {DepositItemByIdRequest} from "common/api/DepositItemByIdRequest";
 import {WithdrawItemByIdRequest} from "common/api/WithdrawItemByIdRequest";
-import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -150,10 +149,6 @@ export class GameServer {
         const player = await this.databaseManager.findOrCreatePlayer(userName, userId);
         player.setResponse(response);
         this.playerManager.addPlayer(player);
-
-        player.actionQueue.generators = [];
-        player.actionQueue.addGeneratorById(GeneratorId.ExploreTheForest, 3);
-        player.actionQueue.addGeneratorById(GeneratorId.TheForestAgain, 2);
 
         player.sessionToken = randomUUID();
         player.sendSessionToken();

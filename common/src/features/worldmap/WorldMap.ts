@@ -13,6 +13,7 @@ import type {TravelAction} from "common/features/worldmap/TravelAction";
 import type {WorldSaveData} from "common/features/worldmap/WorldSaveData";
 import {Dijkstra} from "common/features/worldmap/Dijkstra";
 import {ActionId} from "common/features/actionlist/ActionId";
+import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
 
 export class WorldMap extends IgtFeature {
     _actionQueue!: ActionQueue;
@@ -65,13 +66,18 @@ export class WorldMap extends IgtFeature {
 
         let lastSource = startingLocation;
 
+        const travelActions = [];
         for (let i = 0; i < path.length; i++) {
             const road = path[i];
             const isReverse = road.to.equals(lastSource);
+
             const travelAction = this._actionList.getAction(ActionId.TravelAction, null, road.identifier.id, isReverse)
-            this._actionQueue.addAction(travelAction);
+            travelActions.push(travelAction)
             lastSource = (travelAction as TravelAction).to;
         }
+        console.log(travelActions);
+        const generator = new TravelGenerator(travelActions);
+        this._actionQueue.addGenerator(generator);
         return true;
     }
 

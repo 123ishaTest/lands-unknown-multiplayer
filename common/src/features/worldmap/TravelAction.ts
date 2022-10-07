@@ -27,7 +27,6 @@ export class TravelAction extends Action {
         this._worldMap = features.worldMap
         this.road = this._worldMap.getRoad(this.roadId);
         this.description = `${this.from.id} to ${this.to.id}.`
-
     }
 
     public get duration(): number {

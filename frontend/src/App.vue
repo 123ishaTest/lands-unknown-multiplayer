@@ -12,6 +12,7 @@ import Bank from "@/components/features/bank/Bank.vue";
 LocalPlayer.init()
 
 ApiClient.onGameStateSync.subscribe((gameState) => {
+  console.log(gameState.data)
   LocalPlayer.player.load(gameState.data);
   LocalPlayer.player.isLoggedIn = true;
 })

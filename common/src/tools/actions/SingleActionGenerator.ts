@@ -11,7 +11,7 @@ export class SingleActionGenerator extends ActionGenerator {
     private _isStarted: boolean = false;
     private _isFinished: boolean = false;
 
-    constructor(action: Action, repeats: number = 0) {
+    constructor(action: Action, repeats: number = 1) {
         super(GeneratorId.SingleActionGenerator, action.description);
         this.action = action;
         this.setRequirement(action.requirement)

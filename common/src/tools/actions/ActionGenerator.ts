@@ -10,7 +10,7 @@ export abstract class ActionGenerator implements Saveable {
     abstract id: GeneratorId;
     description: string;
 
-    repeats: number = 0;
+    repeats: number = 1;
     requirement: Requirement = new NoRequirement()
 
     saveKey: string;
