@@ -4,21 +4,20 @@ import {NoRequirement} from "common/tools/requirements/NoRequirement";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {Saveable} from "common/tools/saving/Saveable";
 import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
-import type {ActionId} from "common/features/actionlist/ActionId";
+import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export abstract class ActionGenerator implements Saveable {
-    abstract id: ActionId;
-    abstract description: string;
+    abstract id: GeneratorId;
+    description: string;
 
     repeats: number = 0;
     requirement: Requirement = new NoRequirement()
 
     saveKey: string;
 
-    abstract currentAction: Action;
-
-    protected constructor(saveKey: string) {
+    protected constructor(saveKey: string, description: string) {
         this.saveKey = saveKey;
+        this.description = description;
     }
 
     public setRepeats(amount: number): this {
@@ -41,25 +40,24 @@ export abstract class ActionGenerator implements Saveable {
 
     public abstract isFinished(): boolean;
 
-    public abstract perform(delta: number): void;
+    /**
+     * Get the next action from this generator
+     */
+    public abstract next(): Action
 
-    checkCompletion(): void {
-        if (this.currentAction?.canBeCompleted()) {
-            const canBeRepeated = this.currentAction.complete()
-            if (canBeRepeated && this.repeats > 0) {
-                this.currentAction.resetAction()
-                this.repeats--;
-            } else {
-                this.next();
-            }
-        }
-    }
+    /**
+     * Called when this generator is processed in the top of the action queue
+     */
+    public start(): boolean {
+        return true;
+    };
 
-    public abstract next(): void
-
-    public abstract start(): boolean;
-
-    public abstract stop(): void;
+    /**
+     * Called when this generator is removed from the queue
+     */
+    public stop(): void {
+        // Empty
+    };
 
     abstract save(): ActionGeneratorSaveData;
 

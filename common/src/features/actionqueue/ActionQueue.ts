@@ -4,19 +4,24 @@ import type {Action} from "common/tools/actions/Action";
 import type {ActionQueueSaveData} from "common/features/actionqueue/ActionQueueSaveData";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {ActionList} from "common/features/actionlist/ActionList";
-import {ActionId} from "common/features/actionlist/ActionId";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator";
-import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
+import {GeneratorList} from "common/features/actionlist/GeneratorList";
+import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
+import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export class ActionQueue extends IgtFeature {
+    _features!: IgtFeatures;
     _actionList!: ActionList;
+    _generatorList!: GeneratorList;
 
     generators: ActionGenerator[] = [];
-    readonly MAX_ACTIONS = 10;
+    currentAction: Action;
+
+    readonly MAX_GENERATORS = 10;
 
     private _onActionCompletion = new SimpleEventDispatcher<Action>();
 
@@ -31,31 +36,39 @@ export class ActionQueue extends IgtFeature {
 
     initialize(features: IgtFeatures) {
         this._actionList = features.actionList;
-    }
-
-    public get currentAction(): Action | null {
-        return this.generators.length === 0 ? null : this.generators[0].currentAction;
+        this._generatorList = features.generatorList;
+        this._features = features;
     }
 
     update(delta: number) {
-        if (this.generators.length === 0) {
-            return;
-        }
-        if (!this.generators[0].isStarted()) {
-            const couldStart = this.generators[0].start();
-            if (!couldStart || this.generators[0].isFinished()) {
-                this.removeFirstAction();
+        // If we have an action planned, perform it
+        if (this.currentAction) {
+            this.currentAction.perform(delta);
+            if (!this.currentAction.canBeCompleted()) {
+                return;
+            } else {
+                this.currentAction.complete();
+                this.currentAction = null;
             }
         }
 
-        // Check again in case first action is removed
-        if (this.generators.length > 0) {
-            this.generators[0].perform(delta);
-            this.generators[0].checkCompletion();
-            if (this.generators[0].isFinished()) {
-                this.removeFirstAction();
+        if (this.generators.length === 0) {
+            return;
+        }
+
+        let generator = this.generators[0];
+
+        // Start or finish the current generator
+        if (!generator.isStarted()) {
+            const couldStart = generator.start();
+            if (!couldStart || generator.isFinished()) {
+                this.removeFirstGenerator();
             }
         }
+        // Get new action from the current generator
+        generator = this.generators[0];
+        this.currentAction = generator.next();
+        this.currentAction.initialize(this._features);
     }
 
     cancelAction(index: number) {
@@ -83,14 +96,14 @@ export class ActionQueue extends IgtFeature {
         this.generators = this.generators.slice(0, index);
     }
 
-    /**
-     * Helper method to more easily add actions by id
-     */
-    public addActionById(actionId: ActionId, repeats: number = 0) {
-        const generator = this._actionList.getActionGenerator(actionId);
-        generator.repeats = repeats;
-        this.addActionGenerator(generator);
-    }
+    // /**
+    //  * Helper method to more easily add actions by id
+    //  */
+    // public addActionById(actionId: ActionId, repeats: number = 0) {
+    //     const generator = this._actionList.getActionGenerator(actionId);
+    //     generator.repeats = repeats;
+    //     this.addActionGenerator(generator);
+    // }
 
     /**
      * Add an action by wrapping it in a generator
@@ -99,60 +112,61 @@ export class ActionQueue extends IgtFeature {
         this.addActionGenerator(new SingleActionGenerator(action));
     }
 
-    addActionGenerator(action: ActionGenerator) {
-        // No need to schedule an action for now if we can't perform it.
-        if (this.generators.length === 0 && !action.canPerform()) {
+    addActionGenerator(generator: ActionGenerator) {
+        // No need to schedule a generator for now if we can't perform it.
+        if (this.generators.length === 0 && !generator.canPerform()) {
             return;
         }
 
-        if (this.generators.length >= this.MAX_ACTIONS) {
-            console.log(`You already have ${this.MAX_ACTIONS} actions scheduled.`);
+        if (this.generators.length >= this.MAX_GENERATORS) {
+            console.log(`You already have ${this.MAX_GENERATORS} generators scheduled.`);
             return;
         }
 
         // TODO fix pubsub
-        // const sub = action.onCompletion.subscribe((action) => {
-        //     this._onActionCompletion.dispatch(action);
+        // const sub = generator.onCompletion.subscribe((generator) => {
+        //     this._onActionCompletion.dispatch(generator);
         // })
-        // action.onFinished.one(() => {
+        // generator.onFinished.one(() => {
         //     sub();
         // })
 
-        this.generators.push(action);
+        this.generators.push(generator);
     }
 
     // Could be improved to be more bug-safe
-    removeFirstAction() {
+    removeFirstGenerator() {
         this.generators.shift();
     }
 
 
     load(data: ActionQueueSaveData): void {
         this.generators = [];
+        if (data.currentAction) {
+            this.currentAction = this._actionList.getAction(data.currentAction.id)
+            this.currentAction.load(data.currentAction);
+        }
         data.generators?.forEach(generatorData => {
-            let generator;
-
-            if (generatorData.id === ActionId.SingleActionGenerator) {
-                generator = this._actionList.getActionGenerator((generatorData as SingleActionGeneratorSaveData).currentAction.id, generatorData);
-            } else {
-                generator = this._actionList.getActionGenerator(generatorData.id, generatorData);
-            }
-
+            const generator = this._generatorList.getGenerator(generatorData.id);
             generator.load(generatorData);
             this.addActionGenerator(generator);
         })
     }
 
     save(): ActionQueueSaveData {
-        return {
+        const saveData: ActionQueueSaveData = {
             generators: this.generators.map(generator => generator.save()),
         };
+        if (this.currentAction) {
+            saveData.currentAction = this.currentAction.save()
+        }
+        return saveData;
     }
 
     getPlayerLocationAtEndOfQueue(): WorldLocationIdentifier | null {
         for (let i = this.generators.length - 1; i >= 0; i--) {
-            if (this.generators[i].currentAction instanceof TravelAction) {
-                return (this.generators[i].currentAction as TravelAction).to;
+            if (this.generators[i] instanceof TravelGenerator) {
+                return (this.generators[i] as TravelGenerator).getEndLocation();
             }
         }
         return null;
@@ -162,13 +176,18 @@ export class ActionQueue extends IgtFeature {
         if (this.generators.length === 0) {
             return false;
         }
-        return this.generators[0].currentAction instanceof TravelAction;
+        return this.currentAction instanceof TravelAction;
     }
 
     getTravelingPosition(): WorldPosition | null {
         if (this.isTraveling()) {
-            return (this.generators[0]?.currentAction as TravelAction).getWorldPosition()
+            return (this.currentAction as TravelAction).getWorldPosition()
         }
         return null;
+    }
+
+    addGeneratorById(id: GeneratorId) {
+        const generator = this._generatorList.getGenerator(id);
+        this.addActionGenerator(generator);
     }
 }
