@@ -2,40 +2,25 @@ import {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import type {Action} from "common/tools/actions/Action";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {SingleActionGeneratorSaveData} from "common/tools/actions/SingleActionGeneratorSaveData";
-import {ActionId} from "common/features/actionlist/ActionId";
+import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export class SingleActionGenerator extends ActionGenerator {
-    id = ActionId.SingleActionGenerator;
+    id = GeneratorId.SingleActionGenerator;
     action: Action;
 
     private _isStarted: boolean = false;
     private _isFinished: boolean = false;
 
     constructor(action: Action, repeats: number = 0) {
-        super(ActionId.SingleActionGenerator);
+        super(GeneratorId.SingleActionGenerator, action.description);
         this.action = action;
         this.setRequirement(action.requirement)
         this.setRepeats(repeats)
     }
 
-    public get description(): string {
-        return this.action.description;
-    }
-
-    public get currentAction(): Action {
-        return this.action;
-    }
-
-
-    /**
-     * We have no next action, so we're finished
-     */
-    next(): void {
+    next(): Action {
         this._isFinished = true;
-    }
-
-    perform(delta: number): void {
-        this.currentAction.perform(delta);
+        return this.action
     }
 
     canPerform(): boolean {
@@ -57,20 +42,10 @@ export class SingleActionGenerator extends ActionGenerator {
     save(): SingleActionGeneratorSaveData {
         return {
             id: this.id,
-            currentAction: this.action.save()
         };
     }
 
     load(data: SingleActionGeneratorSaveData) {
-        this.action.load(data.currentAction);
+        // Empty
     }
-
-    start(): boolean {
-        return this.action.start();
-    }
-
-    stop(): void {
-        this.action.stop();
-    }
-
 }

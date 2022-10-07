@@ -1,8 +1,6 @@
 import type {SaveData} from "common/tools/saving/SaveData";
-import type {ActionId} from "common/features/actionlist/ActionId";
-import type {ActionSaveData} from "common/tools/actions/ActionSaveData";
+import type {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export interface ActionGeneratorSaveData extends SaveData {
-    id: ActionId;
-    currentAction: ActionSaveData
+    id: GeneratorId;
 }

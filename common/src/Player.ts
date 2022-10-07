@@ -21,6 +21,7 @@ import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import {ItemList} from "common/features/items/ItemList";
 import {Inventory} from "common/features/inventory/Inventory";
 import {Bank} from "common/features/bank/Bank";
+import {GeneratorList} from "common/features/actionlist/GeneratorList";
 
 export class Player implements Saveable {
     userId: string;
@@ -35,6 +36,7 @@ export class Player implements Saveable {
     wallet: IgtWallet = new IgtWallet();
     actionQueue: ActionQueue = new ActionQueue();
     actionList: ActionList = new ActionList();
+    generatorList: GeneratorList = new GeneratorList();
     itemList: ItemList = new ItemList();
     inventory: Inventory = new Inventory();
     bank: Bank = new Bank();
@@ -51,6 +53,7 @@ export class Player implements Saveable {
         this.saveKey = this.userId;
         this.features = {
             actionList: this.actionList,
+            generatorList: this.generatorList,
             actionQueue: this.actionQueue,
             itemList: this.itemList,
             inventory: this.inventory,
