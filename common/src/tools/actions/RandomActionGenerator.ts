@@ -21,6 +21,7 @@ export class RandomActionGenerator extends ActionGenerator {
     }
 
     next(): Action {
+        this.repeats--;
         return this.actions.draw()();
     }
 
@@ -29,7 +30,7 @@ export class RandomActionGenerator extends ActionGenerator {
     }
 
     isFinished(): boolean {
-        return this._isFinished;
+        return this._isFinished || super.isFinished();
     }
 
     isStarted(): boolean {
@@ -37,12 +38,13 @@ export class RandomActionGenerator extends ActionGenerator {
     }
 
     load(data: ActionGeneratorSaveData): void {
-        // Empty
+        this.repeats = data.repeats;
     }
 
     save(): ActionGeneratorSaveData {
         return {
             id: this.id,
+            repeats: this.repeats,
         }
     }
 

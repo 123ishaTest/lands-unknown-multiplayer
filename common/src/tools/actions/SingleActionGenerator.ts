@@ -36,16 +36,17 @@ export class SingleActionGenerator extends ActionGenerator {
     }
 
     isFinished(): boolean {
-        return this._isFinished;
+        return this._isFinished || super.isFinished();
     }
 
     save(): SingleActionGeneratorSaveData {
         return {
             id: this.id,
+            repeats: this.repeats,
         };
     }
 
     load(data: SingleActionGeneratorSaveData) {
-        // Empty
+        this.repeats = data.repeats;
     }
 }

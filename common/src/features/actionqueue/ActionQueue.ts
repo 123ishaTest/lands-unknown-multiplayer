@@ -48,6 +48,7 @@ export class ActionQueue extends IgtFeature {
                 return;
             } else {
                 this.currentAction.complete();
+                this.generators[0]?.actionCompleted();
                 this.currentAction = null;
             }
         }
@@ -65,6 +66,10 @@ export class ActionQueue extends IgtFeature {
                 this.removeFirstGenerator();
             }
         }
+        if (this.generators.length === 0) {
+            return;
+        }
+
         // Get new action from the current generator
         generator = this.generators[0];
         this.currentAction = generator.next();
@@ -145,6 +150,8 @@ export class ActionQueue extends IgtFeature {
         if (data.currentAction) {
             this.currentAction = this._actionList.getAction(data.currentAction.id)
             this.currentAction.load(data.currentAction);
+        } else {
+            this.currentAction = null;
         }
         data.generators?.forEach(generatorData => {
             const generator = this._generatorList.getGenerator(generatorData.id);
@@ -186,8 +193,9 @@ export class ActionQueue extends IgtFeature {
         return null;
     }
 
-    addGeneratorById(id: GeneratorId) {
+    addGeneratorById(id: GeneratorId, repeats: number = 0) {
         const generator = this._generatorList.getGenerator(id);
+        generator.setRepeats(repeats);
         this.addActionGenerator(generator);
     }
 }

@@ -25,6 +25,10 @@ export abstract class ActionGenerator implements Saveable {
         return this;
     }
 
+    public actionCompleted(): void {
+        // Empty
+    };
+
     public setRequirement(req: Requirement): this {
         this.requirement = req;
         return this;
@@ -38,7 +42,9 @@ export abstract class ActionGenerator implements Saveable {
 
     public abstract isStarted(): boolean;
 
-    public abstract isFinished(): boolean;
+    public isFinished(): boolean {
+        return this.repeats <= 0;
+    };
 
     /**
      * Get the next action from this generator

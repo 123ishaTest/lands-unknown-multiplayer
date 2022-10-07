@@ -152,7 +152,8 @@ export class GameServer {
         this.playerManager.addPlayer(player);
 
         player.actionQueue.generators = [];
-        player.actionQueue.addGeneratorById(GeneratorId.ExploreTheForest);
+        player.actionQueue.addGeneratorById(GeneratorId.ExploreTheForest, 3);
+        player.actionQueue.addGeneratorById(GeneratorId.TheForestAgain, 2);
 
         player.sessionToken = randomUUID();
         player.sendSessionToken();

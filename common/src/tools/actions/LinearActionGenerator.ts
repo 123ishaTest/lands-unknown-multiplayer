@@ -26,11 +26,22 @@ export class LinearActionGenerator extends ActionGenerator {
     }
 
     next(): Action {
-        return this.actions[this._index++];
+        if (this._index === 0) {
+            this.repeats--;
+        }
+        const newAction = this.actions[this._index];
+        this._index++;
+        if (this._index === this.actions.length) {
+            this.reset();
+        }
+        return newAction;
     }
 
-    isFinished(): boolean {
-        return this._index === this.actions.length - 1;
+    private reset(): void {
+        this._index = 0;
+        this.actions.forEach(action => {
+            action.resetAction();
+        })
     }
 
     isStarted(): boolean {
@@ -39,11 +50,13 @@ export class LinearActionGenerator extends ActionGenerator {
 
     load(data: LinearActionGeneratorSaveData): void {
         this._index = data.index;
+        this.repeats = data.repeats;
     }
 
     save(): LinearActionGeneratorSaveData {
         return {
             id: this.id,
+            repeats: this.repeats,
             index: this._index,
         }
     }

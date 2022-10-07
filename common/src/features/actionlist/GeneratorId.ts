@@ -3,4 +3,5 @@ export enum GeneratorId {
     LinearActionGenerator = 'internal/linear-action-generator',
     ExploreTheForest = 'explore-the-forest',
     TravelGenerator = 'travel',
+    TheForestAgain = 'demo',
 }
