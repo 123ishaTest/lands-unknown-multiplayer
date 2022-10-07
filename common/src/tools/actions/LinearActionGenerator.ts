@@ -11,6 +11,7 @@ export class LinearActionGenerator extends ActionGenerator {
     id: GeneratorId;
     actions: Action[];
     private _index: number = 0;
+    private _isFinished: boolean = false;
 
     constructor(id: GeneratorId, description: string, actions: Action[]) {
         super(id, description);
@@ -25,13 +26,20 @@ export class LinearActionGenerator extends ActionGenerator {
         })
     }
 
+
+    isFinished(): boolean {
+        return this._isFinished && super.isFinished();
+    }
+
     next(): Action {
+        this._isFinished = false;
         if (this._index === 0) {
             this.repeats--;
         }
         const newAction = this.actions[this._index];
         this._index++;
         if (this._index === this.actions.length) {
+            this._isFinished = true;
             this.reset();
         }
         return newAction;

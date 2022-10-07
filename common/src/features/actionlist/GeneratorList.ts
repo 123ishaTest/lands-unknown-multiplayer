@@ -11,7 +11,6 @@ import {Outcome} from "common/tools/random/distributions/Outcome";
 import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
 import {TravelAction} from "common/features/worldmap/TravelAction";
-import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator";
 
 
 /**
@@ -44,10 +43,6 @@ export class GeneratorList extends IgtFeature {
                 new Outcome(() => new FishShrimp(), 1),
                 new Outcome(() => new MineAction("Chop a rock", 1), 2),
             ])),
-            [GeneratorId.TheForestAgain]: () => new LinearActionGenerator(GeneratorId.TheForestAgain, "The Forest Again", [
-                new MineAction("Did you know this is my favourite Harry Potter chapter?", 6),
-                new MineAction("It's pretty good", 5),
-            ]),
         }
     }
 

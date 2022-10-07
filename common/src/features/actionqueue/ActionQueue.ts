@@ -114,10 +114,10 @@ export class ActionQueue extends IgtFeature {
      * Add an action by wrapping it in a generator
      */
     public addAction(action: Action) {
-        this.addActionGenerator(new SingleActionGenerator(action));
+        this.addGenerator(new SingleActionGenerator(action));
     }
 
-    addActionGenerator(generator: ActionGenerator) {
+    addGenerator(generator: ActionGenerator) {
         // No need to schedule a generator for now if we can't perform it.
         if (this.generators.length === 0 && !generator.canPerform()) {
             return;
@@ -135,7 +135,6 @@ export class ActionQueue extends IgtFeature {
         // generator.onFinished.one(() => {
         //     sub();
         // })
-
         this.generators.push(generator);
     }
 
@@ -148,15 +147,14 @@ export class ActionQueue extends IgtFeature {
     load(data: ActionQueueSaveData): void {
         this.generators = [];
         if (data.currentAction) {
-            this.currentAction = this._actionList.getAction(data.currentAction.id)
-            this.currentAction.load(data.currentAction);
+            this.currentAction = this._actionList.getAction(data.currentAction.id, data.currentAction)
         } else {
             this.currentAction = null;
         }
         data.generators?.forEach(generatorData => {
             const generator = this._generatorList.getGenerator(generatorData.id);
             generator.load(generatorData);
-            this.addActionGenerator(generator);
+            this.addGenerator(generator);
         })
     }
 
@@ -193,9 +191,9 @@ export class ActionQueue extends IgtFeature {
         return null;
     }
 
-    addGeneratorById(id: GeneratorId, repeats: number = 0) {
+    addGeneratorById(id: GeneratorId, repeats: number = 1) {
         const generator = this._generatorList.getGenerator(id);
         generator.setRepeats(repeats);
-        this.addActionGenerator(generator);
+        this.addGenerator(generator);
     }
 }

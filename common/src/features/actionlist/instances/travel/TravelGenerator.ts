@@ -13,4 +13,6 @@ export class TravelGenerator extends LinearActionGenerator {
     public getEndLocation(): WorldLocationIdentifier {
         return this.actions[this.actions.length - 1].to
     }
+
+    // TODO fix saving of dynamic travel data
 }
