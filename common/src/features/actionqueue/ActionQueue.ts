@@ -72,7 +72,14 @@ export class ActionQueue extends IgtFeature {
 
         // Get new action from the current generator
         generator = this.generators[0];
-        this.currentAction = generator.next();
+        const nextAction = generator.next();
+        if (!nextAction) {
+            console.warn(`Got an empty action from generator ${generator};`)
+            this.removeFirstGenerator();
+            return;
+        }
+
+        this.currentAction = nextAction;
         this.currentAction.initialize(this._features);
     }
 

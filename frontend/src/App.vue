@@ -12,8 +12,8 @@ import Bank from "@/components/features/bank/Bank.vue";
 LocalPlayer.init()
 
 ApiClient.onGameStateSync.subscribe((gameState) => {
-  console.log(gameState.data)
   LocalPlayer.player.load(gameState.data);
+  LocalPlayer.player.initialize();
   LocalPlayer.player.isLoggedIn = true;
 })
 
@@ -22,14 +22,15 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
 <template>
   <div>
     <div class="flex flex-row h-24 bg-pink-600 justify-center items-center">
-      <p class="text-xl font-bold">Lands Unknown Multiplayer ({{LocalPlayer.player.userName}})</p>
+      <p class="text-xl font-bold">Lands Unknown Multiplayer ({{ LocalPlayer.player.userName }})</p>
     </div>
     <LoginFlow v-if="!LocalPlayer.player.isLoggedIn"></LoginFlow>
 
     <div v-else>
       <Wallet :wallet="LocalPlayer.player.wallet"></Wallet>
       <div class="flex flex-row flex-wrap">
-        <WorldMap class="flex-grow w-96" :world-map="LocalPlayer.player.worldMap" :queue="LocalPlayer.player.actionQueue"></WorldMap>
+        <WorldMap class="flex-grow w-96" :world-map="LocalPlayer.player.worldMap"
+                  :queue="LocalPlayer.player.actionQueue"></WorldMap>
         <ActionQueue class="w-96" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
       </div>
       <Inventory :inventory="LocalPlayer.player.inventory"></Inventory>

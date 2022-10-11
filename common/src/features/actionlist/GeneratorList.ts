@@ -11,6 +11,7 @@ import {Outcome} from "common/tools/random/distributions/Outcome";
 import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
 import {TravelAction} from "common/features/worldmap/TravelAction";
+import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
 
 
 /**
@@ -36,7 +37,7 @@ export class GeneratorList extends IgtFeature {
             [GeneratorId.LinearActionGenerator]: () => {
                 throw new Error("Do not query for this generator directly")
             },
-            [GeneratorId.TravelGenerator]: (actions: TravelAction[]) => {
+            [GeneratorId.TravelGenerator]: (actions: TravelAction[] = []) => {
                 return new TravelGenerator(actions);
             },
             [GeneratorId.ExploreTheForest]: () => new RandomActionGenerator(GeneratorId.ExploreTheForest, "Explore the forest", new WeightedDistribution<OutcomeFunction<Action>>([
@@ -46,11 +47,17 @@ export class GeneratorList extends IgtFeature {
         }
     }
 
-    public getGenerator(id: GeneratorId): ActionGenerator {
+    public getGenerator(id: GeneratorId, saveData: ActionGeneratorSaveData | null = null, ...args: any[]): ActionGenerator {
         if (id == undefined) {
-            console.trace("Cannot get generator of undefined Id")
+            console.trace("Cannot get generator of undefined id")
         }
-        return this.generators[id]();
+        const generator = this.generators[id](...args);
+
+        if (saveData) {
+            generator.load(saveData);
+        }
+        generator.initialize(this._features);
+        return generator;
     }
 
     load(): void {

@@ -73,11 +73,14 @@ export class ApiClient {
         } catch (e: any) {
             // TODO global alerts
             console.error(e.message);
+            return;
         }
+        console.log(`Sending request ${request.route} with data ${JSON.stringify(data)}`);
 
         await this.client.post(request.route, data)
 
         if (request.canBePredicted) {
+            console.log("Prediction locally")
             await request.perform(LocalPlayer.player, data);
         }
     }

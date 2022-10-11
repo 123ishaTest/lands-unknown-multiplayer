@@ -75,7 +75,6 @@ export class WorldMap extends IgtFeature {
             travelActions.push(travelAction)
             lastSource = (travelAction as TravelAction).to;
         }
-        console.log(travelActions);
         const generator = new TravelGenerator(travelActions);
         this._actionQueue.addGenerator(generator);
         return true;
