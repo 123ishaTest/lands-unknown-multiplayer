@@ -95,7 +95,7 @@ onMounted(() => {
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
       <div class="w-full h-12 p-2 flex flex-row items-center text-white bg-gray-700 opacity-70 absolute z-30">
-        <span>You are currently at {{ worldMap.playerLocation.id }}: {{ playerPosition }} end of queue</span>
+        <span>You are currently at {{ worldMap.playerLocation.id }}: {{ playerPosition }} end of queue: {{queue.getPlayerLocationAtEndOfQueue()}}</span>
       </div>
       <canvas id="world-canvas" class="pixelated absolute z-10"
               :class="{'cursor-pointer': showPointer}">

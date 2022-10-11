@@ -3,12 +3,18 @@ import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import type {TravelGeneratorSaveData} from "common/features/actionlist/instances/travel/TravelGeneratorSaveData";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 
 export class TravelGenerator extends LinearActionGenerator {
     declare actions: TravelAction[];
 
     constructor(actions: TravelAction[]) {
         super(GeneratorId.TravelGenerator, "Traveling", actions);
+    }
+
+    initialize(features: IgtFeatures) {
+        super.initialize(features);
+        this.description = `Traveling to ${this.getEndLocation().toString()}`
     }
 
     public getEndLocation(): WorldLocationIdentifier {
