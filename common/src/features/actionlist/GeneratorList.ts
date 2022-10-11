@@ -2,16 +2,16 @@ import {IgtFeature} from "common/features/IgtFeature";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {SaveData} from "common/tools/saving/SaveData";
 import {MineAction} from "common/features/actionqueue/MineAction";
-import {Action} from "common/tools/actions/Action";
+import type {Action} from "common/tools/actions/Action";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import {FishShrimp} from "common/features/actionlist/instances/fishing/FishShrimp";
 import {RandomActionGenerator} from "common/tools/actions/RandomActionGenerator";
-import {OutcomeFunction, WeightedDistribution} from "common/tools/random/distributions/WeightedDistribution";
+import {type OutcomeFunction, WeightedDistribution} from "common/tools/random/distributions/WeightedDistribution";
 import {Outcome} from "common/tools/random/distributions/Outcome";
 import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
-import {TravelAction} from "common/features/worldmap/TravelAction";
-import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
+import type {TravelAction} from "common/features/worldmap/TravelAction";
+import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
 
 
 /**
@@ -24,7 +24,7 @@ export class GeneratorList extends IgtFeature {
         super("actionList");
     }
 
-    generators!: Record<GeneratorId, (...args) => ActionGenerator>;
+    generators!: Record<GeneratorId, (...args: any[]) => ActionGenerator>;
 
 
     initialize(features: IgtFeatures) {

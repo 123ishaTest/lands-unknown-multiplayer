@@ -16,7 +16,7 @@ export class WithdrawItemByIdRequest extends ServerRequest {
 
     async perform(player: Player, data: InferType<typeof this.schema>): Promise<boolean> {
         if (data.id === ItemId.Empty) {
-            return;
+            return false;
         }
         player.bank.withdrawItemById(data.id, data.amount);
         return false;

@@ -1,11 +1,11 @@
 import {IgtFeature} from "common/features/IgtFeature";
-import {ItemList} from "common/features/items/ItemList";
-import {IgtFeatures} from "common/features/IgtFeatures";
-import {Inventory} from "common/features/inventory/Inventory";
+import type {ItemList} from "common/features/items/ItemList";
+import type {IgtFeatures} from "common/features/IgtFeatures";
+import type {Inventory} from "common/features/inventory/Inventory";
 import {ItemAmount} from "common/features/items/ItemAmount";
-import {InventorySlotSaveData} from "common/features/inventory/InventorySlotSaveData";
-import {BankSaveData} from "common/features/bank/BankSaveData";
-import {ItemId} from "common/features/items/ItemId";
+import type {InventorySlotSaveData} from "common/features/inventory/InventorySlotSaveData";
+import type {BankSaveData} from "common/features/bank/BankSaveData";
+import type {ItemId} from "common/features/items/ItemId";
 import {BankSlot} from "common/features/bank/BankSlot";
 
 /**
@@ -93,6 +93,9 @@ export class Bank extends IgtFeature {
 
     public loseItemAmount(itemId: ItemId, amount: number) {
         const slot = this.getSlotForItemId(itemId);
+        if (!slot) {
+            return;
+        }
         slot.loseItems(amount);
         const index = this.getIndexOfId(itemId);
         if (slot.amount <= 0) {
@@ -102,7 +105,7 @@ export class Bank extends IgtFeature {
 
 
     public getTotalAmount(itemId: ItemId): number {
-        return this.getSlotForItemId(itemId).amount;
+        return this.getSlotForItemId(itemId)?.amount ?? 0;
     }
 
     /**

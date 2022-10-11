@@ -2,10 +2,10 @@ import {LinearActionGenerator} from "common/tools/actions/LinearActionGenerator"
 import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
-import {TravelGeneratorSaveData} from "common/features/actionlist/instances/travel/TravelGeneratorSaveData";
+import type {TravelGeneratorSaveData} from "common/features/actionlist/instances/travel/TravelGeneratorSaveData";
 
 export class TravelGenerator extends LinearActionGenerator {
-    actions: TravelAction[];
+    declare actions: TravelAction[];
 
     constructor(actions: TravelAction[]) {
         super(GeneratorId.TravelGenerator, "Traveling", actions);

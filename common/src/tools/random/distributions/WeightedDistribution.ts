@@ -1,4 +1,4 @@
-import {Outcome} from "common/tools/random/distributions/Outcome";
+import type {Outcome} from "common/tools/random/distributions/Outcome";
 import {Random} from "common/tools/random/Random";
 
 export type OutcomeFunction<T> = () => T;

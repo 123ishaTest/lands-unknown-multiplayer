@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {InventorySlot} from "common/features/inventory/InventorySlot";
+import type {InventorySlot} from "common/features/inventory/InventorySlot";
 import {computed} from "vue";
 
 const props = defineProps<{

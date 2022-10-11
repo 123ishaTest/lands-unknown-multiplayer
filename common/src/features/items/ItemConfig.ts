@@ -1,5 +1,5 @@
-import {ItemType} from "common/features/items/ItemType";
-import {ItemId} from "common/features/items/ItemId";
+import type {ItemType} from "common/features/items/ItemType";
+import type {ItemId} from "common/features/items/ItemId";
 
 export interface ItemConfig {
     id: ItemId,

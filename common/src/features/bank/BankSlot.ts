@@ -1,4 +1,4 @@
-import {AbstractItem} from "common/features/items/AbstractItem";
+import type {AbstractItem} from "common/features/items/AbstractItem";
 
 export class BankSlot {
     item: AbstractItem;

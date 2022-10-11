@@ -1,4 +1,4 @@
-import {ItemId} from "common/features/items/ItemId";
+import type {ItemId} from "common/features/items/ItemId";
 
 export class ItemAmount {
     id: ItemId;

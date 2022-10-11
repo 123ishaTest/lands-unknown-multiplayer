@@ -2,7 +2,7 @@ import {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import type {Action} from "common/tools/actions/Action";
 import type {LinearActionGeneratorSaveData} from "common/tools/actions/LinearActionGeneratorSaveData";
 import type {IgtFeatures} from "common/features/IgtFeatures";
-import {GeneratorId} from "common/features/actionlist/GeneratorId";
+import type {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 /**
  * Linearly feeds a list of actions

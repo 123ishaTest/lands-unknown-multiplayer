@@ -1,4 +1,4 @@
-import {Requirement} from "common/tools/requirements/Requirement";
+import type {Requirement} from "common/tools/requirements/Requirement";
 import {NoRequirement} from "common/tools/requirements/NoRequirement";
 
 export class Outcome<T> {

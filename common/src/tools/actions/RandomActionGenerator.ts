@@ -1,9 +1,9 @@
 import {ActionGenerator} from "common/tools/actions/ActionGenerator";
 import type {Action} from "common/tools/actions/Action";
 import type {IgtFeatures} from "common/features/IgtFeatures";
-import {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
-import {OutcomeFunction, WeightedDistribution} from "common/tools/random/distributions/WeightedDistribution";
-import {GeneratorId} from "common/features/actionlist/GeneratorId";
+import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
+import type {OutcomeFunction, WeightedDistribution} from "common/tools/random/distributions/WeightedDistribution";
+import type {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 /**
  * Randomly selects an action from a given list
