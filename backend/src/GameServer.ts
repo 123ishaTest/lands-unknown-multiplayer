@@ -79,6 +79,7 @@ export class GameServer {
                         result
                     });
                 } catch (e) {
+                    console.error(`${e.message}`);
                     res.status(400).send(e.message);
                 }
             });
@@ -94,7 +95,7 @@ export class GameServer {
         process.stdout.write("tick took: ");
 
         this.playerManager.onlinePlayers.forEach((player: Player) => {
-            player.update(this.TICK_DURATION);
+            player.update(this.TICK_DURATION * 5);
             player.sendGameState();
         })
         const positions: PlayerPosition[] = this.playerManager.onlinePlayers.map(player => {

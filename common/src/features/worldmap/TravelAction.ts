@@ -57,6 +57,10 @@ export class TravelAction extends Action {
         return this.isReverse ? this.road.from : this.road.to;
     }
 
+    toString(): string {
+        return `${this.roadId}${this.isReverse ? ' (reverse)' : ''}`;
+    }
+
     load(data: TravelActionSaveData) {
         super.load(data);
         this.roadId = data.road
