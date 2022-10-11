@@ -80,7 +80,6 @@ export class ApiClient {
         await this.client.post(request.route, data)
 
         if (request.canBePredicted) {
-            console.log("Prediction locally")
             await request.perform(LocalPlayer.player, data);
         }
     }
