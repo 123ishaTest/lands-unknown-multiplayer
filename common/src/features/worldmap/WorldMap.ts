@@ -52,7 +52,6 @@ export class WorldMap extends IgtFeature {
     moveToLocation(target: WorldLocationIdentifier): boolean {
         const startingLocation = this._actionQueue.getPlayerLocationAtEndOfQueue() ?? this.playerLocation;
 
-
         if (startingLocation.equals(target)) {
             console.log(`You're already at ${target}`);
             return false;

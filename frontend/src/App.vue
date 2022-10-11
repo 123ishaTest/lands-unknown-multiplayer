@@ -13,7 +13,6 @@ LocalPlayer.init()
 
 ApiClient.onGameStateSync.subscribe((gameState) => {
   LocalPlayer.player.load(gameState.data);
-  LocalPlayer.player.initialize();
   LocalPlayer.player.isLoggedIn = true;
 })
 

@@ -95,7 +95,7 @@ export class GameServer {
         process.stdout.write("tick took: ");
 
         this.playerManager.onlinePlayers.forEach((player: Player) => {
-            player.update(this.TICK_DURATION * 5);
+            player.update(this.TICK_DURATION);
             player.sendGameState();
         })
         const positions: PlayerPosition[] = this.playerManager.onlinePlayers.map(player => {

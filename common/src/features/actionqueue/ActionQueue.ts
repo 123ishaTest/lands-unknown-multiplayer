@@ -62,7 +62,7 @@ export class ActionQueue extends IgtFeature {
         // Start or finish the current generator
         if (!generator.isStarted()) {
             const couldStart = generator.start();
-            if (!couldStart || generator.isFinished()) {
+            if (!couldStart) {
                 this.removeFirstGenerator();
             }
         }
@@ -77,6 +77,10 @@ export class ActionQueue extends IgtFeature {
             console.warn(`Got an empty action from generator ${generator};`)
             this.removeFirstGenerator();
             return;
+        }
+        // And remove it if it's finished now
+        if (generator.isFinished()) {
+            this.removeFirstGenerator();
         }
 
         this.currentAction = nextAction;
@@ -181,18 +185,14 @@ export class ActionQueue extends IgtFeature {
                 return (this.generators[i] as TravelGenerator).getEndLocation();
             }
         }
+        if (this.currentAction instanceof TravelAction) {
+            return (this.currentAction as TravelAction).to;
+        }
         return null;
     }
 
-    isTraveling(): boolean {
-        if (this.generators.length === 0) {
-            return false;
-        }
-        return this.currentAction instanceof TravelAction;
-    }
-
     getTravelingPosition(): WorldPosition | null {
-        if (this.isTraveling()) {
+        if (this.currentAction instanceof TravelAction) {
             return (this.currentAction as TravelAction).getWorldPosition()
         }
         return null;
