@@ -1,8 +1,8 @@
 import {IgtFeature} from "common/features/IgtFeature";
-import {IgtFeatures} from "common/features/IgtFeatures";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 import {ItemId} from "common/features/items/ItemId";
-import {AbstractItem} from "common/features/items/AbstractItem";
-import {SaveData} from "common/tools/saving/SaveData";
+import type {AbstractItem} from "common/features/items/AbstractItem";
+import type {SaveData} from "common/tools/saving/SaveData";
 import {EmptyItem} from "common/features/items/EmptyItem";
 import {CookedShrimp} from "common/features/items/instances/fish/CookedShrimp";
 import {RawShrimp} from "common/features/items/instances/fish/RawShrimp";

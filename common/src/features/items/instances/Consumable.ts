@@ -1,6 +1,6 @@
 import {AbstractItem} from "common/features/items/AbstractItem";
 import {ItemType} from "common/features/items/ItemType";
-import {ItemConfig} from "common/features/items/ItemConfig";
+import type {ItemConfig} from "common/features/items/ItemConfig";
 
 export abstract class Consumable extends AbstractItem {
 

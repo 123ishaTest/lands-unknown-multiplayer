@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {InventorySlot} from "common/features/inventory/InventorySlot";
+import type {InventorySlot} from "common/features/inventory/InventorySlot";
 import {computed, ref} from "vue";
 import {Consumable} from "common/features/items/instances/Consumable";
-import {ItemId} from "common/features/items/ItemId";
+import type {ItemId} from "common/features/items/ItemId";
 import {ApiClient} from "@/model/ApiClient";
 import {DepositItemByIdRequest} from "common/api/DepositItemByIdRequest";
 

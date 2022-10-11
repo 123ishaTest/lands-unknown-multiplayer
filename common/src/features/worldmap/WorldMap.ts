@@ -70,7 +70,7 @@ export class WorldMap extends IgtFeature {
             const road = path[i];
             const isReverse = road.to.equals(lastSource);
 
-            const travelAction = this._actionList.getAction(ActionId.TravelAction, null, road.identifier.id, isReverse)
+            const travelAction = this._actionList.getAction(ActionId.TravelAction, null, road.identifier.id, isReverse) as TravelAction;
             travelActions.push(travelAction)
             lastSource = (travelAction as TravelAction).to;
         }

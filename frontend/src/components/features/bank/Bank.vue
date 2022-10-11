@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {Bank} from "common/features/bank/Bank";
+import type {Bank} from "common/features/bank/Bank";
 import BankSlot from "@/components/features/bank/BankSlot.vue";
-import {ItemId} from "common/features/items/ItemId";
+import type {ItemId} from "common/features/items/ItemId";
 import {ApiClient} from "@/model/ApiClient";
 import {WithdrawItemByIdRequest} from "common/api/WithdrawItemByIdRequest";
 

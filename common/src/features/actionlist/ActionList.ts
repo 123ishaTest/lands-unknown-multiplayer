@@ -3,10 +3,10 @@ import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {SaveData} from "common/tools/saving/SaveData";
 import {MineAction} from "common/features/actionqueue/MineAction";
 import {ActionId} from "common/features/actionlist/ActionId";
-import {Action} from "common/tools/actions/Action";
+import type {Action} from "common/tools/actions/Action";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import {FishShrimp} from "common/features/actionlist/instances/fishing/FishShrimp";
-import {ActionSaveData} from "common/tools/actions/ActionSaveData";
+import type {ActionSaveData} from "common/tools/actions/ActionSaveData";
 
 type ActionFunction = (...args: any[]) => Action;
 

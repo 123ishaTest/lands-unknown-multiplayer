@@ -9,9 +9,9 @@ import {SingleActionGenerator} from "common/tools/actions/SingleActionGenerator"
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
-import {GeneratorList} from "common/features/actionlist/GeneratorList";
+import type {GeneratorList} from "common/features/actionlist/GeneratorList";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
-import {GeneratorId} from "common/features/actionlist/GeneratorId";
+import type {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export class ActionQueue extends IgtFeature {
     _features!: IgtFeatures;
@@ -19,7 +19,7 @@ export class ActionQueue extends IgtFeature {
     _generatorList!: GeneratorList;
 
     generators: ActionGenerator[] = [];
-    currentAction: Action;
+    currentAction: Action | null = null;
 
     readonly MAX_GENERATORS = 10;
 

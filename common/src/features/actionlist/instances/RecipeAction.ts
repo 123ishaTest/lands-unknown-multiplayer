@@ -1,15 +1,13 @@
-import {ItemAmount} from "common/features/items/ItemAmount";
-import {Requirement} from "common/tools/requirements/Requirement";
-import {Inventory} from "common/features/inventory/Inventory";
+import type {ItemAmount} from "common/features/items/ItemAmount";
+import type {Inventory} from "common/features/inventory/Inventory";
 import {Action} from "common/tools/actions/Action";
-import {IgtFeatures} from "common/features/IgtFeatures";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 
 export abstract class RecipeAction extends Action {
     icon = "fa-cauldron";
 
     input: ItemAmount[];
     output: ItemAmount[];
-    requirement: Requirement;
 
     _inventory!: Inventory;
 

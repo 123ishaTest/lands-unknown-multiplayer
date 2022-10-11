@@ -1,15 +1,15 @@
 import {IgtFeature} from "common/features/IgtFeature";
 import {InventorySlot} from "common/features/inventory/InventorySlot";
-import {ItemList} from "common/features/items/ItemList";
+import type {ItemList} from "common/features/items/ItemList";
 import {EventDispatcher} from "strongly-typed-events";
-import {AbstractItem} from "common/features/items/AbstractItem";
+import type {AbstractItem} from "common/features/items/AbstractItem";
 import {EmptyItem} from "common/features/items/EmptyItem";
-import {IgtFeatures} from "common/features/IgtFeatures";
+import type {IgtFeatures} from "common/features/IgtFeatures";
 import {Consumable} from "common/features/items/instances/Consumable";
 import {ItemId} from "common/features/items/ItemId";
-import {ItemAmount} from "common/features/items/ItemAmount";
-import {InventorySaveData} from "common/features/inventory/InventorySaveData";
-import {InventorySlotSaveData} from "common/features/inventory/InventorySlotSaveData";
+import type {ItemAmount} from "common/features/items/ItemAmount";
+import type {InventorySaveData} from "common/features/inventory/InventorySaveData";
+import type {InventorySlotSaveData} from "common/features/inventory/InventorySlotSaveData";
 
 export class Inventory extends IgtFeature {
     slotCount: number;

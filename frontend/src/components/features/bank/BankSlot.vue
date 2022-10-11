@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {BankSlot} from "common/features/bank/BankSlot";
+import type {BankSlot} from "common/features/bank/BankSlot";
 
 const props = defineProps<{
   slot: BankSlot,

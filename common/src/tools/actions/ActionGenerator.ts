@@ -4,7 +4,7 @@ import {NoRequirement} from "common/tools/requirements/NoRequirement";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {Saveable} from "common/tools/saving/Saveable";
 import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
-import {GeneratorId} from "common/features/actionlist/GeneratorId";
+import type {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export abstract class ActionGenerator implements Saveable {
     abstract id: GeneratorId;

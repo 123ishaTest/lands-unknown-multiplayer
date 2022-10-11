@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import InventorySlot from "@/components/features/inventory/InventorySlot.vue";
-import {Inventory} from "common/features/inventory/Inventory";
+import type {Inventory} from "common/features/inventory/Inventory";
 import {computed, ref} from "vue";
 import InventorySlotDetails from "@/components/features/inventory/InventorySlotDetails.vue";
 
