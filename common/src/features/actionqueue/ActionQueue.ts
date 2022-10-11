@@ -163,8 +163,7 @@ export class ActionQueue extends IgtFeature {
             this.currentAction = null;
         }
         data.generators?.forEach(generatorData => {
-            const generator = this._generatorList.getGenerator(generatorData.id);
-            generator.load(generatorData);
+            const generator = this._generatorList.getGenerator(generatorData.id, generatorData);
             this.addGenerator(generator);
         })
     }
