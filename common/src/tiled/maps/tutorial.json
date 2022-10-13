@@ -947,6 +947,13 @@
                  "id":11,
                  "name":"starting-house",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"facilities",
+                         "propertytype":"Facilities",
+                         "type":"string",
+                         "value":"cooking-range,furnace"
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":0,
@@ -1006,7 +1013,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":17,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

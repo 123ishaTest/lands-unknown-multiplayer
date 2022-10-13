@@ -7,5 +7,16 @@
         "."
     ],
     "propertyTypes": [
+        {
+            "id": 1,
+            "name": "Facilities",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "cooking-range",
+                "furnace"
+            ],
+            "valuesAsFlags": true
+        }
     ]
 }

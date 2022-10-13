@@ -10,7 +10,8 @@ import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIde
 import {RegionOfInterest} from "common/features/worldmap/roi/RegionOfInterest";
 import {WorldMap} from "common/features/worldmap/WorldMap";
 import type {TiledMap} from "common/tiled/types/TiledMap";
-import {EmptyRoi} from "common/features/worldmap/roi/EmptyRoi";
+import {TiledObject} from "common/tiled/types/objects/TiledObject";
+import {FacilityType} from "common/features/facilities/FacilityType";
 
 export class WorldBuilder {
 
@@ -62,37 +63,32 @@ export class WorldBuilder {
         }) as TiledLayer;
     }
 
-    static parseWorldLocations(map: TiledMap): Record<WorldLocationId, WorldPosition> {
-        const hitBoxLayer = this.getLayer(map, "Hitboxes") as ObjectGroup;
-        const positions = {} as Record<WorldLocationId, WorldPosition>
+    static parseFacilities(object: TiledObject): FacilityType[] {
+        const facilitiesProperty = object?.properties?.find(property => {
+            return property?.propertytype === "Facilities"
+        });
+        if (!facilitiesProperty) {
+            return [];
+        }
+        return facilitiesProperty.value.split(",");
+    }
 
-        hitBoxLayer?.objects?.filter(object => {
+    static parseWorldLocations(map: TiledMap): RegionOfInterest[] {
+        const hitBoxLayer = this.getLayer(map, "Hitboxes") as ObjectGroup;
+
+        return hitBoxLayer?.objects?.filter(object => {
             // Only parse points.
             return object.point
-        }).forEach(object => {
-            positions[object.name as WorldLocationId] = this.globalToTilePosition(map, {x: object.x, y: object.y});
+        }).map(object => {
+            const worldPosition = this.globalToTilePosition(map, {x: object.x, y: object.y});
+            const facilities = this.parseFacilities(object);
+            return new RegionOfInterest(object.name as WorldLocationId, object.name, worldPosition, [], facilities)
         });
-        return positions;
     }
 
     static createWorld(map: TiledMap): WorldMap {
         const roads = this.parsePaths(map);
-        const worldPositions = this.parseWorldLocations(map);
-
-        const rois = [
-            new RegionOfInterest(new RoiLocationIdentifier(WorldLocationId.StartingHouse), "Starting House", worldPositions[WorldLocationId.StartingHouse], []),
-        ]
-
-        // Delete WorldPositions already defined as ROIs
-        for (const roi of rois) {
-            delete worldPositions[roi.identifier.id];
-        }
-
-        // So we can create "empty" regions for the rest
-        for (const [key, value] of Object.entries(worldPositions)) {
-            rois.push(new EmptyRoi(new RoiLocationIdentifier(key as WorldLocationId), key, value))
-        }
-
+        const rois = this.parseWorldLocations(map);
         return new WorldMap(roads, rois);
     }
 
