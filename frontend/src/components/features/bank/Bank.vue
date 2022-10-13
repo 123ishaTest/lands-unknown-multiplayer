@@ -4,7 +4,7 @@ import type {Bank} from "common/features/bank/Bank";
 import BankSlot from "@/components/features/bank/BankSlot.vue";
 import type {ItemId} from "common/features/items/ItemId";
 import {ApiClient} from "@/model/ApiClient";
-import {WithdrawItemByIdRequest} from "common/api/WithdrawItemByIdRequest";
+import {WithdrawItemByIdRequest} from "common/api/banking/WithdrawItemByIdRequest";
 
 const props = defineProps<{
   bank: Bank

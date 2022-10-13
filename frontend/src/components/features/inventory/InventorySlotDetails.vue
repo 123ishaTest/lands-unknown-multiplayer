@@ -4,7 +4,7 @@ import {computed, ref} from "vue";
 import {Consumable} from "common/features/items/instances/Consumable";
 import type {ItemId} from "common/features/items/ItemId";
 import {ApiClient} from "@/model/ApiClient";
-import {DepositItemByIdRequest} from "common/api/DepositItemByIdRequest";
+import {DepositItemByIdRequest} from "common/api/banking/DepositItemByIdRequest";
 
 const props = defineProps<{
   maxAmount: number

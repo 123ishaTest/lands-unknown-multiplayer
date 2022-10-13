@@ -2,12 +2,13 @@ import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
 import {Player} from "common/Player";
 import {FirebaseHelper} from "src/connection/FirebaseHelper";
-import {TravelRequest} from "common/api/TravelRequest";
+import {TravelRequest} from "common/api/worldmap/TravelRequest";
 import {ServerRequest} from "common/connection/ServerRequest";
 import {randomUUID} from "crypto";
 import {PlayerPosition} from "common/connection/PlayerPositionsSync";
-import {DepositItemByIdRequest} from "common/api/DepositItemByIdRequest";
-import {WithdrawItemByIdRequest} from "common/api/WithdrawItemByIdRequest";
+import {DepositItemByIdRequest} from "common/api/banking/DepositItemByIdRequest";
+import {WithdrawItemByIdRequest} from "common/api/banking/WithdrawItemByIdRequest";
+import {FacilityRequest} from "common/api/worldmap/FacilityRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -57,6 +58,7 @@ export class GameServer {
         // TODO get all requests cleanly
         const requests: ServerRequest[] = [
             new TravelRequest(),
+            new FacilityRequest(),
             new DepositItemByIdRequest(),
             new WithdrawItemByIdRequest(),
         ]
