@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {Facility} from "common/features/facilities/Facility";
 import {ActionList} from "common/features/actionlist/ActionList";
 import {WorldLocation} from "common/features/worldmap/WorldLocation";
@@ -24,9 +24,11 @@ function scheduleAction(index: number) {
     "target": props.location.identifier.id,
     "facilityIndex": props.facilityIndex,
     "actionIndex": index,
-    "repeats": 4,
+    "repeats": repeats.value,
   })
 }
+
+let repeats = ref(1);
 
 </script>
 
@@ -36,10 +38,12 @@ function scheduleAction(index: number) {
       <div>{{ facility.description }}</div>
       <hr/>
     </div>
-
     <div class="flex flex-col m-2 justify-center">
+
       <p class="text-center">Actions</p>
       <hr>
+      <input class="bg-gray-800" type="number" v-model.number="repeats">
+
       <div class="flex flex-row flex-wrap">
         <button v-for="(action, index) in actions" :key="action.id"
                 @click="scheduleAction(index)"

@@ -6,7 +6,7 @@ export class CookedShrimp extends Consumable {
     constructor() {
         super({
             id: ItemId.CookedShrimp,
-            name: 'Cooked Fish',
+            name: 'Cooked Shrimp',
             description: 'Delicious'
         });
     }
