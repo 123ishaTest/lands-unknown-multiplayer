@@ -50,7 +50,7 @@ export class WorldMap extends IgtFeature {
      * @param target to move to
      */
     moveToLocation(target: WorldLocationIdentifier): boolean {
-        const startingLocation = this._actionQueue.getPlayerLocationAtEndOfQueue() ?? this.playerLocation;
+        const startingLocation = this.getLocationIdentifierAtEndOfQueue();
 
         if (startingLocation.equals(target)) {
             console.log(`You're already at ${target}`);
@@ -77,6 +77,10 @@ export class WorldMap extends IgtFeature {
         const generator = new TravelGenerator(travelActions);
         this._actionQueue.addGenerator(generator);
         return true;
+    }
+
+    public getLocationIdentifierAtEndOfQueue(): WorldLocationIdentifier {
+        return this._actionQueue.getPlayerLocationAtEndOfQueue() ?? this.playerLocation;
     }
 
     getCurrentLocation(): WorldLocation | null {

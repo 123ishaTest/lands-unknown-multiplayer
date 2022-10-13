@@ -2,13 +2,16 @@
 
 import {WorldLocation} from "common/features/worldmap/WorldLocation";
 import {FacilityList} from "common/features/facilities/FacilityList";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {ApiClient} from "@/model/ApiClient";
-import {TravelRequest} from "common/api/TravelRequest";
+import {TravelRequest} from "common/api/worldmap/TravelRequest";
+import {ActionList} from "common/features/actionlist/ActionList";
+import Facility from "@/components/features/worldmap/Facility.vue";
 
 const props = defineProps<{
   location: WorldLocation,
   facilityList: FacilityList,
+  actionList: ActionList,
 }>()
 
 const facilities = computed(() => {
@@ -18,6 +21,16 @@ const facilities = computed(() => {
 const hasFacilities = computed(() => {
   return facilities.value.length > 0;
 })
+
+const facilityIndex = ref(0);
+
+const selectedFacility = computed(() => {
+  return facilities.value[facilityIndex.value];
+})
+
+function selectFacility(index: number) {
+  facilityIndex.value = index
+}
 
 function travel() {
   ApiClient.send(new TravelRequest(), {
@@ -39,12 +52,19 @@ function travel() {
       <p class="text-center">Facilities</p>
       <hr>
       <div class="flex flex-row flex-wrap">
-        <div v-for="facility in facilities" :key="facility.type"
-        class="border-2 border-black p-2 m-2">
+        <div v-for="(facility, index) in facilities" :key="facility.type"
+             @click="selectFacility(index)"
+             class="border-2 border-black p-2 m-2">
           {{ facility.description }}
         </div>
       </div>
 
+      <Facility
+          :action-list="actionList"
+          :location="location"
+          :facility="selectedFacility"
+          :facility-index="facilityIndex"
+      ></Facility>
     </div>
 
     <button @click="travel()" class="p-2 border-2 border-black">Travel</button>

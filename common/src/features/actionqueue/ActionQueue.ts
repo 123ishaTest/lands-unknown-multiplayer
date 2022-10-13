@@ -124,8 +124,8 @@ export class ActionQueue extends IgtFeature {
     /**
      * Add an action by wrapping it in a generator
      */
-    public addAction(action: Action) {
-        this.addGenerator(new SingleActionGenerator(action));
+    public addAction(action: Action, repeats: number = 1) {
+        this.addGenerator(new SingleActionGenerator(action, repeats));
     }
 
     addGenerator(generator: ActionGenerator) {

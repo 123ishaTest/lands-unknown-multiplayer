@@ -10,11 +10,13 @@ import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import {LocalPlayer} from "@/model/LocalPlayer";
 import LocationHighlight from "@/components/features/worldmap/LocationHighlight.vue";
 import type {FacilityList} from "common/features/facilities/FacilityList";
+import type {ActionList} from "common/features/actionlist/ActionList";
 
 const {worldMap, queue} = defineProps<{
   worldMap: WorldMap,
   queue: ActionQueue,
   facilityList: FacilityList,
+  actionList: ActionList,
 }>()
 
 const stackHeight = ref()
@@ -103,6 +105,7 @@ onMounted(() => {
           }} end of queue: {{ queue.getPlayerLocationAtEndOfQueue() }}</span>
         <LocationHighlight v-if="showHighlight"
                            :facility-list="facilityList"
+                           :action-list="actionList"
                            :location="highlightedLocation">
         </LocationHighlight>
       </div>

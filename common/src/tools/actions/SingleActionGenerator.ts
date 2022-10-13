@@ -9,7 +9,6 @@ export class SingleActionGenerator extends ActionGenerator {
     action: Action;
 
     private _isStarted: boolean = false;
-    private _isFinished: boolean = false;
 
     constructor(action: Action, repeats: number = 1) {
         super(GeneratorId.SingleActionGenerator, action.description);
@@ -19,7 +18,8 @@ export class SingleActionGenerator extends ActionGenerator {
     }
 
     next(): Action {
-        this._isFinished = true;
+        this.repeats--;
+        this.action.resetAction();
         return this.action
     }
 
@@ -33,10 +33,6 @@ export class SingleActionGenerator extends ActionGenerator {
 
     isStarted(): boolean {
         return this._isStarted;
-    }
-
-    isFinished(): boolean {
-        return this._isFinished || super.isFinished();
     }
 
     save(): SingleActionGeneratorSaveData {
