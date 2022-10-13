@@ -7,7 +7,7 @@ export class CookShrimp extends RecipeAction {
     id: ActionId = ActionId.CookShrimpAction;
 
     constructor() {
-        super("Cook shrimp", 5, [
+        super("Cook shrimp", 1, [
             new ItemAmount(ItemId.RawShrimp)
         ], [
             new ItemAmount(ItemId.CookedShrimp)

@@ -66,6 +66,9 @@ export class Bank extends IgtFeature {
      */
     depositByItemId(itemId: ItemId, amount: number): void {
         const actualAmount = Math.min(this._inventory.getTotalAmount(itemId), amount);
+        if (actualAmount === 0) {
+            return;
+        }
         const toLose = new ItemAmount(itemId, actualAmount);
 
         // TODO check if we have the space
@@ -81,6 +84,9 @@ export class Bank extends IgtFeature {
     withdrawItemById(itemId: ItemId, amount: number) {
         // The minimum of what is requested, how much we actually have, and how much the inventory can take
         const actualAmount = Math.min(this.getTotalAmount(itemId), this._inventory.spaceLeftForItem(itemId), amount);
+        if (actualAmount === 0) {
+            return;
+        }
         const toGain = new ItemAmount(itemId, actualAmount);
         if (this._inventory.canTakeItemAmounts([toGain])) {
             this.loseItemAmount(itemId, actualAmount);

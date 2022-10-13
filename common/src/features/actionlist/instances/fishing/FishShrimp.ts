@@ -7,7 +7,7 @@ export class FishShrimp extends RecipeAction {
     id: ActionId = ActionId.FishShrimpAction;
 
     constructor() {
-        super("Fish shrimp", 3, [], [
+        super("Fish shrimp", 1, [], [
             new ItemAmount(ItemId.RawShrimp)
         ]);
     }

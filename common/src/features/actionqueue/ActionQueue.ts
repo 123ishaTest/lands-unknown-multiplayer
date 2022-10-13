@@ -78,8 +78,8 @@ export class ActionQueue extends IgtFeature {
             this.removeFirstGenerator();
             return;
         }
-        // And remove it if it's finished now
-        if (generator.isFinished()) {
+        // And remove it if it's finished now, or we can't start it
+        if (generator.isFinished() || !nextAction.canPerform()) {
             this.removeFirstGenerator();
         }
 
@@ -168,7 +168,7 @@ export class ActionQueue extends IgtFeature {
             // Perform some ugly checks to deal with single action generators
             if (generatorData.id === GeneratorId.SingleActionGenerator) {
                 const actionId = (generatorData as SingleActionGenerator).action.id
-                const action = this._actionList.getAction(actionId, (generatorData as SingleActionGenerator).action);
+                const action = this._actionList.getAction(actionId);
                 generator = new SingleActionGenerator(action);
                 generator.load(generatorData);
             } else {
