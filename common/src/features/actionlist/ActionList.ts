@@ -7,6 +7,7 @@ import type {Action} from "common/tools/actions/Action";
 import {TravelAction} from "common/features/worldmap/TravelAction";
 import {FishShrimp} from "common/features/actionlist/instances/fishing/FishShrimp";
 import type {ActionSaveData} from "common/tools/actions/ActionSaveData";
+import {CookShrimp} from "common/features/actionlist/instances/cooking/CookShrimp";
 
 type ActionFunction = (...args: any[]) => Action;
 
@@ -31,7 +32,7 @@ export class ActionList extends IgtFeature {
             },
             [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
             [ActionId.FishShrimpAction]: () => new FishShrimp(),
-
+            [ActionId.CookShrimpAction]: () => new CookShrimp(),
         }
     }
 
