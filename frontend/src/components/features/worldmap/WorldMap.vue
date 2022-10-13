@@ -6,14 +6,15 @@ import {TiledWrapper} from "@/model/TiledWrapper";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import Panzoom from "@panzoom/panzoom";
 import {ApiClient} from "@/model/ApiClient";
-import {TravelRequest} from "common/api/TravelRequest";
-import {WorldLocationType} from "common/features/worldmap/WorldLocationType";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import {LocalPlayer} from "@/model/LocalPlayer";
+import LocationHighlight from "@/components/features/worldmap/LocationHighlight.vue";
+import type {FacilityList} from "common/features/facilities/FacilityList";
 
 const {worldMap, queue} = defineProps<{
   worldMap: WorldMap,
-  queue: ActionQueue
+  queue: ActionQueue,
+  facilityList: FacilityList,
 }>()
 
 const stackHeight = ref()
@@ -47,6 +48,10 @@ ApiClient.onPlayerPositionsSync.subscribe((sync) => {
   tiledWrapper.value.renderPlayers(sync.data);
 })
 
+const highlightedLocation = ref();
+const showHighlight = computed(() => {
+  return highlightedLocation.value != null;
+});
 
 onMounted(() => {
   window.onresize = () => {
@@ -64,10 +69,8 @@ onMounted(() => {
       playerCanvas,
       // TODO check type
       (clickBox: any) => {
-        ApiClient.send(new TravelRequest(), {
-          "type": WorldLocationType.RegionOfInterest,
-          "target": clickBox.properties[0].value,
-        })
+        const id = clickBox.properties[0].value;
+        highlightedLocation.value = worldMap.getRoi(id)
       }
   )
   tiledWrapper.value.renderTileMap(WorldMapId.Tutorial);
@@ -94,9 +97,16 @@ onMounted(() => {
   <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
-      <div class="w-full h-12 p-2 flex flex-row items-center text-white bg-gray-700 opacity-70 absolute z-30">
-        <span>You are currently at {{ worldMap.playerLocation.id }}: {{ playerPosition }} end of queue: {{queue.getPlayerLocationAtEndOfQueue()}}</span>
+      <div class="w-full h-12 flex flex-row text-white bg-gray-700 opacity-70 absolute z-30">
+        <span class="flex-grow p-2">You are currently at {{ worldMap.playerLocation.id }}: {{
+            playerPosition
+          }} end of queue: {{ queue.getPlayerLocationAtEndOfQueue() }}</span>
+        <LocationHighlight v-if="showHighlight"
+                           :facility-list="facilityList"
+                           :location="highlightedLocation">
+        </LocationHighlight>
       </div>
+
       <canvas id="world-canvas" class="pixelated absolute z-10"
               :class="{'cursor-pointer': showPointer}">
       </canvas>

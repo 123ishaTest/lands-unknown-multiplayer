@@ -28,8 +28,11 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
     <div v-else>
       <Wallet :wallet="LocalPlayer.player.wallet"></Wallet>
       <div class="flex flex-row flex-wrap">
-        <WorldMap class="flex-grow w-96" :world-map="LocalPlayer.player.worldMap"
-                  :queue="LocalPlayer.player.actionQueue"></WorldMap>
+        <WorldMap class="flex-grow w-96"
+                  :world-map="LocalPlayer.player.worldMap"
+                  :queue="LocalPlayer.player.actionQueue"
+                  :facility-list="LocalPlayer.player.facilityList"
+        ></WorldMap>
         <ActionQueue class="w-96" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
       </div>
       <Inventory :inventory="LocalPlayer.player.inventory"></Inventory>
