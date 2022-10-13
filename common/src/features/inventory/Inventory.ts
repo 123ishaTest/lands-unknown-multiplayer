@@ -21,7 +21,7 @@ export class Inventory extends IgtFeature {
     private _onItemGain = new EventDispatcher<AbstractItem, number>();
 
 
-    constructor(slots: number = 10) {
+    constructor(slots: number = 5) {
         super('inventory');
         this.slotCount = slots;
 
@@ -319,6 +319,7 @@ export class Inventory extends IgtFeature {
         for (let i = 0; i < data.slots.length; i++) {
             const slotData: InventorySlotSaveData = data.slots[i];
             if (slotData.id === ItemId.Empty) {
+                this.slots[i] = new InventorySlot(new EmptyItem(), 0);
                 continue;
             }
 
