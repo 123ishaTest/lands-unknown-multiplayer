@@ -1,9 +1,9 @@
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import type {ActionId} from "common/features/actionlist/ActionId";
-import type {FacilityType} from "common/features/worldmap/FacilityType";
 import type {Requirement} from "common/tools/requirements/Requirement";
 import {NoRequirement} from "common/tools/requirements/NoRequirement";
+import type {FacilityType} from "common/features/facilities/FacilityType";
 
 export abstract class WorldLocation {
     identifier: WorldLocationIdentifier

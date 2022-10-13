@@ -7,10 +7,12 @@ import type {ItemList} from "common/features/items/ItemList";
 import type {Inventory} from "common/features/inventory/Inventory";
 import type {Bank} from "common/features/bank/Bank";
 import type {GeneratorList} from "common/features/actionlist/GeneratorList";
+import type {FacilityList} from "common/features/facilities/FacilityList";
 
 export interface IgtFeatures {
     actionList: ActionList;
     generatorList: GeneratorList;
+    facilityList: FacilityList;
     actionQueue: ActionQueue;
     itemList: ItemList;
     inventory: Inventory;
