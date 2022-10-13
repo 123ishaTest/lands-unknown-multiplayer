@@ -185,6 +185,9 @@ export class Inventory extends IgtFeature {
         for (const item of itemAmounts) {
             let amount = item.amount;
             const placedInNonFullStacks = this.getStackSpaceForItem(item.id);
+            if (placedInNonFullStacks === Infinity) {
+                return true;
+            }
             amount -= placedInNonFullStacks
             totalStacksNeeded += Math.ceil(amount / this._itemList.getItem(item.id).maxStack);
         }
