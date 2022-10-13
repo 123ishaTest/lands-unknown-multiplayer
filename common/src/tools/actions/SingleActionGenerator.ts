@@ -39,6 +39,7 @@ export class SingleActionGenerator extends ActionGenerator {
         return {
             id: this.id,
             repeats: this.repeats,
+            action: this.action.save(),
         };
     }
 
