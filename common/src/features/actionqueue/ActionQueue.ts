@@ -11,7 +11,7 @@ import {TravelAction} from "common/features/worldmap/TravelAction";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
 import type {GeneratorList} from "common/features/actionlist/GeneratorList";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
-import type {GeneratorId} from "common/features/actionlist/GeneratorId";
+import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export class ActionQueue extends IgtFeature {
     _features!: IgtFeatures;
@@ -163,7 +163,17 @@ export class ActionQueue extends IgtFeature {
             this.currentAction = null;
         }
         data.generators?.forEach(generatorData => {
-            const generator = this._generatorList.getGenerator(generatorData.id, generatorData);
+            let generator;
+
+            // Perform some ugly checks to deal with single action generators
+            if (generatorData.id === GeneratorId.SingleActionGenerator) {
+                const actionId = (generatorData as SingleActionGenerator).action.id
+                const action = this._actionList.getAction(actionId, (generatorData as SingleActionGenerator).action);
+                generator = new SingleActionGenerator(action);
+                generator.load(generatorData);
+            } else {
+                generator = this._generatorList.getGenerator(generatorData.id, generatorData);
+            }
             this.addGenerator(generator);
         })
     }
