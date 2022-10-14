@@ -1,9 +1,9 @@
 import type {WorldLocationIdentifier} from "common/features/worldmap/WorldLocationIdentifier";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
-import type {ActionId} from "common/features/actionlist/ActionId";
 import type {Requirement} from "common/tools/requirements/Requirement";
 import {NoRequirement} from "common/tools/requirements/NoRequirement";
 import type {FacilityType} from "common/features/facilities/FacilityType";
+import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export abstract class WorldLocation {
     identifier: WorldLocationIdentifier
@@ -11,16 +11,16 @@ export abstract class WorldLocation {
 
     worldPosition: WorldPosition;
 
-    _possibleActions: ActionId[];
+    _possibleGenerators: GeneratorId[];
 
     _facilities: FacilityType[];
 
     requirement: Requirement = new NoRequirement();
 
-    protected constructor(identifier: WorldLocationIdentifier, displayName: string, worldPosition: WorldPosition, possibleActions: ActionId[] = [], facilities: FacilityType[]) {
+    protected constructor(identifier: WorldLocationIdentifier, displayName: string, worldPosition: WorldPosition, generators: GeneratorId[] = [], facilities: FacilityType[]) {
         this.identifier = identifier;
         this.worldPosition = worldPosition;
-        this._possibleActions = possibleActions;
+        this._possibleGenerators = generators;
         this._facilities = facilities;
         this.displayName = displayName;
     }

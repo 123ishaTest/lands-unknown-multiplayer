@@ -11,12 +11,14 @@ import {LocalPlayer} from "@/model/LocalPlayer";
 import LocationHighlight from "@/components/features/worldmap/LocationHighlight.vue";
 import type {FacilityList} from "common/features/facilities/FacilityList";
 import type {ActionList} from "common/features/actionlist/ActionList";
+import type {GeneratorList} from "common/features/actionlist/GeneratorList";
 
 const props = defineProps<{
   worldMap: WorldMap,
   queue: ActionQueue,
   facilityList: FacilityList,
   actionList: ActionList,
+  generatorList: GeneratorList,
 }>()
 
 const stackHeight = ref()
@@ -106,6 +108,7 @@ onMounted(() => {
         <LocationHighlight v-if="showHighlight"
                            :facility-list="facilityList"
                            :action-list="actionList"
+                           :generator-list="generatorList"
                            :location="highlightedLocation">
         </LocationHighlight>
       </div>

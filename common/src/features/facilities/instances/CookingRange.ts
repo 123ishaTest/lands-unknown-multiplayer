@@ -6,7 +6,6 @@ export class CookingRange extends Facility {
     type = FacilityType.CookingRange;
     description: string = "Range";
     actions: ActionId[] = [
-        ActionId.FishShrimpAction,
         ActionId.CookShrimpAction,
     ];
 }

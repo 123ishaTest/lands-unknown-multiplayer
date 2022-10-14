@@ -8,6 +8,7 @@ import {PlayerPosition} from "common/connection/PlayerPositionsSync";
 import {DepositItemByIdRequest} from "common/api/banking/DepositItemByIdRequest";
 import {WithdrawItemByIdRequest} from "common/api/banking/WithdrawItemByIdRequest";
 import {FacilityRequest} from "common/api/worldmap/FacilityRequest";
+import {GeneratorRequest} from "common/api/worldmap/GeneratorRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -59,6 +60,7 @@ export class GameServer {
         const requests: ServerRequest[] = [
             new TravelRequest(),
             new FacilityRequest(),
+            new GeneratorRequest(),
             new DepositItemByIdRequest(),
             new WithdrawItemByIdRequest(),
         ]

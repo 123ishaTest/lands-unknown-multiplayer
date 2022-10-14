@@ -22,7 +22,9 @@ export class RandomActionGenerator extends ActionGenerator {
 
     next(): Action {
         this.repeats--;
-        return this.actions.draw()();
+        const action = this.actions.draw()();
+        action.initialize(this._features);
+        return action;
     }
 
     initialize(features: IgtFeatures) {

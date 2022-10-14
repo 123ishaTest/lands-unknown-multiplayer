@@ -935,6 +935,12 @@
                  "id":9,
                  "name":"somewhere-else",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"generators",
+                         "type":"string",
+                         "value":"explore-the-forest"
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":0,

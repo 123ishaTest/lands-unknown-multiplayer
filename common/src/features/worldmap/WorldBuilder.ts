@@ -12,6 +12,7 @@ import {WorldMap} from "common/features/worldmap/WorldMap";
 import type {TiledMap} from "common/tiled/types/TiledMap";
 import {TiledObject} from "common/tiled/types/objects/TiledObject";
 import {FacilityType} from "common/features/facilities/FacilityType";
+import {GeneratorId} from "common/features/actionlist/GeneratorId";
 
 export class WorldBuilder {
 
@@ -73,6 +74,16 @@ export class WorldBuilder {
         return facilitiesProperty.value.split(",");
     }
 
+    static parseGenerators(object: TiledObject): GeneratorId[] {
+        const generatorProperty = object?.properties?.find(property => {
+            return property?.name === "generators";
+        });
+        if (!generatorProperty) {
+            return [];
+        }
+        return generatorProperty.value.split(",");
+    }
+
     static parseWorldLocations(map: TiledMap): RegionOfInterest[] {
         const hitBoxLayer = this.getLayer(map, "Hitboxes") as ObjectGroup;
 
@@ -82,7 +93,8 @@ export class WorldBuilder {
         }).map(object => {
             const worldPosition = this.globalToTilePosition(map, {x: object.x, y: object.y});
             const facilities = this.parseFacilities(object);
-            return new RegionOfInterest(object.name as WorldLocationId, object.name, worldPosition, [], facilities)
+            const generators = this.parseGenerators(object);
+            return new RegionOfInterest(object.name as WorldLocationId, object.name, worldPosition, generators, facilities)
         });
     }
 

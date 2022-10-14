@@ -5,9 +5,9 @@ import {MineAction} from "common/features/actionqueue/MineAction";
 import {ActionId} from "common/features/actionlist/ActionId";
 import type {Action} from "common/tools/actions/Action";
 import {TravelAction} from "common/features/worldmap/TravelAction";
-import {FishShrimp} from "common/features/actionlist/instances/fishing/FishShrimp";
+import {FishShrimpAction} from "common/features/actionlist/instances/fishing/FishShrimpAction";
 import type {ActionSaveData} from "common/tools/actions/ActionSaveData";
-import {CookShrimp} from "common/features/actionlist/instances/cooking/CookShrimp";
+import {CookShrimpAction} from "common/features/actionlist/instances/cooking/CookShrimpAction";
 
 type ActionFunction = (...args: any[]) => Action;
 
@@ -31,8 +31,8 @@ export class ActionList extends IgtFeature {
                 return new TravelAction(road, isReversed)
             },
             [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
-            [ActionId.FishShrimpAction]: () => new FishShrimp(),
-            [ActionId.CookShrimpAction]: () => new CookShrimp(),
+            [ActionId.FishShrimpAction]: () => new FishShrimpAction(),
+            [ActionId.CookShrimpAction]: () => new CookShrimpAction(),
         }
     }
 

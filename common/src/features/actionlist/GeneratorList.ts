@@ -4,7 +4,7 @@ import type {SaveData} from "common/tools/saving/SaveData";
 import {MineAction} from "common/features/actionqueue/MineAction";
 import type {Action} from "common/tools/actions/Action";
 import type {ActionGenerator} from "common/tools/actions/ActionGenerator";
-import {FishShrimp} from "common/features/actionlist/instances/fishing/FishShrimp";
+import {FishShrimpAction} from "common/features/actionlist/instances/fishing/FishShrimpAction";
 import {RandomActionGenerator} from "common/tools/actions/RandomActionGenerator";
 import {type OutcomeFunction, WeightedDistribution} from "common/tools/random/distributions/WeightedDistribution";
 import {Outcome} from "common/tools/random/distributions/Outcome";
@@ -41,7 +41,7 @@ export class GeneratorList extends IgtFeature {
                 return new TravelGenerator(actions);
             },
             [GeneratorId.ExploreTheForest]: () => new RandomActionGenerator(GeneratorId.ExploreTheForest, "Explore the forest", new WeightedDistribution<OutcomeFunction<Action>>([
-                new Outcome(() => new FishShrimp(), 1),
+                new Outcome(() => new FishShrimpAction(), 3),
                 new Outcome(() => new MineAction("Chop a rock", 1), 2),
             ])),
         }
