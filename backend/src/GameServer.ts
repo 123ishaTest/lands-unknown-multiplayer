@@ -1,7 +1,6 @@
 import {PlayerManager} from "src/PlayerManager";
 import {DatabaseManager} from "src/DatabaseManager";
 import {Player} from "common/Player";
-import {FirebaseHelper} from "src/connection/FirebaseHelper";
 import {TravelRequest} from "common/api/worldmap/TravelRequest";
 import {ServerRequest} from "common/connection/ServerRequest";
 import {randomUUID} from "crypto";
@@ -22,7 +21,7 @@ export class GameServer {
     }
 
     public start() {
-        FirebaseHelper.init();
+        this.databaseManager.init();
 
         const express = require('express');
         const app = express();
@@ -125,20 +124,18 @@ export class GameServer {
 
     private async login(request, response) {
         const jwt = request.query.jwt;
-        const userRecord = await FirebaseHelper.getUserRecord(jwt);
+        const userRecord = await this.databaseManager.getUserRecord(jwt);
         if (!userRecord) {
             response.writeHead(401);
             response.end();
             return;
         }
 
-        const userName = userRecord.displayName;
-        const userId = userRecord.uid
-
+        const {userName, userId} = userRecord;
         const isAlreadyOnline = await this.playerManager.getPlayer(userId) != null;
         if (isAlreadyOnline) {
             console.log(`Player ${userName} tried to login twice, logging out the old one`)
-            const player = await this.playerManager.getPlayer(userId)
+            const player = this.playerManager.getPlayer(userId)
             await this.databaseManager.savePlayer(player)
             await this.playerManager.removePlayer(player);
             return this.login(request, response);
