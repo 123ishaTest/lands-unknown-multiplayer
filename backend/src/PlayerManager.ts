@@ -10,8 +10,10 @@ export class PlayerManager {
     }
 
     addPlayer(player: Player) {
-        if (this.onlinePlayers.includes(player)) {
-            throw Error(`Player ${player.userName} is already online`);
+        const onlinePlayer = this.getPlayer(player.userId);
+        if (onlinePlayer) {
+            console.log(`Player ${player.userName} is already online`);
+            return;
         }
         console.debug(`Player ${player.userName} logged in`);
         player.logIn()
