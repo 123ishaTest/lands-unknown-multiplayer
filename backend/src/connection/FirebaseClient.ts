@@ -1,17 +1,18 @@
 import * as admin from 'firebase-admin';
 import DecodedIdToken = admin.auth.DecodedIdToken;
-import UserRecord = admin.auth.UserRecord;
 import {Player} from "common/Player";
 import {PlayerSaveData} from "common/PlayerSaveData";
 import {firestore} from "firebase-admin";
 import CollectionReference = firestore.CollectionReference;
+import {DatabaseClient} from "src/connection/DatabaseClient";
+import {UserRecord} from "src/connection/UserRecord";
 
-export class FirebaseHelper {
+export class FirebaseClient implements DatabaseClient {
 
-    private static databaseURL: string = "https://lands-unknown-multiplayer.firebaseio.com/";
-    private static savesCollection: CollectionReference
+    private databaseURL: string = "https://lands-unknown-multiplayer.firebaseio.com/";
+    private savesCollection: CollectionReference
 
-    public static async init() {
+    public async init() {
         const credentials = process.env.HEROKU ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY) : require("../../serviceAccountKey.json")
         admin.initializeApp({
             credential: admin.credential.cert(credentials),
@@ -23,7 +24,7 @@ export class FirebaseHelper {
 
     }
 
-    public static decodeToken(idToken: string): Promise<DecodedIdToken> {
+    public decodeToken(idToken: string): Promise<DecodedIdToken> {
         if (typeof idToken !== "string") {
             return;
         }
@@ -31,16 +32,20 @@ export class FirebaseHelper {
 
     }
 
-    public static getUserRecordFromToken(token: DecodedIdToken): Promise<UserRecord> {
-        return admin.auth().getUser(token.uid);
+    public async getUserRecordFromToken(token: DecodedIdToken): Promise<UserRecord> {
+        const firebaseRecord = await admin.auth().getUser(token.uid);
+        return {
+            userId: firebaseRecord.uid,
+            userName: firebaseRecord.displayName,
+        }
     }
 
-    public static async getUserRecord(idToken: string): Promise<UserRecord> {
+    public async getUserRecord(idToken: string): Promise<UserRecord> {
         if (!idToken) {
             return null;
         }
-        return FirebaseHelper.decodeToken(idToken).then((token: DecodedIdToken) => {
-            return FirebaseHelper.getUserRecordFromToken(token);
+        return this.decodeToken(idToken).then((token: DecodedIdToken) => {
+            return this.getUserRecordFromToken(token);
         }).then(function (userRecord: UserRecord) {
             return userRecord;
         }).catch(function (error) {
@@ -49,12 +54,12 @@ export class FirebaseHelper {
         });
     }
 
-    static async loadPlayerData(userId: string): Promise<PlayerSaveData | null> {
+    async loadPlayerData(userId: string): Promise<PlayerSaveData | null> {
         const data = await this.savesCollection.doc(userId).get()
         return data.data() as PlayerSaveData;
     }
 
-    static storePlayer(player: Player) {
-        this.savesCollection.doc(player.userId).set(player.save());
+    async storePlayer(player: Player) {
+        await this.savesCollection.doc(player.userId).set(player.save());
     }
 }
