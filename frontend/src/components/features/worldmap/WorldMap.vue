@@ -109,7 +109,7 @@ onMounted(() => {
                            :location="highlightedLocation">
         </LocationHighlight>
       </div>
-      <div>
+      <div class="w-full h-full block">
         <canvas id="world-canvas" class="pixelated absolute z-10"
                 :class="{'cursor-pointer': showPointer}">
         </canvas>
