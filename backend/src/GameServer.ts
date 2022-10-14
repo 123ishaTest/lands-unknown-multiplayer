@@ -152,6 +152,7 @@ export class GameServer {
 
         player.sessionToken = randomUUID();
         player.sendSessionToken();
+        player.sendGameState();
         request.on('close', () => {
             console.log(`${player.userName} Connection closed`);
             this.databaseManager.savePlayer(player);
