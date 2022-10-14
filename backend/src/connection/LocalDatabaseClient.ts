@@ -21,7 +21,7 @@ export class LocalDatabaseClient implements DatabaseClient {
     }
 
     init(): void {
-        this.db = new sqlite3.Database(':saves:');
+        this.db = new sqlite3.Database('saves.db');
         this.db.run("CREATE TABLE if not exists saves (userId TEXT, save TEXT, PRIMARY KEY(userId))");
     }
 
