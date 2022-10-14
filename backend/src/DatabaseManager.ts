@@ -32,7 +32,6 @@ export class DatabaseManager {
     createPlayer(userName: string, userId: string): Player {
         const player = new Player(userId, userName);
         player.initialize();
-        this.savePlayer(player);
         return player;
     }
 
