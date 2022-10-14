@@ -12,7 +12,7 @@ import LocationHighlight from "@/components/features/worldmap/LocationHighlight.
 import type {FacilityList} from "common/features/facilities/FacilityList";
 import type {ActionList} from "common/features/actionlist/ActionList";
 
-const {worldMap, queue} = defineProps<{
+const props = defineProps<{
   worldMap: WorldMap,
   queue: ActionQueue,
   facilityList: FacilityList,
@@ -31,7 +31,7 @@ function updateStackHeight() {
 }
 
 const playerPosition = computed(() => {
-  return queue.getTravelingPosition() ?? worldMap.getCurrentLocation()?.worldPosition as WorldPosition;
+  return props.queue.getTravelingPosition() ?? props.worldMap.getCurrentLocation()?.worldPosition as WorldPosition;
 });
 
 const showPointer = computed(() => {
@@ -72,7 +72,7 @@ onMounted(() => {
       // TODO check type
       (clickBox: any) => {
         const id = clickBox.properties[0].value;
-        highlightedLocation.value = worldMap.getRoi(id)
+        highlightedLocation.value = props.worldMap.getRoi(id)
       }
   )
   tiledWrapper.value.renderTileMap(WorldMapId.Tutorial);
