@@ -5,6 +5,7 @@ import {Facility} from "common/features/facilities/Facility";
 import {SaveData} from "common/tools/saving/SaveData";
 import {Furnace} from "common/features/facilities/instances/Furnace";
 import {CookingRange} from "common/features/facilities/instances/CookingRange";
+import {BankFacility} from "common/features/facilities/instances/BankFacility";
 
 /**
  * A giant repository of all possible facilities
@@ -24,6 +25,7 @@ export class FacilityList extends IgtFeature {
         this.facilities = {
             [FacilityType.Furnace]: () => new Furnace(),
             [FacilityType.CookingRange]: () => new CookingRange(),
+            [FacilityType.Bank]: () => new BankFacility(),
         }
     }
 

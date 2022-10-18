@@ -8,6 +8,9 @@ import {TravelAction} from "common/features/worldmap/TravelAction";
 import {FishShrimpAction} from "common/features/actionlist/instances/fishing/FishShrimpAction";
 import type {ActionSaveData} from "common/tools/actions/ActionSaveData";
 import {CookShrimpAction} from "common/features/actionlist/instances/cooking/CookShrimpAction";
+import {WithdrawItemByIdAction} from "common/features/actionlist/instances/banking/WithdrawItemByIdAction";
+import {DepositItemByIdAction} from "common/features/actionlist/instances/banking/DepositItemByIdAction";
+import {ItemId} from "common/features/items/ItemId";
 
 type ActionFunction = (...args: any[]) => Action;
 
@@ -33,6 +36,8 @@ export class ActionList extends IgtFeature {
             [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
             [ActionId.FishShrimpAction]: () => new FishShrimpAction(),
             [ActionId.CookShrimpAction]: () => new CookShrimpAction(),
+            [ActionId.WithdrawItemByIdAction]: () => new WithdrawItemByIdAction(ItemId.Empty, 0),
+            [ActionId.DepositItemByIdAction]: () => new DepositItemByIdAction(ItemId.Empty, 0),
         }
     }
 

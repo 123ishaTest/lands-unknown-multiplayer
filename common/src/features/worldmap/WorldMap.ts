@@ -83,6 +83,10 @@ export class WorldMap extends IgtFeature {
         return this._actionQueue.getPlayerLocationAtEndOfQueue() ?? this.playerLocation;
     }
 
+    public getLocationAtEndOfQueue(): WorldLocation {
+        return this.getLocation(this.getLocationIdentifierAtEndOfQueue());
+    }
+
     getCurrentLocation(): WorldLocation | null {
         return this.getLocation(this.playerLocation)
     }

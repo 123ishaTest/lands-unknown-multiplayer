@@ -25,6 +25,10 @@ export abstract class WorldLocation {
         this.displayName = displayName;
     }
 
+    hasFacility(type: FacilityType): boolean {
+        return this._facilities.includes(type);
+    }
+
     canAccess(): boolean {
         return this.requirement.isCompleted;
     }
