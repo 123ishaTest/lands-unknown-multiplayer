@@ -8,6 +8,7 @@ export abstract class AbstractItem implements Saveable {
     id: ItemId;
     name: string;
     description: string;
+    image: string;
     type: ItemType;
     maxStack: number
 
@@ -15,6 +16,8 @@ export abstract class AbstractItem implements Saveable {
         this.id = config.id;
         this.name = config.name;
         this.description = config.description;
+        this.image = config.image;
+
         this.type = config.type ?? ItemType.Default;
         this.maxStack = config.maxStack ?? Infinity;
 

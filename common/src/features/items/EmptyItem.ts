@@ -9,6 +9,7 @@ export class EmptyItem extends AbstractItem {
             id: ItemId.Empty,
             name: "Empty",
             description: "",
+            image: "",
             type: ItemType.Empty,
             maxStack: 0,
         });

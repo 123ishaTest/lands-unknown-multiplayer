@@ -7,6 +7,7 @@ export class CookedShrimp extends Consumable {
         super({
             id: ItemId.CookedShrimp,
             name: 'Cooked Shrimp',
+            image: "shrimp-cooked",
             description: 'Delicious'
         });
     }

@@ -5,6 +5,8 @@ export interface ItemConfig {
     id: ItemId,
     name: string,
     description: string,
+    image: string,
+
     maxStack?: number,
     type?: ItemType,
 }
