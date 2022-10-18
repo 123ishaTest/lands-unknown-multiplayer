@@ -33,9 +33,9 @@ function selectItem(index: number) {
 </script>
 
 <template>
-  <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
-    <div class="flex flex-row">
-      <div class="flex flex-row flex-wrap justify-center sm:justify-start">
+  <div class="panel">
+    <div class="flex flex-col h-full">
+      <div class="flex flex-row flex-grow flex-wrap justify-center sm:justify-start">
         <div v-for="(slot, index) in slots" :key="index + '-' + slot.item.id">
           <InventorySlot :slot="slot"
                          :is-selected="index === selectedIndex"

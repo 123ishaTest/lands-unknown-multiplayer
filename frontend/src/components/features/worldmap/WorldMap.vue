@@ -28,7 +28,7 @@ const worldPanzoom = ref();
 const playerPanzoom = ref();
 
 function updateStackHeight() {
-  stackHeight.value = window.innerHeight - 200;
+  stackHeight.value = window.innerHeight - 100;
   return stackHeight;
 }
 
@@ -124,9 +124,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.pixelated {
-  image-rendering: -moz-crisp-edges;
-  image-rendering: pixelated;
-  -ms-interpolation-mode: nearest-neighbor;
-}
+
 </style>

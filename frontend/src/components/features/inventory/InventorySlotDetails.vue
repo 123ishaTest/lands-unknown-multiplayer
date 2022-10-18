@@ -33,10 +33,7 @@ const depositItems = (id: ItemId, amount: number) => {
 
 <template>
   <div class="bg-gray-500 flex flex-col p-4 text-white">
-    <div>
-      {{ item.name }}
-    </div>
-    <div>{{ item.description }}</div>
+    <div> {{ item.name }} - {{ item.description }}</div>
     <div class="flex flex-row justify-between items-center">
       <div>1</div>
       <div>{{ maxAmount }}</div>
@@ -45,10 +42,10 @@ const depositItems = (id: ItemId, amount: number) => {
       <input type="range" class="rounded-lg bg-gray-400 h-4 w-full my-2" v-model="selectedAmount" min="1"
              :max="maxAmount"/>
     </div>
-    <div class="flex flex-row flex-wrap -m-1">
-      <input type="text" class="input-primary w-48 text-black" v-model="selectedAmount"/>
-      <button class="m-2 p-2 border-2 border-black" @click="selectedAmount=maxAmount - 1">All but one</button>
-      <button class="m-2 p-2 border-2 border-black" @click="selectedAmount=maxAmount">All</button>
+    <div class="flex flex-row flex-wrap -m-1 space-x-1">
+      <input type="text" class="input-primary w-12 h-12 text-black" v-model="selectedAmount"/>
+      <button class="p-2 border-2 border-black" @click="selectedAmount=maxAmount - 1">All but one</button>
+      <button class="p-2 border-2 border-black" @click="selectedAmount=maxAmount">All</button>
     </div>
     <div v-if="isAtBank" class="flex flex-row flex-wrap items-center">
       <button @click="depositItems(item.id, selectedAmount)" class="border-2 border-black p-2 m-2">Deposit</button>
