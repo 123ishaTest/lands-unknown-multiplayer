@@ -21,12 +21,16 @@ const skillImage = computed(() => {
   return new URL(`/src/assets/skills/${props.image}.png`, import.meta.url).href;
 });
 
+const skillProgress = computed(() => {
+  return Math.floor(progress.value.actual) + '/' + Math.ceil(progress.value.target);
+})
+
 </script>
 
 <template>
-  <div class="border-2 rounded border-black flex flex-col" :title="skill.name">
-    <div class="flex flex-row items-center justify-center w-16 h-12">
-      <img style="width: 32px; height: 36px" :src="skillImage" :alt="skill.name" class="pixelated">
+  <div class="border-2 rounded border-black flex flex-col" :title="skill.name + ' (' +skillProgress+ ')'">
+    <div class="flex flex-row items-center justify-between w-16 h-min p-2">
+      <img style="width: 32px; height: 32px" :src="skillImage" :alt="skill.name" class="pixelated">
       <span>{{ skill.getLevel() }}</span>
     </div>
     <ProgressBar
@@ -34,7 +38,6 @@ const skillImage = computed(() => {
         :percentage="percentage"
         :fg-class="fgColor"
         bg-class="bg-gray-300"
-        :title="Math.floor(progress.actual)+ '/' + Math.ceil(progress.target)"
     >
     </ProgressBar>
   </div>
