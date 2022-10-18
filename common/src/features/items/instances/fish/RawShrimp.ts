@@ -8,7 +8,7 @@ export class RawShrimp extends AbstractItem {
             id: ItemId.RawShrimp,
             name: 'Raw Shrimp',
             description: 'Maybe you can cook it?',
-            image: "shrimp-cooked",
+            image: "shrimp-raw",
             maxStack: 2,
         });
     }

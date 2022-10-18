@@ -34,11 +34,15 @@ function startDrag(evt: DragEvent, index: number) {
   evt.dataTransfer.setData('index', index.toString());
 }
 
+const itemImage = () => {
+  return new URL(`/src/assets/items/${props.slot.item.image}.png`, import.meta.url).href;
+};
 
 </script>
 
 <template>
-  <div class="w-24 h-24 lg:w-36 lg:h-36 b-2 bg-gray-500 m-2 p-2 border-gray-300 border-4 text-white text-sm lg:text-xl"
+  <div class="w-12 h-12 b-2 bg-gray-500 m-0.5 border-gray-300 border-2 text-white text-sm lg:text-xl"
+       :title="slot.item.name"
        draggable="true"
        @dragstart="startDrag($event,index)"
        @drop="onDrop($event, index)"
@@ -46,10 +50,17 @@ function startDrag(evt: DragEvent, index: number) {
        @dragenter.prevent
        :class="{'border-red-400': isSelected}">
     <div v-if="!slot.isEmpty()">
-      <div class="flex flex-col">
-        <div>{{ slot.item.name }}</div>
-        <div>{{ slot.amount }} / {{ slot.item.maxStack }}</div>
+      <div class="flex flex-row justify-end">
+        <span class="text-xs rounded-3xl text-yellow-300 absolute px-1">{{ slot.amount }}{{slot.item.maxStack < Infinity ? "/" + slot.item.maxStack : ""}}</span>
       </div>
+
+      <div class="flex flex-row items-center justify-center p-1">
+        <img style="width: 32px; height: 32px; image-rendering: pixelated;"
+             :src="itemImage()"
+             :alt="slot.item.name"
+        >
+      </div>
+
     </div>
   </div>
 </template>
