@@ -5,8 +5,10 @@ import {Consumable} from "common/features/items/instances/Consumable";
 import type {ItemId} from "common/features/items/ItemId";
 import {ApiClient} from "@/model/ApiClient";
 import {DepositItemByIdRequest} from "common/api/banking/DepositItemByIdRequest";
+import {DropInventorySlotRequest} from "common/api/inventory/DropInventorySlotRequest";
 
 const props = defineProps<{
+  index: number;
   maxAmount: number
   slot: InventorySlot,
   isAtBank: boolean
@@ -19,6 +21,12 @@ const item = computed(() => {
 const isConsumable = computed(() => {
   return props.slot.item instanceof Consumable;
 });
+
+function dropItems() {
+  ApiClient.send(new DropInventorySlotRequest(), {
+    index: props.index,
+  })
+}
 
 const selectedAmount = ref(1);
 
@@ -54,7 +62,7 @@ const depositItems = (id: ItemId, amount: number) => {
       <!--      <button v-if="isConsumable" class="btn btn-blue" @click="consumeItem">{{ item.consumeLabel }}-->
       <!--        ({{ selectedAmount }})-->
       <!--      </button>-->
-      <!--      <button class="btn btn-red" @click="dropItem">Drop Stack</button>-->
+      <button class="p-2 border-2 border-black" @click="dropItems()">Drop Stack</button>
     </div>
   </div>
 </template>

@@ -4,4 +4,5 @@ export enum ServerRequestRoute {
     GeneratorAction = "/worldmap/generator",
     DepositItemsById = "/bank/deposit/id",
     WithdrawItemsById = "/bank/withdraw/id",
+    DropInventorySlot = "/inventory/drop",
 }

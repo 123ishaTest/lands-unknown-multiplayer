@@ -47,6 +47,7 @@ function selectItem(index: number) {
 
       <!-- TODO properly check if we're at a bank-->
       <InventorySlotDetails
+          :index="selectedIndex"
           :max-amount="maxAmountForSelectedId"
           :class="{'invisible': !showDetails}"
           :slot="selectedSlot"
