@@ -8,6 +8,7 @@ import type {Inventory} from "common/features/inventory/Inventory";
 import type {Bank} from "common/features/bank/Bank";
 import type {GeneratorList} from "common/features/actionlist/GeneratorList";
 import type {FacilityList} from "common/features/facilities/FacilityList";
+import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 
 export interface IgtFeatures {
     actionList: ActionList;
@@ -16,6 +17,7 @@ export interface IgtFeatures {
     actionQueue: ActionQueue;
     itemList: ItemList;
     inventory: Inventory;
+    equipment: PlayerEquipment;
     bank: Bank;
     wallet: IgtWallet;
     skills: Skills;

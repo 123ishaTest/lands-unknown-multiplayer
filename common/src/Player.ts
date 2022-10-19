@@ -23,6 +23,7 @@ import {Inventory} from "common/features/inventory/Inventory";
 import {Bank} from "common/features/bank/Bank";
 import {GeneratorList} from "common/features/actionlist/GeneratorList";
 import {FacilityList} from "common/features/facilities/FacilityList";
+import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 
 export class Player implements Saveable {
     userId: string;
@@ -41,6 +42,7 @@ export class Player implements Saveable {
     facilityList: FacilityList = new FacilityList();
     itemList: ItemList = new ItemList();
     inventory: Inventory = new Inventory();
+    equipment: PlayerEquipment = new PlayerEquipment();
     bank: Bank = new Bank();
     skills: Skills = new Skills();
 
@@ -60,6 +62,7 @@ export class Player implements Saveable {
             actionQueue: this.actionQueue,
             itemList: this.itemList,
             inventory: this.inventory,
+            equipment: this.equipment,
             bank: this.bank,
             wallet: this.wallet,
             skills: this.skills,

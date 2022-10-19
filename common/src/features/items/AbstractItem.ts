@@ -1,8 +1,8 @@
 import type {Saveable} from "common/tools/saving/Saveable";
 import type {ItemId} from "common/features/items/ItemId";
 import {ItemType} from "common/features/items/ItemType";
-import type {SaveData} from "common/tools/saving/SaveData";
 import type {ItemConfig} from "common/features/items/ItemConfig";
+import {ItemSaveData} from "common/features/items/ItemSaveData";
 
 export abstract class AbstractItem implements Saveable {
     id: ItemId;
@@ -27,11 +27,13 @@ export abstract class AbstractItem implements Saveable {
     // Save and load. Only needed if this item stores additional data
     saveKey: string;
 
-    load(data: object): void {
+    load(data: ItemSaveData): void {
         // Empty
     }
 
-    save(): SaveData {
-        return {};
+    save(): ItemSaveData {
+        return {
+            id: this.id
+        };
     }
 }
