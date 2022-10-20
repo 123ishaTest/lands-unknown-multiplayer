@@ -6,10 +6,8 @@ import {Weapon} from "common/features/combat/Weapon";
 import {WeaponType} from "common/features/combat/WeaponType";
 import {Inventory} from "common/features/inventory/Inventory";
 import {IgtFeatures} from "common/features/IgtFeatures";
-import {ItemAmount} from "common/features/items/ItemAmount";
 import {FightableEntity} from "common/features/combat/FightableEntity";
 import {PlayerEquipmentSaveData} from "common/features/equipment/PlayerEquipmentSaveData";
-import {ItemSaveData} from "common/features/items/ItemSaveData";
 
 export class PlayerEquipment extends IgtFeature implements FightableEntity {
     _inventory!: Inventory;
@@ -116,35 +114,30 @@ export class PlayerEquipment extends IgtFeature implements FightableEntity {
     unEquip(type: EquipmentType, indexToPlaceInInventory = -1) {
         const equipment = this.equipment[type];
         if (equipment == null) {
-            console.error(`Cannot unequip ${type} as it's already null`);
             return;
         }
         const id = equipment.id;
-
         if (id == null) {
-            console.error(`Cannot unequip ${type} as id is null`);
             return
         }
 
-        if (!this._inventory.canTakeItemAmounts([new ItemAmount(id, 1)])) {
-            console.error(`Cannot remove item ${id} because inventory is full`);
+        if (!this._inventory.canTakeItem(equipment)) {
             return;
         }
 
         this.equipment[type] = null;
-
-        // TODO gain the actual item so we can keep state
-        this._inventory.gainItemById(id);
+        this._inventory.gainItem(equipment);
         this.recalculatePlayerStats();
     }
 
-    equip(equipment: Equipment) {
+    equip(equipment: Equipment): boolean {
         if (this.equipment[equipment.equipmentType] != null) {
             console.error(`Cannot equip ${equipment.name} as ${equipment.type} is not null`);
-            return;
+            return false;
         }
         this.equipment[equipment.equipmentType] = equipment;
         this.recalculatePlayerStats();
+        return true;
     }
 
     recalculatePlayerStats() {

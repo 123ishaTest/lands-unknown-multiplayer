@@ -6,6 +6,10 @@ import type {SaveData} from "common/tools/saving/SaveData";
 import {EmptyItem} from "common/features/items/EmptyItem";
 import {CookedShrimp} from "common/features/items/instances/fish/CookedShrimp";
 import {RawShrimp} from "common/features/items/instances/fish/RawShrimp";
+import {BronzeHelmet} from "common/features/items/instances/equipment/bronze/BronzeHelmet";
+import {BronzePlateBody} from "common/features/items/instances/equipment/bronze/BronzePlateBody";
+import {BronzePlateLegs} from "common/features/items/instances/equipment/bronze/BronzePlateLegs";
+import {BronzeBoots} from "common/features/items/instances/equipment/bronze/BronzeBoots";
 
 /**
  * A giant repository of all possible items
@@ -31,7 +35,13 @@ export class ItemList extends IgtFeature {
             },
             [ItemId.CookedShrimp]: () => {
                 return new CookedShrimp();
-            }
+            },
+            [ItemId.BronzeHelmet]: () => new BronzeHelmet(),
+            [ItemId.BronzePlateBody]: () => new BronzePlateBody(),
+            [ItemId.BronzePlateLegs]: () => new BronzePlateLegs(),
+            [ItemId.BronzeBoots]: () => new BronzeBoots(),
+            // [ItemId.BronzeShield]: () => new BronzeShield(),
+            // [ItemId.BronzeSword]: () => new BronzeSword(),
         }
     }
 

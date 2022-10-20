@@ -5,4 +5,6 @@ export enum ServerRequestRoute {
     DepositItemsById = "/bank/deposit/id",
     WithdrawItemsById = "/bank/withdraw/id",
     DropInventorySlot = "/inventory/drop",
+    EquipItemRequest = "/inventory/equip/index",
+    UnEquipItemRequest = "/inventory/unequip/type",
 }

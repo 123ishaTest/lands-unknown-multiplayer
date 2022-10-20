@@ -7,9 +7,12 @@ import {EmptyItem} from "common/features/items/EmptyItem";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import {Consumable} from "common/features/items/instances/Consumable";
 import {ItemId} from "common/features/items/ItemId";
-import type {ItemAmount} from "common/features/items/ItemAmount";
+import {ItemAmount} from "common/features/items/ItemAmount";
 import type {InventorySaveData} from "common/features/inventory/InventorySaveData";
 import type {InventorySlotSaveData} from "common/features/inventory/InventorySlotSaveData";
+import {ItemType} from "common/features/items/ItemType";
+import {Equipment} from "common/features/equipment/Equipment";
+import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 
 export class Inventory extends IgtFeature {
     slotCount: number;
@@ -17,6 +20,7 @@ export class Inventory extends IgtFeature {
 
     // Overridden in initialize;
     _itemList!: ItemList;
+    _equipment!: PlayerEquipment;
 
     private _onItemGain = new EventDispatcher<AbstractItem, number>();
 
@@ -35,6 +39,7 @@ export class Inventory extends IgtFeature {
     initialize(features: IgtFeatures) {
         super.initialize(features);
         this._itemList = features.itemList;
+        this._equipment = features.equipment;
     }
 
     interactIndices(indexFrom: number, indexTo: number) {
@@ -176,6 +181,10 @@ export class Inventory extends IgtFeature {
         return total;
     }
 
+    canTakeItem(item: AbstractItem): boolean {
+        return this.canTakeItemAmounts([new ItemAmount(item.id, 1)])
+    }
+
     /**
      * Calculate how many stacks are needed to place each of the items, subtract amounts that can be placed on non-full stacks
      * True if the amount of stacks needed is leq than how many we have available.
@@ -208,6 +217,23 @@ export class Inventory extends IgtFeature {
             }
         }
         return true;
+    }
+
+    equipItemAtIndex(index: number) {
+        const slot = this.slots[index];
+        const item = slot.item;
+        if (!item || item.type === ItemType.Empty) {
+            return;
+        }
+        if (!(item instanceof Equipment)) {
+            console.warn(`Item ${item} is not equipable`);
+            return false;
+        }
+        if (this._equipment.equip(item)) {
+            slot.loseItems(1);
+            return true;
+        }
+        return false;
     }
 
     hasItemAmount(amount: ItemAmount) {

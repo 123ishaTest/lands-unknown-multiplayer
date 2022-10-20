@@ -1,5 +1,5 @@
 export interface CombatStats {
-    maxHealth: number;
+    maxHealth?: number;
 
     meleeAttack?: number;
     meleeDefense?: number;

@@ -24,7 +24,7 @@ export class Equipment extends AbstractItem implements Equipable {
         super(config);
         this.equipmentType = equipmentType;
 
-        this.maxHealth = stats.maxHealth;
+        this.maxHealth = stats.maxHealth ?? 0;
         this.criticalChance = stats.criticalChance ?? 0;
         this.dodgeChance = stats.dodgeChance ?? 0;
         this.mageAttack = stats.mageAttack ?? 0;

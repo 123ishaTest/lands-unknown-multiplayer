@@ -10,6 +10,8 @@ import {WithdrawItemByIdRequest} from "common/api/banking/WithdrawItemByIdReques
 import {FacilityRequest} from "common/api/worldmap/FacilityRequest";
 import {GeneratorRequest} from "common/api/worldmap/GeneratorRequest";
 import {DropInventorySlotRequest} from "common/api/inventory/DropInventorySlotRequest";
+import {EquipItemRequest} from "common/api/inventory/EquipItemRequest";
+import {UnEquipItemRequest} from "common/api/inventory/UnEquipItemRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -65,6 +67,8 @@ export class GameServer {
             new DepositItemByIdRequest(),
             new WithdrawItemByIdRequest(),
             new DropInventorySlotRequest(),
+            new EquipItemRequest(),
+            new UnEquipItemRequest(),
         ]
 
         // Register all requests
