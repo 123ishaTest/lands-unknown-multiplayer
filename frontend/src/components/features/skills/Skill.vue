@@ -18,7 +18,7 @@ const percentage = computed(() => {
 })
 
 const skillImage = computed(() => {
-  return new URL(`/src/assets/skills/${props.image}.png`, import.meta.url).href;
+  return new URL(`/src/assets/generated/skills/${props.image}.png`, import.meta.url).href;
 });
 
 const skillProgress = computed(() => {

@@ -10,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const backgroundImage = () => {
-  return new URL(`/src/assets/equipment/${props.type}.png`, import.meta.url).href;
+  return new URL(`/src/assets/generated/equipment/${props.type}.png`, import.meta.url).href;
 };
 
 function unEquip() {

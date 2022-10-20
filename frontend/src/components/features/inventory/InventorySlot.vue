@@ -35,7 +35,7 @@ function startDrag(evt: DragEvent, index: number) {
 }
 
 const itemImage = () => {
-  return new URL(`/src/assets/items/${props.slot.item.image}.png`, import.meta.url).href;
+  return new URL(`/src/assets/generated/items/${props.slot.item.image}.png`, import.meta.url).href;
 };
 
 </script>
