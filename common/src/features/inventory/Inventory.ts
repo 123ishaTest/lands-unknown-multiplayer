@@ -25,7 +25,7 @@ export class Inventory extends IgtFeature {
     private _onItemGain = new EventDispatcher<AbstractItem, number>();
 
 
-    constructor(slots: number = 5) {
+    constructor(slots: number = 25) {
         super('inventory');
         this.slotCount = slots;
 

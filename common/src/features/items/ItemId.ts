@@ -11,4 +11,11 @@ export enum ItemId {
     BronzeBoots = 'bronze-boots',
     // BronzeShield = 'bronze-shield',
     // BronzeSword = 'bronze-sword',
+
+    // Ores
+    CopperOre = 'ore-copper',
+    TinOre = 'ore-tin',
+
+    // Bars
+    BronzeBar = 'bar-bronze',
 }

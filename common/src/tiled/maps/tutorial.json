@@ -958,7 +958,7 @@
                          "name":"facilities",
                          "propertytype":"Facilities",
                          "type":"string",
-                         "value":"cooking-range,furnace"
+                         "value":"cooking-range,furnace,anvil"
                         }],
                  "rotation":0,
                  "visible":true,

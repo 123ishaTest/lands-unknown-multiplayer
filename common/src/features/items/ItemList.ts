@@ -10,6 +10,9 @@ import {BronzeHelmet} from "common/features/items/instances/equipment/bronze/Bro
 import {BronzePlateBody} from "common/features/items/instances/equipment/bronze/BronzePlateBody";
 import {BronzePlateLegs} from "common/features/items/instances/equipment/bronze/BronzePlateLegs";
 import {BronzeBoots} from "common/features/items/instances/equipment/bronze/BronzeBoots";
+import {TinOre} from "common/features/items/instances/ores/TinOre";
+import {CopperOre} from "common/features/items/instances/ores/CopperOre";
+import {BronzeBar} from "common/features/items/instances/ores/BronzeBar";
 
 /**
  * A giant repository of all possible items
@@ -42,6 +45,11 @@ export class ItemList extends IgtFeature {
             [ItemId.BronzeBoots]: () => new BronzeBoots(),
             // [ItemId.BronzeShield]: () => new BronzeShield(),
             // [ItemId.BronzeSword]: () => new BronzeSword(),
+
+            // Ores and Bars
+            [ItemId.CopperOre]: () => new CopperOre(),
+            [ItemId.TinOre]: () => new TinOre(),
+            [ItemId.BronzeBar]: () => new BronzeBar(),
         }
     }
 

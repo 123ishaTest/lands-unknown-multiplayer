@@ -14,7 +14,9 @@
             "type": "enum",
             "values": [
                 "cooking-range",
-                "furnace"
+                "furnace",
+                "bank",
+                "anvil"
             ],
             "valuesAsFlags": true
         }

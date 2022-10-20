@@ -1,7 +1,6 @@
 import {IgtFeature} from "common/features/IgtFeature";
 import type {IgtFeatures} from "common/features/IgtFeatures";
 import type {SaveData} from "common/tools/saving/SaveData";
-import {MineAction} from "common/features/actionqueue/MineAction";
 import {ActionId} from "common/features/actionlist/ActionId";
 import type {Action} from "common/tools/actions/Action";
 import {TravelAction} from "common/features/worldmap/TravelAction";
@@ -11,6 +10,10 @@ import {CookShrimpAction} from "common/features/actionlist/instances/cooking/Coo
 import {WithdrawItemByIdAction} from "common/features/actionlist/instances/banking/WithdrawItemByIdAction";
 import {DepositItemByIdAction} from "common/features/actionlist/instances/banking/DepositItemByIdAction";
 import {ItemId} from "common/features/items/ItemId";
+import {SmeltBronzeBarAction} from "common/features/actionlist/instances/smithing/SmeltBronzeBarAction";
+import {SmithBronzeHelmetAction} from "common/features/actionlist/instances/smithing/SmithBronzeHelmetAction";
+import {MineCopperAction} from "common/features/actionlist/instances/mining/MineCopperAction";
+import {MineTinAction} from "common/features/actionlist/instances/mining/MineTinAction";
 
 type ActionFunction = (...args: any[]) => Action;
 
@@ -33,11 +36,19 @@ export class ActionList extends IgtFeature {
             [ActionId.TravelAction]: (road, isReversed) => {
                 return new TravelAction(road, isReversed)
             },
-            [ActionId.MineAction]: () => new MineAction("Lets go mining", 4),
             [ActionId.FishShrimpAction]: () => new FishShrimpAction(),
             [ActionId.CookShrimpAction]: () => new CookShrimpAction(),
             [ActionId.WithdrawItemByIdAction]: () => new WithdrawItemByIdAction(ItemId.Empty, 0),
+
+
+            // Mining
+            [ActionId.MineCopperAction]: () => new MineCopperAction(),
+            [ActionId.MineTinAction]: () => new MineTinAction(),
+
+            // Smithing
             [ActionId.DepositItemByIdAction]: () => new DepositItemByIdAction(ItemId.Empty, 0),
+            [ActionId.SmeltBronzeBarAction]: () => new SmeltBronzeBarAction(),
+            [ActionId.SmithBronzeHelmetAction]: () => new SmithBronzeHelmetAction(),
         }
     }
 
