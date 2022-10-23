@@ -79,8 +79,12 @@ export class ActionQueue extends IgtFeature {
             return;
         }
         // And remove it if it's finished now, or we can't start it
-        if (generator.isFinished() || !nextAction.canPerform()) {
+        const canPerform = nextAction.canPerform();
+        if (generator.isFinished() || !canPerform) {
             this.removeFirstGenerator();
+            if (!canPerform) {
+                return;
+            }
         }
 
         this.currentAction = nextAction;
