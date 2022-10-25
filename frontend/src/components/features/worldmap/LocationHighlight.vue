@@ -8,6 +8,7 @@ import {ActionList} from "common/features/actionlist/ActionList";
 import Facility from "@/components/features/worldmap/Facility.vue";
 import {GeneratorRequest} from "common/api/worldmap/GeneratorRequest";
 import {GeneratorList} from "common/features/actionlist/GeneratorList";
+import Icon from "@/components/tools/Icon.vue";
 
 const props = defineProps<{
   location: WorldLocation,
@@ -63,7 +64,7 @@ function scheduleGenerator(index: number) {
 </script>
 
 <template>
-  <div class="h-96 w-64 p-2 flex flex-col bg-gray-700 justify-between">
+  <div class="h-min w-64 p-2 flex flex-col bg-gray-700 justify-between">
     <div class="flex flex-row m-2 justify-center">
       <div>{{ location.displayName }}</div>
       <hr/>
@@ -87,8 +88,10 @@ function scheduleGenerator(index: number) {
       <div class="flex flex-row flex-wrap">
         <div v-for="(facility, index) in facilities" :key="facility.type"
              @click="selectFacility(index)"
-             class="border-2 border-black p-2 m-2">
-          {{ facility.description }}
+             class="border-2 border-black p-1 m-1"
+             :class="{'bg-gray-500': index=== facilityIndex}"
+        >
+          <Icon :icon="facility.icon" :value="facility.description" :title="facility.description" :dimension="32"/>
         </div>
       </div>
 

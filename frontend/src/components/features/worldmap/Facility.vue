@@ -35,12 +35,7 @@ let repeats = ref(1);
 
 <template>
   <div class="flex flex-col bg-gray-700">
-    <div class="flex flex-row m-2 justify-center">
-      <div>{{ facility.description }}</div>
-      <hr/>
-    </div>
     <div class="flex flex-col m-2 justify-center">
-
       <p class="text-center">Actions</p>
       <hr>
       <input class="bg-gray-800" type="number" v-model.number="repeats">

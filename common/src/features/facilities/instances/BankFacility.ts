@@ -5,5 +5,6 @@ import {FacilityType} from "common/features/facilities/FacilityType";
 export class BankFacility extends Facility {
     type = FacilityType.Bank;
     description: string = "Bank";
+    icon: string = 'bank'
     actions: ActionId[] = [];
 }

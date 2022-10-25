@@ -5,6 +5,7 @@ import {FacilityType} from "common/features/facilities/FacilityType";
 export class Anvil extends Facility {
     type = FacilityType.Anvil;
     description: string = "Anvil";
+    icon: string = 'skills/smithing'
     actions: ActionId[] = [
         ActionId.SmithBronzeHelmetAction,
     ];

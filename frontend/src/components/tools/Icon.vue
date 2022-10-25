@@ -17,7 +17,7 @@ const size = computed(() => {
 <template>
   <div class="flex flex-row items-center justify-center" :title="title">
     <img :src="iconImage(icon) " :alt="title"
-         class="pixelated"
+         class="pixelated m-1"
          :style="size"
     >
     <span class="flex-1 text-center">{{value}}</span>

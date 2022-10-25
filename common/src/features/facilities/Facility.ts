@@ -11,6 +11,7 @@ export abstract class Facility {
     abstract type: FacilityType;
     abstract description: string;
     abstract actions: ActionId[];
+    abstract icon: string;
 
     requirement = new NoRequirement();
 
