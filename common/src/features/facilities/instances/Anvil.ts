@@ -8,5 +8,6 @@ export class Anvil extends Facility {
     icon: string = 'skills/smithing'
     actions: ActionId[] = [
         ActionId.SmithBronzeHelmetAction,
+        ActionId.SmithBronzePlateBodyAction,
     ];
 }

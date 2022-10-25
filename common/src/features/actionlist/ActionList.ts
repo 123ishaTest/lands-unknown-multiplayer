@@ -14,6 +14,7 @@ import {SmeltBronzeBarAction} from "common/features/actionlist/instances/smithin
 import {SmithBronzeHelmetAction} from "common/features/actionlist/instances/smithing/SmithBronzeHelmetAction";
 import {MineCopperAction} from "common/features/actionlist/instances/mining/MineCopperAction";
 import {MineTinAction} from "common/features/actionlist/instances/mining/MineTinAction";
+import {SmithBronzePlateBodyAction} from "common/features/actionlist/instances/smithing/SmithBronzePlateBodyAction";
 
 type ActionFunction = (...args: any[]) => Action;
 
@@ -49,6 +50,7 @@ export class ActionList extends IgtFeature {
             [ActionId.DepositItemByIdAction]: () => new DepositItemByIdAction(ItemId.Empty, 0),
             [ActionId.SmeltBronzeBarAction]: () => new SmeltBronzeBarAction(),
             [ActionId.SmithBronzeHelmetAction]: () => new SmithBronzeHelmetAction(),
+            [ActionId.SmithBronzePlateBodyAction]: () => new SmithBronzePlateBodyAction(),
         }
     }
 

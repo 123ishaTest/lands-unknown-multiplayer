@@ -101,7 +101,7 @@ onMounted(() => {
   <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
-      <div class="w-full h-12 flex flex-row text-white bg-gray-700 opacity-70 absolute z-30">
+      <div class="w-full h-12 flex flex-row text-white bg-gray-700 absolute z-30">
         <span class="flex-grow p-2">You are currently at {{ worldMap.playerLocation.id }}: {{
             playerPosition
           }} end of queue: {{ queue.getPlayerLocationAtEndOfQueue() }}</span>

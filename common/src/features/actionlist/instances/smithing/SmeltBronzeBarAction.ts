@@ -9,7 +9,7 @@ export class SmeltBronzeBarAction extends RecipeAction {
     id: ActionId = ActionId.SmeltBronzeBarAction;
 
     constructor() {
-        super("Smelt Bronze bar", 5, [
+        super("Bronze bar", 5, [
             new ItemAmount(ItemId.CopperOre),
             new ItemAmount(ItemId.TinOre),
         ], [

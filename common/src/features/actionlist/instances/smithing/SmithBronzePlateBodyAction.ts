@@ -5,16 +5,16 @@ import {ItemId} from "common/features/items/ItemId";
 import {Experience} from "common/features/skills/Experience";
 import {SkillId} from "common/features/skills/SkillId";
 
-export class SmithBronzeHelmetAction extends RecipeAction {
-    id: ActionId = ActionId.SmithBronzeHelmetAction;
+export class SmithBronzePlateBodyAction extends RecipeAction {
+    id: ActionId = ActionId.SmithBronzePlateBodyAction;
 
     constructor() {
-        super("Bronze Helmet", 5, [
-            new ItemAmount(ItemId.BronzeBar, 3),
+        super("Bronze Platebody", 5, [
+            new ItemAmount(ItemId.BronzeBar, 5),
         ], [
-            new ItemAmount(ItemId.BronzeHelmet)
+            new ItemAmount(ItemId.BronzePlateBody)
         ], [
-            new Experience(15, SkillId.Smithing)
+            new Experience(25, SkillId.Smithing)
         ]);
     }
 }
