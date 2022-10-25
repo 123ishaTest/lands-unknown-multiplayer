@@ -63,7 +63,7 @@ function scheduleGenerator(index: number) {
 </script>
 
 <template>
-  <div class="h-96 w-64 p-2 flex flex-col bg-gray-700 opacity-90 justify-between">
+  <div class="h-96 w-64 p-2 flex flex-col bg-gray-700 justify-between">
     <div class="flex flex-row m-2 justify-center">
       <div>{{ location.displayName }}</div>
       <hr/>

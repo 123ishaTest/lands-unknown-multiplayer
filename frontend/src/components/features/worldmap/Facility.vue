@@ -6,6 +6,7 @@ import {ActionList} from "common/features/actionlist/ActionList";
 import {WorldLocation} from "common/features/worldmap/WorldLocation";
 import {ApiClient} from "@/model/ApiClient";
 import {FacilityRequest} from "common/api/worldmap/FacilityRequest";
+import RecipeAction from "@/components/tools/RecipeAction.vue";
 
 const props = defineProps<{
   location: WorldLocation,
@@ -33,7 +34,7 @@ let repeats = ref(1);
 </script>
 
 <template>
-  <div class="flex flex-col bg-gray-700 opacity-90">
+  <div class="flex flex-col bg-gray-700">
     <div class="flex flex-row m-2 justify-center">
       <div>{{ facility.description }}</div>
       <hr/>
@@ -45,11 +46,17 @@ let repeats = ref(1);
       <input class="bg-gray-800" type="number" v-model.number="repeats">
 
       <div class="flex flex-row flex-wrap">
-        <button v-for="(action, index) in actions" :key="action.id"
-                @click="scheduleAction(index)"
-                class="border-2 border-black p-2 m-2">
-          {{ action.description }}
-        </button>
+
+        <div v-for="(action, index) in actions" :key="action.id">
+          <RecipeAction :action="action" v-if="action.input"></RecipeAction>
+          <button
+              v-else
+              @click="scheduleAction(index)"
+              class="border-2 border-black p-2 m-2">
+            {{ action.description }}
+          </button>
+
+        </div>
       </div>
 
     </div>
