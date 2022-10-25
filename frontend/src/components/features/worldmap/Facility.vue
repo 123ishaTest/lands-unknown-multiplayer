@@ -42,11 +42,10 @@ let repeats = ref(1);
 
       <div class="flex flex-row flex-wrap">
 
-        <div v-for="(action, index) in actions" :key="action.id">
+        <div v-for="(action, index) in actions" :key="action.id" @click="scheduleAction(index)" class="cursor-pointer">
           <RecipeAction :action="action" v-if="action.input"></RecipeAction>
           <button
               v-else
-              @click="scheduleAction(index)"
               class="border-2 border-black p-2 m-2">
             {{ action.description }}
           </button>
