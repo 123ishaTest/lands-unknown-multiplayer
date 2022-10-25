@@ -11,6 +11,7 @@ import Equipment from "@/components/features/equipment/Equipment.vue";
 LocalPlayer.init()
 
 ApiClient.onGameStateSync.subscribe((gameState) => {
+  console.log(gameState);
   LocalPlayer.player.load(gameState.data);
   LocalPlayer.player.isLoggedIn = true;
 })

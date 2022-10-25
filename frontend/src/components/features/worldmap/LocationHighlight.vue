@@ -9,6 +9,8 @@ import Facility from "@/components/features/worldmap/Facility.vue";
 import {GeneratorRequest} from "common/api/worldmap/GeneratorRequest";
 import {GeneratorList} from "common/features/actionlist/GeneratorList";
 import Icon from "@/components/tools/Icon.vue";
+import {LocalPlayer} from "@/model/LocalPlayer";
+import {TalkToNpcRequest} from "common/api/worldmap/TalkToNpcRequest";
 
 const props = defineProps<{
   location: WorldLocation,
@@ -52,6 +54,23 @@ const hasGenerators = computed(() => {
 })
 
 
+const npcs = computed(() => {
+  return props.location?.npcs.map(id => LocalPlayer.player.npcList.getNpc(id)) ?? [];
+})
+
+const hasNpcs = computed(() => {
+  return npcs.value.length > 0;
+})
+
+function talkToNpc(index: number) {
+  ApiClient.send(new TalkToNpcRequest(), {
+    "type": props.location.identifier.type,
+    "target": props.location.identifier.id,
+    "npcIndex": index,
+  })
+}
+
+
 function scheduleGenerator(index: number) {
   ApiClient.send(new GeneratorRequest(), {
     "type": props.location.identifier.type,
@@ -75,9 +94,21 @@ function scheduleGenerator(index: number) {
       <hr>
       <div class="flex flex-row flex-wrap">
         <button v-for="(generator, index) in generators" :key="generator.id"
-             @click="scheduleGenerator(index)"
-             class="border-2 border-black p-2 m-2">
+                @click="scheduleGenerator(index)"
+                class="border-2 border-black p-2 m-2">
           {{ generator.description }}
+        </button>
+      </div>
+    </div>
+
+    <div v-if="hasNpcs" class="flex flex-col m-2 justify-center">
+      <p class="text-center">Npcs</p>
+      <hr>
+      <div class="flex flex-row flex-wrap">
+        <button v-for="(npc, index) in npcs" :key="npc.id"
+                @click="talkToNpc(index)"
+                class="border-2 border-black p-2 m-2">
+          {{ npc.name }}
         </button>
       </div>
     </div>

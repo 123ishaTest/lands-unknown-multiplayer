@@ -100,7 +100,6 @@ export class Dialog<T> {
         }
 
         console.error(`Could not transition to id ${destination}. Is it implemented?`)
-
     }
 
     private setSequence(sequence: DialogSequence<T>) {

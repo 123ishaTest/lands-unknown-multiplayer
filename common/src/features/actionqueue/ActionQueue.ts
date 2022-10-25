@@ -216,4 +216,11 @@ export class ActionQueue extends IgtFeature {
         generator.setRepeats(repeats);
         this.addGenerator(generator);
     }
+
+    /**
+     * Returns true if we are not doing anything and have no actions scheduled
+     */
+    isIdle(): boolean {
+        return this.currentAction == null && this.generators.length === 0;
+    }
 }
