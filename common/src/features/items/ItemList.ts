@@ -13,6 +13,7 @@ import {BronzeBoots} from "common/features/items/instances/equipment/bronze/Bron
 import {TinOre} from "common/features/items/instances/ores/TinOre";
 import {CopperOre} from "common/features/items/instances/ores/CopperOre";
 import {BronzeBar} from "common/features/items/instances/ores/BronzeBar";
+import {ItemSaveData} from "common/features/items/ItemSaveData";
 
 /**
  * A giant repository of all possible items
@@ -53,12 +54,16 @@ export class ItemList extends IgtFeature {
         }
     }
 
-    public getItem(id: ItemId): AbstractItem {
+    public getItem(id: ItemId, saveData: ItemSaveData | null = null): AbstractItem {
         if (id == undefined) {
             console.trace("Cannot get item of undefined ID")
         }
         const itemFunction = this.items[id];
         const item = itemFunction();
+
+        if (saveData) {
+            item.load(saveData);
+        }
 
         // TODO initialize items?
         return item;

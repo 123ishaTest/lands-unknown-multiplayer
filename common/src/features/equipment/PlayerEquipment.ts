@@ -8,9 +8,12 @@ import {Inventory} from "common/features/inventory/Inventory";
 import {IgtFeatures} from "common/features/IgtFeatures";
 import {FightableEntity} from "common/features/combat/FightableEntity";
 import {PlayerEquipmentSaveData} from "common/features/equipment/PlayerEquipmentSaveData";
+import {ItemList} from "common/features/items/ItemList";
+import {ItemSaveData} from "common/features/items/ItemSaveData";
 
 export class PlayerEquipment extends IgtFeature implements FightableEntity {
     _inventory!: Inventory;
+    _itemList!: ItemList;
 
     maxHealth: number = 0;
     criticalChance: number = 0;
@@ -50,6 +53,7 @@ export class PlayerEquipment extends IgtFeature implements FightableEntity {
     initialize(features: IgtFeatures) {
         super.initialize(features);
         this._inventory = features.inventory;
+        this._itemList = features.itemList;
     }
 
     attack(): Attack {
@@ -172,21 +176,32 @@ export class PlayerEquipment extends IgtFeature implements FightableEntity {
     }
 
     load(data: PlayerEquipmentSaveData): void {
-        // Empty
-        // TODO load items again
+        if (!data?.equipment) {
+            return;
+        }
+        for (const type in this.equipment) {
+            const itemData = data.equipment[type];
+            if (!itemData) {
+                continue;
+            }
+            this.equipment[type] = this._itemList.getItem(itemData.id, itemData.data);
+        }
+
     }
 
     save(): PlayerEquipmentSaveData {
+        const equipment: Record<EquipmentType, ItemSaveData | null> = {} as Record<EquipmentType, ItemSaveData | null>;
+
+        for (const type in this.equipment) {
+            const item = this.equipment[type as EquipmentType] as Equipment;
+            if (item == null) {
+                continue;
+            }
+            equipment[type] = item.save();
+        }
+
         return {
-            mainHand: this.equipment.mainHand,
-            offHand: this.equipment.offHand,
-            body: this.equipment.body,
-            cloak: this.equipment.cloak,
-            feet: this.equipment.feet,
-            head: this.equipment.head,
-            legs: this.equipment.legs,
-            neck: this.equipment.neck,
-            ring: this.equipment.ring,
+            equipment: equipment,
         }
     }
 
