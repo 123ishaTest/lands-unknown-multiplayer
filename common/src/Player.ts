@@ -24,6 +24,7 @@ import {Bank} from "common/features/bank/Bank";
 import {GeneratorList} from "common/features/actionlist/GeneratorList";
 import {FacilityList} from "common/features/facilities/FacilityList";
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
+import {Dialog} from "common/tools/dialog/Dialog";
 
 export class Player implements Saveable {
     userId: string;
@@ -48,6 +49,8 @@ export class Player implements Saveable {
 
     // TODO get worldmap from builder
     worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
+
+    dialog: Dialog<any>;
 
     features: IgtFeatures;
 
