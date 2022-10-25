@@ -4,20 +4,12 @@ import {Equipment} from "common/features/equipment/Equipment";
 import {ApiClient} from "@/model/ApiClient";
 import {UnEquipItemRequest} from "common/api/inventory/UnEquipItemRequest";
 import {computed} from "vue";
+import {backgroundImage, itemImage} from "@/util/Images";
 
 const props = defineProps<{
   type: EquipmentType
   item?: Equipment
 }>()
-
-const backgroundImage = () => {
-  return new URL(`/src/assets/generated/equipment/${props.type}.png`, import.meta.url).href;
-};
-
-const itemImage = () => {
-  return new URL(`/src/assets/generated/items/${props.item?.image}.png`, import.meta.url).href;
-};
-
 
 const hasItem = computed(() => {
   return props.item != undefined;
@@ -31,7 +23,6 @@ function unEquip() {
     type: props.item.equipmentType,
   })
 }
-
 </script>
 
 <template>
@@ -41,12 +32,12 @@ function unEquip() {
       <img v-if="hasItem" style="width: 64px; height: 64px;"
            @click="unEquip()"
            class="pixelated"
-           :src="itemImage()"
+           :src="itemImage(item.image)"
            :alt="item.name"
       >
       <img v-else style="width: 64px; height: 64px;"
            class="pixelated opacity-30"
-           :src="backgroundImage()"
+           :src="backgroundImage(type)"
            :alt="type"
       >
     </div>

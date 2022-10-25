@@ -2,6 +2,7 @@
 import ProgressBar from "@/components/tools/ProgressBar.vue";
 import type {Skill} from "common/features/skills/Skill";
 import {computed} from "vue";
+import {skillImage} from "@/util/Images";
 
 const props = defineProps<{
   image: string,
@@ -17,10 +18,6 @@ const percentage = computed(() => {
   return props.skill.getLevelProgress().getPercentage()
 })
 
-const skillImage = computed(() => {
-  return new URL(`/src/assets/generated/skills/${props.image}.png`, import.meta.url).href;
-});
-
 const skillProgress = computed(() => {
   return Math.floor(progress.value.actual) + '/' + Math.ceil(progress.value.target);
 })
@@ -30,7 +27,7 @@ const skillProgress = computed(() => {
 <template>
   <div class="border-2 rounded border-black flex flex-col" :title="skill.name + ' (' +skillProgress+ ')'">
     <div class="flex flex-row items-center justify-between w-16 h-min p-2">
-      <img style="width: 32px; height: 32px" :src="skillImage" :alt="skill.name" class="pixelated">
+      <img style="width: 32px; height: 32px" :src="skillImage(image)" :alt="skill.name" class="pixelated">
       <span>{{ skill.getLevel() }}</span>
     </div>
     <ProgressBar

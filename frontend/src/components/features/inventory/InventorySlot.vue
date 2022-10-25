@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {InventorySlot} from "common/features/inventory/InventorySlot";
 import {computed} from "vue";
+import {itemImage} from "@/util/Images";
 
 const props = defineProps<{
   slot: InventorySlot,
@@ -33,11 +34,6 @@ function startDrag(evt: DragEvent, index: number) {
   evt.dataTransfer.effectAllowed = 'move'
   evt.dataTransfer.setData('index', index.toString());
 }
-
-const itemImage = () => {
-  return new URL(`/src/assets/generated/items/${props.slot.item.image}.png`, import.meta.url).href;
-};
-
 </script>
 
 <template>
@@ -51,13 +47,13 @@ const itemImage = () => {
        :class="{'border-red-400': isSelected}">
     <div v-if="!slot.isEmpty()">
       <div class="flex flex-row justify-end">
-        <span class="text-xs rounded-3xl text-yellow-300 absolute px-1">{{ slot.amount }}{{slot.item.maxStack < Infinity ? "/" + slot.item.maxStack : ""}}</span>
+        <span class="text-xs rounded-3xl text-yellow-300 absolute px-1">{{slot.amount }}{{ slot.item.maxStack < Infinity ? "/" + slot.item.maxStack : "" }}</span>
       </div>
 
       <div class="flex flex-row items-center justify-center p-1">
         <img style="width: 32px; height: 32px;"
              class="pixelated"
-             :src="itemImage()"
+             :src="itemImage(slot.item.image)"
              :alt="slot.item.name"
         >
       </div>

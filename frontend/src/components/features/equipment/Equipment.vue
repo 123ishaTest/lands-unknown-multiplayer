@@ -2,6 +2,7 @@
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 import {EquipmentType} from "common/features/equipment/EquipmentType";
 import EquipmentSlot from "@/components/features/equipment/EquipmentSlot.vue";
+import CombatStats from "@/components/features/equipment/CombatStats.vue";
 
 const props = defineProps<{
   equipment: PlayerEquipment
@@ -11,8 +12,8 @@ const props = defineProps<{
 
 <template>
   <div class="panel">
+    <CombatStats :stats="equipment"></CombatStats>
     <div class="grid gap-4 grid-cols-3 grid-rows-3">
-      <!-- ... -->
       <span></span>
       <EquipmentSlot :item="equipment.equipment.head" :type="EquipmentType.Head"></EquipmentSlot>
       <span></span>
