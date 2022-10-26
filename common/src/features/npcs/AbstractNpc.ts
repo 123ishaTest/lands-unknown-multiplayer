@@ -1,5 +1,4 @@
 import {NpcId} from "common/features/npcs/NpcId";
-import {IgtFeatures} from "common/features/IgtFeatures";
 import {DialogTree} from "common/tools/dialog/DialogTree";
 
 export abstract class Npc {
@@ -12,9 +11,5 @@ export abstract class Npc {
     protected constructor(id: NpcId, name: string) {
         this.id = id;
         this.name = name;
-    }
-
-    initialize(features: IgtFeatures) {
-        // Empty
     }
 }

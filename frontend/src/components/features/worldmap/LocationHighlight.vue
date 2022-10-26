@@ -20,7 +20,7 @@ const props = defineProps<{
 }>()
 
 const facilities = computed(() => {
-  return props.location?._facilities.map(type => props.facilityList.getFacility(type)) ?? [];
+  return props.location?._facilities?.map(type => props.facilityList.getFacility(type)) ?? [];
 })
 
 const hasFacilities = computed(() => {
@@ -46,7 +46,7 @@ function travel() {
 
 
 const generators = computed(() => {
-  return props.location?._possibleGenerators.map(id => props.generatorList.getGenerator(id)) ?? [];
+  return props.location?._possibleGenerators?.map(id => props.generatorList.getGenerator(id)) ?? [];
 })
 
 const hasGenerators = computed(() => {
@@ -55,7 +55,7 @@ const hasGenerators = computed(() => {
 
 
 const npcs = computed(() => {
-  return props.location?.npcs.map(id => LocalPlayer.player.npcList.getNpc(id)) ?? [];
+  return props.location?.npcs?.map(id => LocalPlayer.player.npcList.getNpc(id)) ?? [];
 })
 
 const hasNpcs = computed(() => {

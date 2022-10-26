@@ -10,6 +10,7 @@ import type {GeneratorList} from "common/features/actionlist/GeneratorList";
 import type {FacilityList} from "common/features/facilities/FacilityList";
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 import {NpcList} from "common/features/npcs/NpcList";
+import {KeyItems} from "common/features/keyitems/keyItems";
 
 export interface IgtFeatures {
     actionList: ActionList;
@@ -23,5 +24,6 @@ export interface IgtFeatures {
     bank: Bank;
     wallet: IgtWallet;
     skills: Skills;
-    worldMap: WorldMap
+    keyItems: KeyItems;
+    worldMap: WorldMap;
 }

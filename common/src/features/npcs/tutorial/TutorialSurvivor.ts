@@ -8,6 +8,8 @@ import {SaveableNpc} from "common/features/npcs/SaveableNpc";
 import {TutorialSurvivorSaveData} from "common/features/npcs/tutorial/TutorialSurvivorSaveData";
 import {VariableString} from "common/tools/dialog/VariableString";
 import {DialogVariable} from "common/tools/dialog/DialogVariable";
+import {KeyItems} from "common/features/keyitems/keyItems";
+import {KeyItemId} from "common/features/keyitems/KeyItemId";
 
 export enum TutorialSurvivorDialog {
     Intro,
@@ -17,11 +19,13 @@ export enum TutorialSurvivorDialog {
 }
 
 export class TutorialSurvivor extends SaveableNpc {
+    _keyItems: KeyItems
     dialog: DialogTree<TutorialSurvivorDialog>;
     talkedToTimes: number = 0;
 
-    constructor() {
+    constructor(keyItems: KeyItems) {
         super(NpcId.TutorialSurvivor, "Survivor");
+        this._keyItems = keyItems;
         this.dialog = new DialogTree<TutorialSurvivorDialog>(
             TutorialSurvivorDialog.Intro,
             [
@@ -35,7 +39,9 @@ export class TutorialSurvivor extends SaveableNpc {
                 ),
                 new DialogSequence(TutorialSurvivorDialog.HavingFun, [
                     new DialogText(NpcId.Player, "I definitely am"),
-                    new DialogText(NpcId.TutorialSurvivor, "Good good"),
+                    new DialogText(NpcId.TutorialSurvivor, "Good good", () => {
+                        this._keyItems.gainKeyItem(KeyItemId.LeatherBag)
+                    }),
                 ]),
                 new DialogSequence(TutorialSurvivorDialog.NotHavingFun, [
                     new DialogText(NpcId.Player, "Nope, this game sucks"),
