@@ -11,7 +11,6 @@ import Equipment from "@/components/features/equipment/Equipment.vue";
 LocalPlayer.init()
 
 ApiClient.onGameStateSync.subscribe((gameState) => {
-  console.log(gameState);
   LocalPlayer.player.load(gameState.data);
   LocalPlayer.player.isLoggedIn = true;
 })
@@ -29,7 +28,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
       <div class="flex flex-row flex-wrap">
         <div class="flex flex-col w-96">
           <Skills :skills="LocalPlayer.player.skills"></Skills>
-          <Equipment :equipment="LocalPlayer.player.equipment"></Equipment>
+          <Equipment class="flex-grow" :equipment="LocalPlayer.player.equipment"></Equipment>
         </div>
         <WorldMap class="flex-grow w-96"
                   :world-map="LocalPlayer.player.worldMap"
@@ -39,8 +38,8 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
                   :generator-list="LocalPlayer.player.generatorList"
         ></WorldMap>
         <div class="flex flex-col w-96">
-          <ActionQueue class="h-96" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
-          <Inventory class=flex-grow :inventory="LocalPlayer.player.inventory"></Inventory>
+          <ActionQueue class="h-72" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
+          <Inventory class="flex-grow" :inventory="LocalPlayer.player.inventory"></Inventory>
         </div>
 
       </div>

@@ -42,7 +42,10 @@ export class Dialog<T> {
         }
     }
 
-    public next() {
+    /**
+     * Returns true when the dialog is done
+     */
+    public next(): boolean {
         if (this.sequence == null) {
             console.warn("Could not go next if sequence is null");
             return;
@@ -53,6 +56,7 @@ export class Dialog<T> {
             this.sequence.reset();
             this.goToDestination(this.sequence.destination);
         }
+        return this.type === DialogType.None;
     }
 
     public selectOption(index: number) {

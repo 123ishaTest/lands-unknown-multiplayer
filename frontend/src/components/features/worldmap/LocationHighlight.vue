@@ -10,7 +10,7 @@ import {GeneratorRequest} from "common/api/worldmap/GeneratorRequest";
 import {GeneratorList} from "common/features/actionlist/GeneratorList";
 import Icon from "@/components/tools/Icon.vue";
 import {LocalPlayer} from "@/model/LocalPlayer";
-import {TalkToNpcRequest} from "common/api/worldmap/TalkToNpcRequest";
+import {TalkToNpcRequest} from "common/api/npcs/TalkToNpcRequest";
 
 const props = defineProps<{
   location: WorldLocation,

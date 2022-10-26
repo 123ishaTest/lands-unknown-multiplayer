@@ -7,5 +7,8 @@ export enum ServerRequestRoute {
     DropInventorySlot = "/inventory/drop",
     EquipItemRequest = "/inventory/equip/index",
     UnEquipItemRequest = "/inventory/unequip/type",
+
     TalkToNpcRequest = "/dialog/start",
+    DialogNextRequest = "/dialog/next",
+    DialogChoiceRequest = "/dialog/choice",
 }

@@ -186,4 +186,12 @@ export class Player implements Saveable {
         this.dialog = new Dialog()
         this.dialog.start(tree);
     }
+
+    isInDialog(): boolean {
+        return this.dialog !== null;
+    }
+
+    exitDialog(): void {
+        this.dialog = null;
+    }
 }
