@@ -6,6 +6,8 @@ import {DialogChoice} from "common/tools/dialog/DialogChoice";
 import {DialogOption} from "common/tools/dialog/DialogOption";
 import {SaveableNpc} from "common/features/npcs/SaveableNpc";
 import {TutorialSurvivorSaveData} from "common/features/npcs/tutorial/TutorialSurvivorSaveData";
+import {VariableString} from "common/tools/dialog/VariableString";
+import {DialogVariable} from "common/tools/dialog/DialogVariable";
 
 export enum TutorialSurvivorDialog {
     Intro,
@@ -24,11 +26,10 @@ export class TutorialSurvivor extends SaveableNpc {
             TutorialSurvivorDialog.Intro,
             [
                 new DialogSequence(TutorialSurvivorDialog.Intro, [
-                        new DialogText(NpcId.Player, "Nice weather", () => {
+                        new DialogText(NpcId.Player, `Nice weather`, () => {
                             this.talkedToTimes++;
-                            console.log(this.talkedToTimes)
                         }),
-                        new DialogText(NpcId.TutorialSurvivor, "Indeed it is"),
+                        new DialogText(NpcId.TutorialSurvivor, new VariableString("You've talked to me :count: times", [new DialogVariable(":count:", () => this.talkedToTimes)])),
                     ],
                     TutorialSurvivorDialog.HavingFunChoice,
                 ),
