@@ -1,20 +1,22 @@
 import {ServerRequest} from "common/connection/ServerRequest";
 import {ServerRequestRoute} from "common/connection/ServerRequestRoute";
-import {type InferType, object} from "yup";
+import {type InferType, number, object} from "yup";
 import type {Player} from "common/Player";
 
-export class DialogNextRequest extends ServerRequest {
-    route = ServerRequestRoute.DialogNextRequest;
-    description: string = "Press Next when talking to an NPC";
+export class DialogChoiceRequest extends ServerRequest {
+    route = ServerRequestRoute.DialogChoiceRequest
+    description: string = "Select an option when presented with a choice";
     canBePredicted: boolean = true;
 
-    schema = object({});
+    schema = object({
+        index: number().required().min(0),
+    });
 
     async perform(player: Player, data: InferType<typeof this.schema>): Promise<boolean> {
         if (!player.isInDialog()) {
             return false;
         }
-        player.dialog.next();
+        player.dialog.selectOption(data.index)
         if (player.dialog.isDone()) {
             player.exitDialog();
         }

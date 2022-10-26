@@ -12,7 +12,7 @@ import LocationHighlight from "@/components/features/worldmap/LocationHighlight.
 import type {FacilityList} from "common/features/facilities/FacilityList";
 import type {ActionList} from "common/features/actionlist/ActionList";
 import type {GeneratorList} from "common/features/actionlist/GeneratorList";
-import Dialog from "@/components/tools/Dialog.vue";
+import Dialog from "@/components/tools/dialog/Dialog.vue";
 
 const props = defineProps<{
   worldMap: WorldMap,

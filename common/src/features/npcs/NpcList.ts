@@ -6,6 +6,7 @@ import {Npc} from "common/features/npcs/AbstractNpc";
 import {NpcListSaveData} from "common/features/npcs/NpcListSaveData";
 import {SaveableNpc} from "common/features/npcs/SaveableNpc";
 import {NpcSaveData} from "common/features/npcs/NpcSaveData";
+import {EmptyNpc} from "common/features/npcs/EmptyNpc";
 
 export class NpcList extends IgtFeature {
     _features!: IgtFeatures
@@ -18,7 +19,9 @@ export class NpcList extends IgtFeature {
     initialize(features: IgtFeatures) {
         this._features = features;
         this.npcs = {
-            [NpcId.Player]: null,
+            [NpcId.UnKnown]: new EmptyNpc(NpcId.Player, "Unknown"),
+            [NpcId.Player]: new EmptyNpc(NpcId.Player, "Player"),
+
             [NpcId.TutorialSurvivor]: new TutorialSurvivor()
         }
         for (const id in this.npcs) {
@@ -27,9 +30,9 @@ export class NpcList extends IgtFeature {
     }
 
     public getNpc(id: NpcId): Npc {
-        if (id == undefined || id === NpcId.Player) {
+        if (id == undefined) {
             console.trace(`Cannot get NPC with of ID ${id}`)
-            return null;
+            return this.npcs[NpcId.UnKnown];
         }
         return this.npcs[id]
     }

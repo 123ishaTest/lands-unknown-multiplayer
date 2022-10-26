@@ -4,6 +4,8 @@ import {LocalPlayer} from "@/model/LocalPlayer";
 import {DialogType} from "common/tools/dialog/DialogType";
 import {DialogNextRequest} from "common/api/npcs/DialogNextRequest";
 import {ApiClient} from "@/model/ApiClient";
+import DialogSequence from "@/components/tools/dialog/DialogSequence.vue";
+import DialogChoice from "@/components/tools/dialog/DialogChoice.vue";
 
 const props = defineProps<{}>()
 
@@ -24,10 +26,10 @@ const isChoice = computed(() => {
 })
 
 const dialogText = computed(() => {
-  return isSequence ? dialog.value.sequence?.getDialogText() : "" ?? "";
+  return isSequence ? dialog.value.sequence?.getDialogText() : null;
 })
 const choiceDescription = computed(() => {
-  return isChoice ? dialog.value.choice?.description : "" ?? "";
+  return isChoice ? dialog.value.choice?.description : null;
 })
 const choiceOptions = computed(() => {
   return isChoice ? dialog.value.choice?.options : [];
@@ -44,24 +46,8 @@ function selectOption(index: number) {
 
 <template>
   <div v-if="isInDialog" class="h-32 bg-gray-700 bg-opacity-70 shadow-xl text-white">
-    <div v-if="isSequence" class="flex flex-col items-center justify-between h-full">
-      <p class="font-semibold">{{ dialogText ? dialogText.speaker : 'null' }}</p>
-      <p class="flex-grow text-center">{{ dialogText ? dialogText.text : 'null' }}</p>
-      <button class="btn btn-green" @click="next">Next</button>
-    </div>
-    <div v-else-if="isChoice" class="flex flex-col items-center justify-between">
-      <p class="font-semibold">{{ choiceDescription.speaker }}</p>
-      <p>{{ choiceDescription.text }}</p>
-      <ol>
-        <li v-for="(option, index) of choiceOptions" :key="option.label">
-          <button class="btn btn-green w-full" @click="selectOption(index)" :disabled="!option.canAccess()">
-            <span v-if="!option.canAccess()"> <s> {{ option.label }}</s></span>
-            <span v-else> {{ option.label }}</span>
-          </button>
-        </li>
-      </ol>
-    </div>
-
+    <DialogSequence v-if="isSequence" :dialog-text="dialogText"/>
+    <DialogChoice v-if="isChoice" :dialog-choice="dialog.choice"/>
   </div>
 </template>
 

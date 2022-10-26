@@ -14,6 +14,7 @@ import {EquipItemRequest} from "common/api/inventory/EquipItemRequest";
 import {UnEquipItemRequest} from "common/api/inventory/UnEquipItemRequest";
 import {TalkToNpcRequest} from "common/api/npcs/TalkToNpcRequest";
 import {DialogNextRequest} from "common/api/npcs/DialogNextRequest";
+import {DialogChoiceRequest} from "common/api/npcs/DialogChoiceRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -74,6 +75,7 @@ export class GameServer {
 
             new TalkToNpcRequest(),
             new DialogNextRequest(),
+            new DialogChoiceRequest(),
         ]
 
         // Register all requests
