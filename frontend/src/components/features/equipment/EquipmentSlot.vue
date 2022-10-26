@@ -26,8 +26,8 @@ function unEquip() {
 </script>
 
 <template>
-  <div class="h-24 w-24 border-2 rounded bg-gray-600" :title="type">
-    <div class="flex flex-row items-center justify-center p-3">
+  <div class="h-20 w-20 border-2 rounded bg-gray-600" :title="type">
+    <div class="flex flex-row h-full items-center justify-center">
 
       <img v-if="hasItem" style="width: 64px; height: 64px;"
            @click="unEquip()"

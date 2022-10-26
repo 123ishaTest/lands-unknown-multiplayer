@@ -9,6 +9,7 @@ import type {Bank} from "common/features/bank/Bank";
 import type {GeneratorList} from "common/features/actionlist/GeneratorList";
 import type {FacilityList} from "common/features/facilities/FacilityList";
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
+import {NpcList} from "common/features/npcs/NpcList";
 
 export interface IgtFeatures {
     actionList: ActionList;
@@ -16,6 +17,7 @@ export interface IgtFeatures {
     facilityList: FacilityList;
     actionQueue: ActionQueue;
     itemList: ItemList;
+    npcList: NpcList;
     inventory: Inventory;
     equipment: PlayerEquipment;
     bank: Bank;

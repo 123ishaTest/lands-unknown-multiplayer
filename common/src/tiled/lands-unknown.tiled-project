@@ -19,6 +19,16 @@
                 "anvil"
             ],
             "valuesAsFlags": true
+        },
+        {
+            "id": 2,
+            "name": "Npcs",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "tutorial/survivor"
+            ],
+            "valuesAsFlags": true
         }
     ]
 }

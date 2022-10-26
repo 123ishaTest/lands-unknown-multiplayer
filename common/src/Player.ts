@@ -24,6 +24,9 @@ import {Bank} from "common/features/bank/Bank";
 import {GeneratorList} from "common/features/actionlist/GeneratorList";
 import {FacilityList} from "common/features/facilities/FacilityList";
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
+import {Dialog} from "common/tools/dialog/Dialog";
+import {NpcList} from "common/features/npcs/NpcList";
+import {DialogTree} from "common/tools/dialog/DialogTree";
 
 export class Player implements Saveable {
     userId: string;
@@ -41,6 +44,7 @@ export class Player implements Saveable {
     generatorList: GeneratorList = new GeneratorList();
     facilityList: FacilityList = new FacilityList();
     itemList: ItemList = new ItemList();
+    npcList: NpcList = new NpcList();
     inventory: Inventory = new Inventory();
     equipment: PlayerEquipment = new PlayerEquipment();
     bank: Bank = new Bank();
@@ -48,6 +52,8 @@ export class Player implements Saveable {
 
     // TODO get worldmap from builder
     worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
+
+    dialog: Dialog<any>;
 
     features: IgtFeatures;
 
@@ -61,6 +67,7 @@ export class Player implements Saveable {
             facilityList: this.facilityList,
             actionQueue: this.actionQueue,
             itemList: this.itemList,
+            npcList: this.npcList,
             inventory: this.inventory,
             equipment: this.equipment,
             bank: this.bank,
@@ -169,5 +176,22 @@ export class Player implements Saveable {
 
     getCurrentPosition(): WorldPosition | undefined {
         return this.actionQueue.getTravelingPosition() ?? this.worldMap.getCurrentLocation()?.worldPosition;
+    }
+
+    canStartDialog(): boolean {
+        return this.actionQueue.isIdle();
+    }
+
+    startDialog<T>(tree: DialogTree<T>) {
+        this.dialog = new Dialog()
+        this.dialog.start(tree);
+    }
+
+    isInDialog(): boolean {
+        return this.dialog !== null;
+    }
+
+    exitDialog(): void {
+        this.dialog = null;
     }
 }

@@ -959,6 +959,12 @@
                          "propertytype":"Facilities",
                          "type":"string",
                          "value":"cooking-range,furnace,anvil"
+                        }, 
+                        {
+                         "name":"npcs",
+                         "propertytype":"Npcs",
+                         "type":"string",
+                         "value":"tutorial\/survivor"
                         }],
                  "rotation":0,
                  "visible":true,

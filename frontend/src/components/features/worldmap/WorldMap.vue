@@ -12,6 +12,7 @@ import LocationHighlight from "@/components/features/worldmap/LocationHighlight.
 import type {FacilityList} from "common/features/facilities/FacilityList";
 import type {ActionList} from "common/features/actionlist/ActionList";
 import type {GeneratorList} from "common/features/actionlist/GeneratorList";
+import Dialog from "@/components/tools/dialog/Dialog.vue";
 
 const props = defineProps<{
   worldMap: WorldMap,
@@ -101,16 +102,23 @@ onMounted(() => {
   <div class="m-2 overflow-hidden bg-pink-100 border-2 border-black">
     <div id="canvas-stack" class="w-full relative"
          :style="'height:' + stackHeight + 'px;'">
-      <div class="w-full h-12 flex flex-row text-white bg-gray-700 absolute z-30">
-        <span class="flex-grow p-2">You are currently at {{ worldMap.playerLocation.id }}: {{
-            playerPosition
-          }} end of queue: {{ queue.getPlayerLocationAtEndOfQueue() }}</span>
-        <LocationHighlight v-if="showHighlight"
-                           :facility-list="facilityList"
-                           :action-list="actionList"
-                           :generator-list="generatorList"
-                           :location="highlightedLocation">
-        </LocationHighlight>
+      <div class="w-full flex flex-col justify-between h-full text-white absolute z-30 pointer-events-none	">
+        <div class="flex flex-row">
+          <div class="h-min p-2 bg-gray-600 opacity-90 flex flex-col flex-grow">
+            <span>Location: {{ worldMap.playerLocation.id }}: {{ playerPosition }} </span>
+            <span>end of queue: {{ queue.getPlayerLocationAtEndOfQueue() }}</span>
+          </div>
+          <LocationHighlight v-if="showHighlight"
+                             class="pointer-events-auto"
+                             :facility-list="facilityList"
+                             :action-list="actionList"
+                             :generator-list="generatorList"
+                             :location="highlightedLocation">
+          </LocationHighlight>
+        </div>
+
+        <Dialog class="w-full p-4 z-30 pointer-events-auto"></Dialog>
+
       </div>
       <div class="w-full h-full block">
         <canvas id="world-canvas" class="pixelated absolute z-10"

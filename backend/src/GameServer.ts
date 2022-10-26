@@ -12,6 +12,9 @@ import {GeneratorRequest} from "common/api/worldmap/GeneratorRequest";
 import {DropInventorySlotRequest} from "common/api/inventory/DropInventorySlotRequest";
 import {EquipItemRequest} from "common/api/inventory/EquipItemRequest";
 import {UnEquipItemRequest} from "common/api/inventory/UnEquipItemRequest";
+import {TalkToNpcRequest} from "common/api/npcs/TalkToNpcRequest";
+import {DialogNextRequest} from "common/api/npcs/DialogNextRequest";
+import {DialogChoiceRequest} from "common/api/npcs/DialogChoiceRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -69,6 +72,10 @@ export class GameServer {
             new DropInventorySlotRequest(),
             new EquipItemRequest(),
             new UnEquipItemRequest(),
+
+            new TalkToNpcRequest(),
+            new DialogNextRequest(),
+            new DialogChoiceRequest(),
         ]
 
         // Register all requests
