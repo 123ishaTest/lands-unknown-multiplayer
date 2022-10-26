@@ -13,3 +13,7 @@ export const backgroundImage = (fileName: string) => {
 export const itemImage = (fileName: string) => {
     return new URL(`/src/assets/generated/items/${fileName}.png`, import.meta.url).href;
 };
+
+export const keyItemImage = (fileName: string) => {
+    return new URL(`/src/assets/generated/key-items/${fileName}.png`, import.meta.url).href;
+};

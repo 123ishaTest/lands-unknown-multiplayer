@@ -17,7 +17,7 @@ export class KeyItems extends IgtFeature {
 
     initialize() {
         this.items = {
-            [KeyItemId.LeatherBag]: new KeyItem(KeyItemId.LeatherBag, "Leather Bag", "logo.png", "Allows you to carry stuff around", "Gained during the tutorial")
+            [KeyItemId.LeatherBag]: new KeyItem(KeyItemId.LeatherBag, "leather-bag", "Leather Bag", "Allows you to carry stuff around", "Gained during the tutorial")
         };
     }
 
