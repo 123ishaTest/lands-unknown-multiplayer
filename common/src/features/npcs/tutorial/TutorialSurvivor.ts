@@ -1,10 +1,11 @@
-import {Npc} from "common/features/npcs/AbstractNpc";
 import {DialogTree} from "common/tools/dialog/DialogTree";
 import {NpcId} from "common/features/npcs/NpcId";
 import {DialogSequence} from "common/tools/dialog/DialogSequence";
 import {DialogText} from "common/tools/dialog/DialogText";
 import {DialogChoice} from "common/tools/dialog/DialogChoice";
 import {DialogOption} from "common/tools/dialog/DialogOption";
+import {SaveableNpc} from "common/features/npcs/SaveableNpc";
+import {TutorialSurvivorSaveData} from "common/features/npcs/tutorial/TutorialSurvivorSaveData";
 
 export enum TutorialSurvivorDialog {
     Intro,
@@ -13,8 +14,9 @@ export enum TutorialSurvivorDialog {
     NotHavingFun,
 }
 
-export class TutorialSurvivor extends Npc {
+export class TutorialSurvivor extends SaveableNpc {
     dialog: DialogTree<TutorialSurvivorDialog>;
+    talkedToTimes: number = 0;
 
     constructor() {
         super(NpcId.TutorialSurvivor, "Survivor");
@@ -22,7 +24,10 @@ export class TutorialSurvivor extends Npc {
             TutorialSurvivorDialog.Intro,
             [
                 new DialogSequence(TutorialSurvivorDialog.Intro, [
-                        new DialogText(NpcId.Player, "Nice weather"),
+                        new DialogText(NpcId.Player, "Nice weather", () => {
+                            this.talkedToTimes++;
+                            console.log(this.talkedToTimes)
+                        }),
                         new DialogText(NpcId.TutorialSurvivor, "Indeed it is"),
                     ],
                     TutorialSurvivorDialog.HavingFunChoice,
@@ -43,5 +48,16 @@ export class TutorialSurvivor extends Npc {
                 ])
             ]
         );
+    }
+
+    load(data: TutorialSurvivorSaveData): void {
+        this.talkedToTimes = data.talkedToTimes;
+    }
+
+    save(): TutorialSurvivorSaveData {
+        return {
+            id: this.id,
+            talkedToTimes: this.talkedToTimes
+        };
     }
 }

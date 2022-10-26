@@ -38,13 +38,12 @@ export class NpcList extends IgtFeature {
     }
 
     load(data: NpcListSaveData): void {
-        // Empty
-        // data.npcs.forEach(npcData => {
-        //     const npc = this.getNpc(npcData.id);
-        //     if (npc instanceof SaveableNpc) {
-        //         npc.load(npcData);
-        //     }
-        // })
+        for (const id in data.npcs) {
+            const npc = this.getNpc(id as NpcId);
+            if (npc instanceof SaveableNpc) {
+                npc.load(data.npcs[id]);
+            }
+        }
     }
 
     save(): NpcListSaveData {
