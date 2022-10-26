@@ -28,6 +28,7 @@ import {Dialog} from "common/tools/dialog/Dialog";
 import {NpcList} from "common/features/npcs/NpcList";
 import {DialogTree} from "common/tools/dialog/DialogTree";
 import {KeyItems} from "common/features/keyitems/keyItems";
+import {Quests} from "common/features/quests/Quests";
 
 export class Player implements Saveable {
     userId: string;
@@ -51,6 +52,7 @@ export class Player implements Saveable {
     bank: Bank = new Bank();
     skills: Skills = new Skills();
     keyItems: KeyItems = new KeyItems();
+    quests: Quests = new Quests();
 
     // TODO get worldmap from builder
     worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
@@ -76,6 +78,7 @@ export class Player implements Saveable {
             wallet: this.wallet,
             skills: this.skills,
             keyItems: this.keyItems,
+            quests: this.quests,
             worldMap: this.worldMap,
         }
     }

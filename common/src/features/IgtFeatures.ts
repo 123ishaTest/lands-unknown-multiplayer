@@ -11,6 +11,7 @@ import type {FacilityList} from "common/features/facilities/FacilityList";
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 import {NpcList} from "common/features/npcs/NpcList";
 import {KeyItems} from "common/features/keyitems/keyItems";
+import {Quests} from "common/features/quests/Quests";
 
 export interface IgtFeatures {
     actionList: ActionList;
@@ -25,5 +26,6 @@ export interface IgtFeatures {
     wallet: IgtWallet;
     skills: Skills;
     keyItems: KeyItems;
+    quests: Quests;
     worldMap: WorldMap;
 }
