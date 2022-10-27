@@ -17,7 +17,6 @@ export class DialogRootInjection<T> extends DialogSequenceInjection<T> {
 
         npc.dialog.root.options.unshift(new DialogOption<T>(this.rootLabel, this.dialog.id));
         super.inject(features);
-
     }
 
     eject(features: IgtFeatures): void {

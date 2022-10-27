@@ -29,7 +29,7 @@ const worldPanzoom = ref();
 const playerPanzoom = ref();
 
 function updateStackHeight() {
-  stackHeight.value = window.innerHeight - 100;
+  stackHeight.value = window.innerHeight - 290;
   return stackHeight;
 }
 

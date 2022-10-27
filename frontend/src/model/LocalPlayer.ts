@@ -7,5 +7,6 @@ export class LocalPlayer {
 
     public static init() {
         this.player.initialize();
+        this.player.start();
     }
 }

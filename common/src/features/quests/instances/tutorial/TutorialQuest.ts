@@ -10,24 +10,26 @@ import {TutorialStepId} from "common/features/quests/instances/tutorial/Tutorial
 import {InjectionQuestStep} from "common/features/quests/steps/InjectionQuestStep";
 
 export enum TutorialDialog {
-    QuestIntro,
-    Explanation,
+    Intro = 'tutorial/intro',
+    Explanation = 'tutorial/explanation',
 }
 
 export class TutorialQuest extends AbstractQuest {
     before(): void {
-        const introInjection = new DialogRootInjection(
-            NpcId.TutorialSurvivor,
-            "So you're alive?",
-            new DialogSequence(TutorialDialog.QuestIntro, [
-                    new DialogText(NpcId.TutorialSurvivor, "Just barely"),
-                    new DialogText(NpcId.Player, "Chop wood?"),
-                    new DialogText(NpcId.TutorialSurvivor, "Yeah lets go", () => {
+        const introInjection = new DialogRootInjection(NpcId.TutorialSurvivor, "Are you alive?",
+            new DialogSequence(TutorialDialog.Intro, [
+                    new DialogText(NpcId.TutorialSurvivor, "I'm badly injured, please help me out"),
+                    new DialogText(NpcId.Player, "What can I do?"),
+                    new DialogText(NpcId.TutorialSurvivor, "I need something to eat, can you cook me up some shrimp?"),
+                    new DialogText(NpcId.Player, "Sure..."),
+                    new DialogText(NpcId.TutorialSurvivor, "...Do you know how to do that?"),
+                    new DialogText(NpcId.Player, "Not really"),
+                    new DialogText(NpcId.TutorialSurvivor, "It's easy, take this fishing net and cast it in the ocean"),
+                    new DialogText(NpcId.Player, "Brb", () => {
                         this.start();
                         introInjection.eject(this._features);
                     }),
                 ],
-                null,
             )
         );
         introInjection.inject(this._features);

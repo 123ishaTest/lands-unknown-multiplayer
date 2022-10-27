@@ -93,6 +93,12 @@ export class Player implements Saveable {
         })
     }
 
+    public start() {
+        this.featureList.forEach(feature => {
+            feature.start();
+        })
+    }
+
     public update(delta: number) {
         this.featureList.forEach(feature => {
             feature.update(delta);
@@ -102,6 +108,7 @@ export class Player implements Saveable {
     logIn() {
         this.isLoggedIn = true;
         this.lastSeen = new Date();
+        this.start();
     }
 
     logOut() {
