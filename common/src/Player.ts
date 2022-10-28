@@ -28,6 +28,7 @@ import {Dialog} from "common/tools/dialog/Dialog";
 import {NpcList} from "common/features/npcs/NpcList";
 import {DialogTree} from "common/tools/dialog/DialogTree";
 import {KeyItems} from "common/features/keyitems/keyItems";
+import {ToolBelt} from "common/features/toolbelt/ToolBelt";
 
 export class Player implements Saveable {
     userId: string;
@@ -48,6 +49,7 @@ export class Player implements Saveable {
     npcList: NpcList = new NpcList();
     inventory: Inventory = new Inventory();
     equipment: PlayerEquipment = new PlayerEquipment();
+    toolBelt: ToolBelt = new ToolBelt();
     bank: Bank = new Bank();
     skills: Skills = new Skills();
     keyItems: KeyItems = new KeyItems();
@@ -72,6 +74,7 @@ export class Player implements Saveable {
             npcList: this.npcList,
             inventory: this.inventory,
             equipment: this.equipment,
+            toolBelt: this.toolBelt,
             bank: this.bank,
             wallet: this.wallet,
             skills: this.skills,

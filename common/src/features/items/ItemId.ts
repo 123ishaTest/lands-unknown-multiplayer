@@ -9,6 +9,7 @@ export enum ItemId {
     BronzePlateBody = 'bronze-plate-body',
     BronzePlateLegs = 'bronze-plate-legs',
     BronzeBoots = 'bronze-boots',
+    BronzePickaxe = 'bronze-pickaxe',
     // BronzeShield = 'bronze-shield',
     // BronzeSword = 'bronze-sword',
 

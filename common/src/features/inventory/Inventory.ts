@@ -13,6 +13,8 @@ import type {InventorySlotSaveData} from "common/features/inventory/InventorySlo
 import {ItemType} from "common/features/items/ItemType";
 import {Equipment} from "common/features/equipment/Equipment";
 import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
+import {Tool} from "common/features/toolbelt/Tool";
+import {ToolBelt} from "common/features/toolbelt/ToolBelt";
 
 export class Inventory extends IgtFeature {
     slotCount: number;
@@ -21,6 +23,7 @@ export class Inventory extends IgtFeature {
     // Overridden in initialize;
     _itemList!: ItemList;
     _equipment!: PlayerEquipment;
+    _toolBelt!: ToolBelt;
 
     private _onItemGain = new EventDispatcher<AbstractItem, number>();
 
@@ -40,6 +43,7 @@ export class Inventory extends IgtFeature {
         super.initialize(features);
         this._itemList = features.itemList;
         this._equipment = features.equipment;
+        this._toolBelt = features.toolBelt;
     }
 
     interactIndices(indexFrom: number, indexTo: number) {
@@ -230,6 +234,23 @@ export class Inventory extends IgtFeature {
             return false;
         }
         if (this._equipment.equip(item)) {
+            slot.loseItems(1);
+            return true;
+        }
+        return false;
+    }
+
+    equipToolAtIndex(index: number) {
+        const slot = this.slots[index];
+        const item = slot.item;
+        if (!item || item.type === ItemType.Empty) {
+            return;
+        }
+        if (!(item instanceof Tool)) {
+            console.warn(`Item ${item} is not a tool`);
+            return false;
+        }
+        if (this._toolBelt.equip(item)) {
             slot.loseItems(1);
             return true;
         }

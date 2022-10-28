@@ -8,6 +8,7 @@ import {LocalPlayer} from "@/model/LocalPlayer";
 import Inventory from "@/components/features/inventory/Inventory.vue";
 import Equipment from "@/components/features/equipment/Equipment.vue";
 import KeyItems from "@/components/features/keyitems/KeyItems.vue";
+import ToolBelt from "@/components/features/toolbelt/ToolBelt.vue";
 
 LocalPlayer.init()
 
@@ -30,6 +31,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
         <div class="flex flex-col w-96">
           <Skills :skills="LocalPlayer.player.skills"></Skills>
           <KeyItems></KeyItems>
+          <ToolBelt :tool-belt="LocalPlayer.player.toolBelt"></ToolBelt>
           <Equipment class="flex-grow" :equipment="LocalPlayer.player.equipment"></Equipment>
         </div>
         <WorldMap class="flex-grow w-96"

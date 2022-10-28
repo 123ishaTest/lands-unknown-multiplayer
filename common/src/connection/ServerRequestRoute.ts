@@ -8,6 +8,9 @@ export enum ServerRequestRoute {
     EquipItemRequest = "/inventory/equip/index",
     UnEquipItemRequest = "/inventory/unequip/type",
 
+    EquipToolRequest = "/toolbelt/equip/index",
+    UnEquipToolRequest = "/toolbelt/unequip/type",
+
     TalkToNpcRequest = "/dialog/start",
     DialogNextRequest = "/dialog/next",
     DialogChoiceRequest = "/dialog/choice",
