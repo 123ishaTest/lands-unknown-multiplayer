@@ -15,6 +15,8 @@ import {UnEquipItemRequest} from "common/api/inventory/UnEquipItemRequest";
 import {TalkToNpcRequest} from "common/api/npcs/TalkToNpcRequest";
 import {DialogNextRequest} from "common/api/npcs/DialogNextRequest";
 import {DialogChoiceRequest} from "common/api/npcs/DialogChoiceRequest";
+import {EquipToolRequest} from "common/api/toolbelt/EquipToolRequest";
+import {UnEquipToolRequest} from "common/api/toolbelt/UnEquipToolRequest";
 
 export class GameServer {
     readonly TICK_DURATION = 1
@@ -72,6 +74,9 @@ export class GameServer {
             new DropInventorySlotRequest(),
             new EquipItemRequest(),
             new UnEquipItemRequest(),
+
+            new EquipToolRequest(),
+            new UnEquipToolRequest(),
 
             new TalkToNpcRequest(),
             new DialogNextRequest(),

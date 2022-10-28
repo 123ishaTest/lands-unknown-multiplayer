@@ -14,6 +14,7 @@ import {TinOre} from "common/features/items/instances/ores/TinOre";
 import {CopperOre} from "common/features/items/instances/ores/CopperOre";
 import {BronzeBar} from "common/features/items/instances/ores/BronzeBar";
 import {ItemSaveData} from "common/features/items/ItemSaveData";
+import {BronzePickaxe} from "common/features/items/instances/tools/pickaxes/BronzePickaxe";
 
 /**
  * A giant repository of all possible items
@@ -44,6 +45,7 @@ export class ItemList extends IgtFeature {
             [ItemId.BronzePlateBody]: () => new BronzePlateBody(),
             [ItemId.BronzePlateLegs]: () => new BronzePlateLegs(),
             [ItemId.BronzeBoots]: () => new BronzeBoots(),
+            [ItemId.BronzePickaxe]: () => new BronzePickaxe(),
             // [ItemId.BronzeShield]: () => new BronzeShield(),
             // [ItemId.BronzeSword]: () => new BronzeSword(),
 

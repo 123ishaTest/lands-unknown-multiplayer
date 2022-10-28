@@ -8,6 +8,8 @@ import {DepositItemByIdRequest} from "common/api/banking/DepositItemByIdRequest"
 import {DropInventorySlotRequest} from "common/api/inventory/DropInventorySlotRequest";
 import {Equipment} from "common/features/equipment/Equipment";
 import {EquipItemRequest} from "common/api/inventory/EquipItemRequest";
+import {Tool} from "common/features/toolbelt/Tool";
+import {EquipToolRequest} from "common/api/toolbelt/EquipToolRequest";
 
 const props = defineProps<{
   index: number;
@@ -24,12 +26,22 @@ const isConsumable = computed(() => {
   return props.slot.item instanceof Consumable;
 });
 
+const isTool = computed(() => {
+  return props.slot.item instanceof Tool;
+});
+
 const isEquipable = computed(() => {
   return props.slot.item instanceof Equipment;
 });
 
 function equipItem() {
   ApiClient.send(new EquipItemRequest(), {
+    index: props.index,
+  })
+}
+
+function equipTool() {
+  ApiClient.send(new EquipToolRequest(), {
     index: props.index,
   })
 }
@@ -72,6 +84,7 @@ const depositItems = (id: ItemId, amount: number) => {
     </div>
     <div class="flex flex-row flex-wrap items-center">
       <button v-if="isEquipable" class="p-2 border-2 border-black" @click="equipItem">Equip</button>
+      <button v-if="isTool" class="p-2 border-2 border-black" @click="equipTool">Equip</button>
       <button class="p-2 border-2 border-black" @click="dropItems()">Drop Stack</button>
     </div>
   </div>

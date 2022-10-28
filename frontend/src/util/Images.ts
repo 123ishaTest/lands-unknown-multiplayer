@@ -10,6 +10,10 @@ export const backgroundImage = (fileName: string) => {
     return new URL(`/src/assets/generated/equipment/${fileName}.png`, import.meta.url).href;
 };
 
+export const toolImage = (fileName: string) => {
+    return new URL(`/src/assets/generated/tools/${fileName}.png`, import.meta.url).href;
+};
+
 export const itemImage = (fileName: string) => {
     return new URL(`/src/assets/generated/items/${fileName}.png`, import.meta.url).href;
 };
