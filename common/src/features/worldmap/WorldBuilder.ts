@@ -99,7 +99,6 @@ export class WorldBuilder {
         const hitBoxLayer = this.getLayer(map, "Navigation") as ObjectGroup;
 
         return hitBoxLayer?.objects?.filter(object => {
-            console.log(object);
             // Only parse points.
             return object.point
         }).map(object => {
@@ -114,7 +113,6 @@ export class WorldBuilder {
     static createWorld(map: TiledMap): WorldMap {
         const roads = this.parsePaths(map);
         const rois = this.parseWorldLocations(map);
-        console.log("rois", rois);
         return new WorldMap(roads, rois);
     }
 

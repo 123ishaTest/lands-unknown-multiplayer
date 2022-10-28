@@ -1,4 +1,4 @@
-import {Saveable} from "common/tools/saving/Saveable";
+import {isSaveable, Saveable} from "common/tools/saving/Saveable";
 import {IgtFeatures} from "common/features/IgtFeatures";
 import {QuestId} from "common/features/quests/QuestId";
 import {Requirement} from "common/tools/requirements/Requirement";
@@ -69,6 +69,7 @@ export abstract class AbstractQuest implements Saveable {
 
         if (this.currentIndex == this.steps.length - 1) {
             this.completeQuest();
+            this.currentIndex++;
             return;
         }
         this.currentIndex++;
@@ -116,18 +117,19 @@ export abstract class AbstractQuest implements Saveable {
     }
 
     load(data: QuestSaveData): void {
-        this.start(false);
-        for (let i = 0; i < data.currentIndex; i++) {
+        if (!this.isStarted) {
+            this.start(false);
+        }
+        for (let i = this.currentIndex; i < data.currentIndex; i++) {
             this.completeStep(i);
         }
 
         data.steps?.forEach(stepData => {
             const step = this.steps[stepData.step];
 
-            // TODO fix loading
-            // if (isSaveable(step)) {
-            //     step.load(stepData.data);
-            // }
+            if (isSaveable(step)) {
+                step.load(stepData.data);
+            }
         })
     }
 
@@ -136,13 +138,12 @@ export abstract class AbstractQuest implements Saveable {
             id: this.id,
             currentIndex: this.currentIndex,
             steps: this.steps.flatMap(step => {
-                // TODO fix saving
-                // if (isSaveable(step)) {
-                //     return [{
-                //         step: step.id,
-                //         data: step.save(),
-                //     }]
-                // }
+                if (isSaveable(step)) {
+                    return [{
+                        step: step.id,
+                        data: step.save(),
+                    }]
+                }
                 return [];
             })
         };

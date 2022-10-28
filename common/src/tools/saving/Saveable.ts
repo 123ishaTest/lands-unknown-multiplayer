@@ -7,3 +7,7 @@ export interface Saveable {
 
     load(data: SaveData): void;
 }
+
+export function isSaveable(object: any): object is Saveable {
+    return 'saveKey' in object;
+}
