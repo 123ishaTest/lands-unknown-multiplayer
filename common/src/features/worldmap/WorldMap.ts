@@ -33,7 +33,7 @@ export class WorldMap extends IgtFeature {
 
         this.locations = [...roads, ...rois];
 
-        this.playerLocation = new RoiLocationIdentifier(WorldLocationId.StartingHouse);
+        this.playerLocation = new RoiLocationIdentifier(WorldLocationId.TutorialStart);
     }
 
 
@@ -105,7 +105,7 @@ export class WorldMap extends IgtFeature {
                 return location;
             }
         }
-        console.error(`Could not find player location ${this.playerLocation}`);
+        console.error(`Could not find location ${id}`);
         return null;
     }
 
@@ -127,7 +127,13 @@ export class WorldMap extends IgtFeature {
         if (!data?.location) {
             return;
         }
-        this.playerLocation = new WorldLocationIdentifier(data.location.type, data.location.id);
+        const identifier = new WorldLocationIdentifier(data.location.type, data.location.id);
+
+        if (this.getLocation(identifier)) {
+            this.playerLocation = identifier;
+        } else {
+            this.playerLocation = new RoiLocationIdentifier(WorldLocationId.TutorialStart);
+        }
     }
 
     save(): WorldSaveData {

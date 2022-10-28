@@ -1,4 +1,6 @@
+/**
+ * Most ids will be parsed from Tiled
+ */
 export enum WorldLocationId {
-    StartingHouse = 'starting-house',
-    OtherPlace = 'somewhere-else',
+    TutorialStart = 'tutorial-start',
 }
