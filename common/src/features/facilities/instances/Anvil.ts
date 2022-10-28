@@ -9,5 +9,6 @@ export class Anvil extends Facility {
     actions: ActionId[] = [
         ActionId.SmithBronzeHelmetAction,
         ActionId.SmithBronzePlateBodyAction,
+        ActionId.SmithBronzePickaxe,
     ];
 }

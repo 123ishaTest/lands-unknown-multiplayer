@@ -3,4 +3,5 @@ export enum ItemType {
     Default = "default",
     Consumable = "consumable",
     Equipment = "equipment",
+    Tool = "tool",
 }
