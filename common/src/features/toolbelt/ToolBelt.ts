@@ -18,7 +18,7 @@ export class ToolBelt extends IgtFeature {
     };
 
     constructor() {
-        super("tool-bet");
+        super("tool-belt");
     }
 
     initialize(features: IgtFeatures) {
