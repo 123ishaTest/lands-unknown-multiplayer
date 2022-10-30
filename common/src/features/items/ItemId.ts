@@ -19,4 +19,7 @@ export enum ItemId {
 
     // Bars
     BronzeBar = 'bar-bronze',
+
+    // Logs
+    NormalLogs = 'logs-normal',
 }

@@ -16,6 +16,7 @@ import {MineCopperAction} from "common/features/actionlist/instances/mining/Mine
 import {MineTinAction} from "common/features/actionlist/instances/mining/MineTinAction";
 import {SmithBronzePlateBodyAction} from "common/features/actionlist/instances/smithing/SmithBronzePlateBodyAction";
 import {SmithBronzePickaxeAction} from "common/features/actionlist/instances/smithing/SmithBronzePickaxeAction";
+import {ChopLogsAction} from "common/features/actionlist/instances/ChopLogsAction";
 
 type ActionFunction = (...args: any[]) => Action;
 
@@ -53,6 +54,9 @@ export class ActionList extends IgtFeature {
             [ActionId.SmithBronzeHelmetAction]: () => new SmithBronzeHelmetAction(),
             [ActionId.SmithBronzePlateBodyAction]: () => new SmithBronzePlateBodyAction(),
             [ActionId.SmithBronzePickaxe]: () => new SmithBronzePickaxeAction(),
+
+            // Woodcutting
+            [ActionId.ChopLogs]: () => new ChopLogsAction(),
         }
     }
 

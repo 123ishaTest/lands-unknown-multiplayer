@@ -4,4 +4,6 @@ export enum GeneratorId {
     ExploreTheForest = 'explore-the-forest',
     TravelGenerator = 'travel',
     FishLowerTier = 'fishing/lower-tier',
+
+    NormalTree = 'woodcutting/normal-tree',
 }

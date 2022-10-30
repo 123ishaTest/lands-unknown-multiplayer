@@ -16,4 +16,7 @@ export enum ActionId {
     SmithBronzePlateBodyAction = 'smithing/bronze-platebody',
     SmithBronzePickaxe = 'smithing/bronze-pickaxe',
 
+    // Woodcutting
+    ChopLogs = 'woodcutting/chop-logs',
+
 }
