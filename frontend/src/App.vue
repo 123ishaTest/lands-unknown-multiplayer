@@ -43,7 +43,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
                     :action-list="LocalPlayer.player.actionList"
                     :generator-list="LocalPlayer.player.generatorList"
           ></WorldMap>
-          <Quests class="h-48" :quests="LocalPlayer.player.quests"></Quests>
+          <Quests class="h-56" :quests="LocalPlayer.player.quests"></Quests>
         </div>
         <div class="flex flex-col w-96">
           <ActionQueue class="h-72" :queue="LocalPlayer.player.actionQueue"></ActionQueue>

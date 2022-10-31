@@ -3,4 +3,5 @@ export enum FacilityType {
     CookingRange = 'cooking-range',
     Furnace = 'furnace',
     Anvil = 'anvil',
+    ShrimpRange = 'cooking-range-shrimp',
 }

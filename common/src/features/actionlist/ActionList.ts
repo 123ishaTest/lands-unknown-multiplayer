@@ -43,7 +43,6 @@ export class ActionList extends IgtFeature {
             [ActionId.CookShrimpAction]: () => new CookShrimpAction(),
             [ActionId.WithdrawItemByIdAction]: () => new WithdrawItemByIdAction(ItemId.Empty, 0),
 
-
             // Mining
             [ActionId.MineCopperAction]: () => new MineCopperAction(),
             [ActionId.MineTinAction]: () => new MineTinAction(),

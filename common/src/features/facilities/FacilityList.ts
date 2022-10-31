@@ -7,6 +7,7 @@ import {Furnace} from "common/features/facilities/instances/Furnace";
 import {CookingRange} from "common/features/facilities/instances/CookingRange";
 import {BankFacility} from "common/features/facilities/instances/BankFacility";
 import {Anvil} from "common/features/facilities/instances/Anvil";
+import {ShrimpRange} from "common/features/facilities/instances/ShrimpRange";
 
 /**
  * A giant repository of all possible facilities
@@ -26,6 +27,7 @@ export class FacilityList extends IgtFeature {
         this.facilities = {
             [FacilityType.Furnace]: () => new Furnace(),
             [FacilityType.CookingRange]: () => new CookingRange(),
+            [FacilityType.ShrimpRange]: () => new ShrimpRange(),
             [FacilityType.Bank]: () => new BankFacility(),
             [FacilityType.Anvil]: () => new Anvil(),
         }

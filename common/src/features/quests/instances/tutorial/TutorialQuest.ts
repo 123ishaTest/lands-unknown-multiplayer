@@ -14,34 +14,36 @@ import {PermanentlyAddGeneratorInjection} from "common/tools/injections/Permanen
 import {WorldLocationId} from "common/features/worldmap/WorldLocationId";
 import {RoiLocationIdentifier} from "common/features/worldmap/roi/RoiLocationIdentifier";
 import {GeneratorId} from "common/features/actionlist/GeneratorId";
+import {PermanentlyAddFacilityInjection} from "common/tools/injections/PermanentlyAddFacilityInjection";
+import {FacilityType} from "common/features/facilities/FacilityType";
+import {ArriveAtLocationQuestStep} from "common/features/quests/steps/ArriveAtLocationQuestStep";
 
 export enum TutorialDialog {
     Intro = 'tutorial/intro',
     Explanation = 'tutorial/explanation',
-    GoFish = 'tutorial/explanation',
+    CantEatRawFish = 'tutorial/cant-eat-raw-fish',
+    RangeExplanation = 'tutorial/range-explanation',
+    WoodInTheNorth = 'tutorial/wood-in-the-north',
+    HealAdventurer = 'tutorial/heal-adventurer',
 }
 
 export class TutorialQuest extends AbstractQuest {
-    before(): void {
-        const introInjection = new DialogRootInjection(NpcId.TutorialSurvivor, "Are you alive?",
-            new DialogSequence(TutorialDialog.Intro, [
-                    new DialogText(NpcId.TutorialSurvivor, "I'm badly injured, please help me out"),
-                    new DialogText(NpcId.Player, "What can I do?", () => {
-                        this.start();
-                        introInjection.eject(this._features);
-                    }),
-                ],
-                TutorialDialog.Explanation)
-        );
-        introInjection.inject(this._features);
-    }
-
     completion(): void {
         // TODO get rewards
     }
 
     constructor(features: IgtFeatures) {
-        super(QuestId.Tutorial, "Getting out alive", [
+        super(QuestId.Tutorial, "Getting out alive",
+            new DialogRootInjection(NpcId.TutorialSurvivor, "Are you alive?",
+                new DialogSequence(TutorialDialog.Intro, [
+                        new DialogText(NpcId.TutorialSurvivor, "I'm badly injured, please help me out"),
+                        new DialogText(NpcId.Player, "What can I do?", () => {
+                            this.start();
+                        }),
+                    ],
+                    TutorialDialog.Explanation)
+            ),
+            [
                 new InjectionQuestStep(TutorialStepId.Explanation, [
                         new DialogRootInjection(NpcId.TutorialSurvivor, "What can I do?",
                             new DialogSequence(TutorialDialog.Explanation, [
@@ -62,6 +64,58 @@ export class TutorialQuest extends AbstractQuest {
                 new CompleteRecipeActionQuestStep(TutorialStepId.GoFish, ActionId.FishShrimpAction, 5, [
                     new PermanentlyAddGeneratorInjection(new RoiLocationIdentifier(WorldLocationId.TutorialShrimp), GeneratorId.FishLowerTier),
                 ], features.actionQueue),
+                new InjectionQuestStep(TutorialStepId.DeliverFish, [
+                        new DialogRootInjection(NpcId.TutorialSurvivor, "I got your fish here",
+                            new DialogSequence(TutorialDialog.RangeExplanation, [
+                                    new DialogText(NpcId.TutorialSurvivor, "But it's raw"),
+                                    new DialogText(NpcId.Player, "Yeah..."),
+                                    new DialogText(NpcId.TutorialSurvivor, "I can't really eat that can I?"),
+                                    new DialogText(NpcId.Player, "What am I supposed to do?"),
+                                    new DialogText(NpcId.TutorialSurvivor, "There is a range on the ship, maybe it still works?"),
+                                    new DialogText(NpcId.Player, "I will check it out", () => {
+                                            this.completeStep(TutorialStepId.DeliverFish)
+                                        }
+                                    ),
+                                ]
+                            )
+                        )
+                    ]
+                ),
+                new ArriveAtLocationQuestStep(TutorialStepId.InspectBrokenShip, WorldLocationId.TutorialBrokenShip, [
+                    new PermanentlyAddFacilityInjection(new RoiLocationIdentifier(WorldLocationId.TutorialBrokenShip), FacilityType.ShrimpRange),
+                ], features.worldMap),
+                new InjectionQuestStep(TutorialStepId.DiscussWithSurvivor, [
+                        new DialogRootInjection(NpcId.TutorialSurvivor, "It seems I need wood to cook on the range",
+                            new DialogSequence(TutorialDialog.WoodInTheNorth, [
+                                    new DialogText(NpcId.TutorialSurvivor, "I noticed a small tree up to the north"),
+                                    new DialogText(NpcId.Player, "I'll be right back, take care", () => {
+                                            this.completeStep(TutorialStepId.DiscussWithSurvivor)
+                                        }
+                                    ),
+                                ]
+                            )
+                        )
+                    ]
+                ),
+                new CompleteRecipeActionQuestStep(TutorialStepId.ChopWood, ActionId.ChopLogs, 5, [
+                    new PermanentlyAddGeneratorInjection(new RoiLocationIdentifier(WorldLocationId.TutorialTree), GeneratorId.NormalTree),
+                ], features.actionQueue),
+                new CompleteRecipeActionQuestStep(TutorialStepId.CookShrimp, ActionId.CookShrimpAction, 5, [
+                ], features.actionQueue),
+                new InjectionQuestStep(TutorialStepId.HealAdventurer, [
+                        new DialogRootInjection(NpcId.TutorialSurvivor, "I have some cooked food here",
+                            new DialogSequence(TutorialDialog.HealAdventurer, [
+                                    new DialogText(NpcId.TutorialSurvivor, "Thanks so much"),
+                                    new DialogText(NpcId.Player, "The adventurer looks slightly better"),
+                                    new DialogText(NpcId.Player, "Quest complete?", () => {
+                                            this.completeStep(TutorialStepId.HealAdventurer)
+                                        }
+                                    ),
+                                ]
+                            )
+                        )
+                    ]
+                )
             ],
             new NoRequirement(), features);
     }

@@ -14,12 +14,14 @@ import type {WorldSaveData} from "common/features/worldmap/WorldSaveData";
 import {Dijkstra} from "common/features/worldmap/Dijkstra";
 import {ActionId} from "common/features/actionlist/ActionId";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
+import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 
 export class WorldMap extends IgtFeature {
     _actionQueue!: ActionQueue;
     _actionList!: ActionList;
 
     playerLocation: WorldLocationIdentifier;
+    protected _onArrival = new SimpleEventDispatcher<WorldLocationIdentifier>();
 
     roads: Road[];
     rois: RegionOfInterest[];
@@ -110,6 +112,7 @@ export class WorldMap extends IgtFeature {
     }
 
     setLocation(target: WorldLocationIdentifier) {
+        this._onArrival.dispatch(target);
         this.playerLocation = target;
     }
 
@@ -154,5 +157,12 @@ export class WorldMap extends IgtFeature {
             }
         })
         return reasons.join("\n");
+    }
+
+    /**
+     * Emitted whenever our location updated
+     */
+    public get onArrival(): ISimpleEvent<WorldLocationIdentifier> {
+        return this._onArrival.asEvent();
     }
 }

@@ -4,4 +4,6 @@
 export enum WorldLocationId {
     TutorialStart = 'tutorial-start',
     TutorialShrimp = 'tutorial-shrimp',
+    TutorialBrokenShip = 'tutorial-broken-ship',
+    TutorialTree = 'tutorial-tree',
 }

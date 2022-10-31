@@ -16,7 +16,7 @@ const props = defineProps<{
         <Quest :quest="quest" v-for="quest in quests.list" :key="quest.id"></Quest>
       </div>
       <div class="flex flex-row flex-grow">
-        <div class="px-2 w-full border-l-2 flex flex-col">
+        <div class="px-2 w-full border-l-2 flex flex-col overflow-y-auto">
           <TutorialLog :quest="quests.getQuest(QuestId.Tutorial)"></TutorialLog>
         </div>
       </div>

@@ -6,6 +6,7 @@ import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 import {QuestStatus} from "common/features/quests/QuestStatus";
 import {QuestSaveData} from "common/features/quests/QuestSaveData";
 import {AbstractQuestStep} from "common/features/quests/steps/AbstractQuestStep";
+import {AbstractInjection} from "common/tools/injections/AbstractInjection";
 
 export abstract class AbstractQuest implements Saveable {
     _features: IgtFeatures;
@@ -14,6 +15,7 @@ export abstract class AbstractQuest implements Saveable {
     name: string;
     requirement: Requirement;
 
+    initialStep: AbstractInjection;
     steps: AbstractQuestStep[];
     currentIndex: number = -1;
     isStarted: boolean = false;
@@ -33,10 +35,11 @@ export abstract class AbstractQuest implements Saveable {
     }
 
 
-    protected constructor(id: QuestId, name: string, steps: AbstractQuestStep[], requirement: Requirement, features: IgtFeatures) {
+    protected constructor(id: QuestId, name: string, initialInjection: AbstractInjection, steps: AbstractQuestStep[], requirement: Requirement, features: IgtFeatures) {
         this._features = features;
         this.id = id;
         this.name = name;
+        this.initialStep = initialInjection;
         this.steps = steps;
         this.requirement = requirement;
 
@@ -47,7 +50,10 @@ export abstract class AbstractQuest implements Saveable {
      * Run before this quest is even active.
      * Use to inject starting dialog.
      */
-    abstract before(): void;
+    before(): void {
+        console.log("before")
+        this.initialStep.inject(this._features)
+    }
 
     /**
      * This method will only run once. You can give rewards in here.
@@ -90,11 +96,13 @@ export abstract class AbstractQuest implements Saveable {
     }
 
     start(notify: boolean = true) {
+        console.log("starting quest")
         if (!this.requirement.isCompleted || this.isStarted) {
             console.warn(`Cannot start quest ${this.id}`);
             return;
         }
         this.isStarted = true;
+        this.initialStep.eject(this._features);
 
         if (notify) {
             this._onQuestStarted.dispatch(this);
@@ -126,8 +134,7 @@ export abstract class AbstractQuest implements Saveable {
 
         data.steps?.forEach(stepData => {
             const step = this.steps[stepData.step];
-
-            if (isSaveable(step)) {
+            if (step && isSaveable(step)) {
                 step.load(stepData.data);
             }
         })

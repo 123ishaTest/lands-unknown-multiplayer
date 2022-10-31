@@ -684,7 +684,7 @@
                  "class":"",
                  "height":48,
                  "id":4,
-                 "name":"Tutorial Start",
+                 "name":"",
                  "properties":[
                         {
                          "name":"id",
@@ -738,7 +738,7 @@
                  "class":"",
                  "height":48,
                  "id":19,
-                 "name":"Tutorial Tree",
+                 "name":"",
                  "properties":[
                         {
                          "name":"id",
@@ -767,7 +767,7 @@
                  "class":"",
                  "height":48,
                  "id":24,
-                 "name":"Tutorial Shrimp",
+                 "name":"",
                  "properties":[
                         {
                          "name":"id",
@@ -779,6 +779,81 @@
                  "width":48,
                  "x":1168,
                  "y":784
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":25,
+                 "name":"tutorial-broken-ship",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"facilities",
+                         "propertytype":"Facilities",
+                         "type":"string",
+                         "value":""
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":1168,
+                 "y":864
+                }, 
+                {
+                 "class":"",
+                 "height":32,
+                 "id":26,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"string",
+                         "value":"tutorial-broken-ship"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1152,
+                 "y":848
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":27,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":-32,
+                         "y":4
+                        }, 
+                        {
+                         "x":-16,
+                         "y":4
+                        }, 
+                        {
+                         "x":0,
+                         "y":4
+                        }, 
+                        {
+                         "x":16,
+                         "y":4
+                        }],
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"string",
+                         "value":"tutorial-start"
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"tutorial-broken-ship"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":1144,
+                 "y":852
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -787,7 +862,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":25,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
