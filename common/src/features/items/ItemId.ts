@@ -3,6 +3,9 @@ export enum ItemId {
     RawShrimp = "raw-shrimp",
     CookedShrimp = "cooked-shrimp",
 
+    // Tools - misc
+    FishingNet = 'fishing-net',
+
 
     // Bronze
     BronzeHelmet = 'bronze-helmet',

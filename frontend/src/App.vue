@@ -10,6 +10,7 @@ import Equipment from "@/components/features/equipment/Equipment.vue";
 import KeyItems from "@/components/features/keyitems/KeyItems.vue";
 import ToolBelt from "@/components/features/toolbelt/ToolBelt.vue";
 import Quests from "@/components/features/quests/Quests.vue";
+import {KeyItemId} from "common/features/keyitems/KeyItemId";
 
 LocalPlayer.init()
 
@@ -17,7 +18,6 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
   LocalPlayer.player.load(gameState.data);
   LocalPlayer.player.isLoggedIn = true;
 })
-
 </script>
 
 <template>
@@ -47,7 +47,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
         </div>
         <div class="flex flex-col w-96">
           <ActionQueue class="h-72" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
-          <Inventory class="flex-grow" :inventory="LocalPlayer.player.inventory"></Inventory>
+          <Inventory v-if="LocalPlayer.player.keyItems.hasKeyItem(KeyItemId.LeatherBag)" class="flex-grow" :inventory="LocalPlayer.player.inventory"></Inventory>
         </div>
 
       </div>

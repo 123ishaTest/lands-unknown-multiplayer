@@ -7,5 +7,4 @@ export enum TutorialStepId {
     ChopWood,
     CookShrimp,
     HealAdventurer,
-    Completed,
 }

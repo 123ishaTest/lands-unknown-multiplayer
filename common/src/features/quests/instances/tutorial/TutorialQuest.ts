@@ -17,11 +17,14 @@ import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {PermanentlyAddFacilityInjection} from "common/tools/injections/PermanentlyAddFacilityInjection";
 import {FacilityType} from "common/features/facilities/FacilityType";
 import {ArriveAtLocationQuestStep} from "common/features/quests/steps/ArriveAtLocationQuestStep";
+import {ItemId} from "common/features/items/ItemId";
+import {GainKeyItemInjection} from "common/tools/injections/GainKeyItemInjection";
+import {KeyItemId} from "common/features/keyitems/KeyItemId";
 
 export enum TutorialDialog {
     Intro = 'tutorial/intro',
     Explanation = 'tutorial/explanation',
-    CantEatRawFish = 'tutorial/cant-eat-raw-fish',
+    LostFishingNet = 'tutorial/lost-fishing-net',
     RangeExplanation = 'tutorial/range-explanation',
     WoodInTheNorth = 'tutorial/wood-in-the-north',
     HealAdventurer = 'tutorial/heal-adventurer',
@@ -52,7 +55,10 @@ export class TutorialQuest extends AbstractQuest {
                                     new DialogText(NpcId.TutorialSurvivor, "...Do you know how to do that?"),
                                     new DialogText(NpcId.Player, "Not really"),
                                     new DialogText(NpcId.TutorialSurvivor, "It's easy, take this fishing net and cast it in the ocean"),
+                                    new DialogText(NpcId.Player, "How will I carry them?"),
+                                    new DialogText(NpcId.TutorialSurvivor, "You can take my bag, it allows you to carry items"),
                                     new DialogText(NpcId.Player, "I will try my best", () => {
+                                            this._features.inventory.gainItemById(ItemId.FishingNet)
                                             this.completeStep(TutorialStepId.Explanation)
                                         }
                                     ),
@@ -62,6 +68,19 @@ export class TutorialQuest extends AbstractQuest {
                     ]
                 ),
                 new CompleteRecipeActionQuestStep(TutorialStepId.GoFish, ActionId.FishShrimpAction, 5, [
+                    new GainKeyItemInjection(KeyItemId.LeatherBag),
+                    new DialogRootInjection(NpcId.TutorialSurvivor, "I lost my fishing net...",
+                        new DialogSequence(TutorialDialog.LostFishingNet, [
+                                new DialogText(NpcId.TutorialSurvivor, "That's quite careless of you"),
+                                new DialogText(NpcId.Player, "Yeah..."),
+                                new DialogText(NpcId.TutorialSurvivor, "Well I just happen to have spare one here"),
+                                new DialogText(NpcId.Player, "Thanks", () => {
+                                        this._features.inventory.gainItemById(ItemId.FishingNet)
+                                    }
+                                ),
+                            ]
+                        )
+                    ),
                     new PermanentlyAddGeneratorInjection(new RoiLocationIdentifier(WorldLocationId.TutorialShrimp), GeneratorId.FishLowerTier),
                 ], features.actionQueue),
                 new InjectionQuestStep(TutorialStepId.DeliverFish, [
@@ -100,8 +119,7 @@ export class TutorialQuest extends AbstractQuest {
                 new CompleteRecipeActionQuestStep(TutorialStepId.ChopWood, ActionId.ChopLogs, 5, [
                     new PermanentlyAddGeneratorInjection(new RoiLocationIdentifier(WorldLocationId.TutorialTree), GeneratorId.NormalTree),
                 ], features.actionQueue),
-                new CompleteRecipeActionQuestStep(TutorialStepId.CookShrimp, ActionId.CookShrimpAction, 5, [
-                ], features.actionQueue),
+                new CompleteRecipeActionQuestStep(TutorialStepId.CookShrimp, ActionId.CookShrimpAction, 5, [], features.actionQueue),
                 new InjectionQuestStep(TutorialStepId.HealAdventurer, [
                         new DialogRootInjection(NpcId.TutorialSurvivor, "I have some cooked food here",
                             new DialogSequence(TutorialDialog.HealAdventurer, [
