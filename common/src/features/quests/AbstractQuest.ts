@@ -51,7 +51,6 @@ export abstract class AbstractQuest implements Saveable {
      * Use to inject starting dialog.
      */
     before(): void {
-        console.log("before")
         this.initialStep.inject(this._features)
     }
 
@@ -96,7 +95,6 @@ export abstract class AbstractQuest implements Saveable {
     }
 
     start(notify: boolean = true) {
-        console.log("starting quest")
         if (!this.requirement.isCompleted || this.isStarted) {
             console.warn(`Cannot start quest ${this.id}`);
             return;
@@ -128,6 +126,7 @@ export abstract class AbstractQuest implements Saveable {
         if (!this.isStarted) {
             this.start(false);
         }
+
         for (let i = this.currentIndex; i < data.currentIndex; i++) {
             this.completeStep(i);
         }

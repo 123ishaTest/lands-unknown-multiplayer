@@ -20,7 +20,6 @@ const props = defineProps<{
 }>()
 
 const facilities = computed(() => {
-  console.log("here", props.location)
   return props.location?._facilities?.map(type => props.facilityList.getFacility(type)) ?? [];
 })
 
