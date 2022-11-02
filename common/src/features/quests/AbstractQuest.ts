@@ -18,6 +18,7 @@ export abstract class AbstractQuest implements Saveable {
     initialStep: AbstractInjection;
     steps: AbstractQuestStep[];
     currentIndex: number = -1;
+    myNumber = -1;
     isStarted: boolean = false;
     isCompleted: boolean = false;
 
@@ -130,6 +131,7 @@ export abstract class AbstractQuest implements Saveable {
         for (let i = this.currentIndex; i < data.currentIndex; i++) {
             this.completeStep(i);
         }
+        this.myNumber = data.currentIndex;
 
         data.steps?.forEach(stepData => {
             const step = this.steps[stepData.step];

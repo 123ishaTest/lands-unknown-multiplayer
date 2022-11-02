@@ -6,6 +6,6 @@ export class EmptyNpc extends Npc {
     dialog: DialogTree<any> = new DialogTree<any>(null, [], [], []);
 
     constructor(id: NpcId, name: string) {
-        super(id, name);
+        super(id, name, "");
     }
 }

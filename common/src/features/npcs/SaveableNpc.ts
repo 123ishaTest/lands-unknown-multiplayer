@@ -9,8 +9,8 @@ import {NpcSaveData} from "common/features/npcs/NpcSaveData";
 export abstract class SaveableNpc extends Npc implements Saveable {
     saveKey: string;
 
-    protected constructor(id: NpcId, name: string) {
-        super(id, name);
+    protected constructor(id: NpcId, name: string, image: string) {
+        super(id, name, image);
         this.saveKey = id;
     }
 

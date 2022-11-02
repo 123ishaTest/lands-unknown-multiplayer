@@ -28,24 +28,15 @@ const isChoice = computed(() => {
 const dialogText = computed(() => {
   return isSequence ? dialog.value.sequence?.getDialogText() : null;
 })
-const choiceDescription = computed(() => {
-  return isChoice ? dialog.value.choice?.description : null;
-})
-const choiceOptions = computed(() => {
-  return isChoice ? dialog.value.choice?.options : [];
-})
 
 function next() {
   ApiClient.send(new DialogNextRequest(), {})
 }
 
-function selectOption(index: number) {
-  console.log("Select option", index)
-}
 </script>
 
 <template>
-  <div v-if="isInDialog" class="h-32 bg-gray-700 bg-opacity-70 shadow-xl text-white">
+  <div v-if="isInDialog" class="h-36 bg-gray-700 bg-opacity-70 shadow-xl text-white">
     <DialogSequence v-if="isSequence" :dialog-text="dialogText"/>
     <DialogChoice v-if="isChoice" :dialog-choice="dialog.choice"/>
   </div>

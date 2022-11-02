@@ -14,7 +14,7 @@ export class TutorialSurvivor extends Npc {
     dialog: DialogTree<TutorialSurvivorDialog>;
 
     constructor(keyItems: KeyItems) {
-        super(NpcId.TutorialSurvivor, "Survivor");
+        super(NpcId.TutorialSurvivor, "Survivor", "survivor");
         this._keyItems = keyItems;
         this.dialog = new DialogTree<TutorialSurvivorDialog>(
             TutorialSurvivorDialog.Worries,

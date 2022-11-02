@@ -21,3 +21,7 @@ export const itemImage = (fileName: string) => {
 export const keyItemImage = (fileName: string) => {
     return new URL(`/src/assets/generated/key-items/${fileName}.png`, import.meta.url).href;
 };
+
+export const npcImage = (fileName: string) => {
+    return new URL(`/src/assets/generated/npcs/${fileName}.png`, import.meta.url).href;
+};
