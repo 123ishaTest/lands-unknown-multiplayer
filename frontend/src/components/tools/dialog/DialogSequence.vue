@@ -25,7 +25,8 @@ const speaker = computed(() => {
   <div class="flex flex-col items-center justify-between h-full">
     <p class="font-semibold">{{ speaker.name }}</p>
     <div class="flex flex-row items-center w-full">
-      <span class="flex-1"></span>
+      <Npc class="flex-1" v-if="speaker.id === NpcId.Player" :id="speaker.id"></Npc>
+      <span v-else class="flex-1"></span>
       <p class="flex-1 text-center">{{ dialogText ? dialogText.text : 'null' }}</p>
       <Npc class="flex-1" v-if="speaker.id !== NpcId.Player" :id="speaker.id"></Npc>
       <span v-else class="flex-1"></span>
