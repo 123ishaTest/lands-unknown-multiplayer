@@ -83,8 +83,6 @@ export abstract class AbstractQuest implements Saveable {
             return;
         }
         this.currentIndex++;
-        console.log("next", this.currentIndex)
-
 
         this.currentStep.before(this._features);
 
@@ -102,7 +100,6 @@ export abstract class AbstractQuest implements Saveable {
     }
 
     start(notify: boolean = true) {
-        console.log("starting quest")
         if (!this.requirement.isCompleted || this.isStarted) {
             console.warn(`Cannot start quest ${this.id}`);
             return;

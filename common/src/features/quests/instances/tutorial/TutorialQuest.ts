@@ -61,7 +61,6 @@ export class TutorialQuest extends AbstractQuest {
                         new DialogSequence(TutorialDialog.Explanation, [
                                 new DialogText(NpcId.TutorialSurvivor, "I need something to eat, can you cook me up some shrimp?"),
                                 new DialogText(NpcId.Player, "Sure..."),
-                                new DialogText(NpcId.Player, "Sure..."),
                                 new DialogText(NpcId.TutorialSurvivor, "...Do you know how to do that?"),
                                 new DialogText(NpcId.Player, "Not really"),
                                 new DialogText(NpcId.TutorialSurvivor, "It's easy, take this fishing net and cast it in the ocean"),
