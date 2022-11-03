@@ -28,6 +28,6 @@ export interface IgtFeatures {
     wallet: IgtWallet;
     skills: Skills;
     keyItems: KeyItems;
-    quests: Quests;
     worldMap: WorldMap;
+    quests: Quests;
 }

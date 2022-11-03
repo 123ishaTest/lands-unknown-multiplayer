@@ -54,10 +54,10 @@ export class Player implements Saveable {
     bank: Bank = new Bank();
     skills: Skills = new Skills();
     keyItems: KeyItems = new KeyItems();
-    quests: Quests = new Quests();
 
     // TODO get worldmap from builder
     worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
+    quests: Quests = new Quests();
 
     dialog: Dialog<any>;
 
@@ -81,8 +81,8 @@ export class Player implements Saveable {
             wallet: this.wallet,
             skills: this.skills,
             keyItems: this.keyItems,
-            quests: this.quests,
             worldMap: this.worldMap,
+            quests: this.quests,
         }
     }
 

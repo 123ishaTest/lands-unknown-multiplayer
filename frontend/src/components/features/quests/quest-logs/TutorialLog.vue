@@ -8,7 +8,7 @@ const props = defineProps<{
 }>()
 
 const progress = computed(() => {
-  return props.quest.myNumber;
+  return props.quest.currentIndex;
 })
 
 const currentStep = computed(() => {
@@ -19,7 +19,6 @@ const currentStep = computed(() => {
 
 <template>
   <div class="">
-    <p>new {{quest.myNumber}}</p>
     <span>{{ quest.currentIndex }} / {{ quest.steps.length }}</span>
     <p class="text-lg font-semibold text-center">{{ quest.name }}</p>
     <div class="flex flex-col text-center">

@@ -7,6 +7,7 @@ import {QuestStatus} from "common/features/quests/QuestStatus";
 import {QuestSaveData} from "common/features/quests/QuestSaveData";
 import {AbstractQuestStep} from "common/features/quests/steps/AbstractQuestStep";
 import {AbstractInjection} from "common/tools/injections/AbstractInjection";
+import {NoRequirement} from "common/tools/requirements/NoRequirement";
 
 export abstract class AbstractQuest implements Saveable {
     _features: IgtFeatures;
@@ -15,10 +16,9 @@ export abstract class AbstractQuest implements Saveable {
     name: string;
     requirement: Requirement;
 
-    initialStep: AbstractInjection;
-    steps: AbstractQuestStep[];
+    abstract initialStep: AbstractInjection;
+    abstract steps: AbstractQuestStep[];
     currentIndex: number = -1;
-    myNumber = -1;
     isStarted: boolean = false;
     isCompleted: boolean = false;
 
@@ -36,13 +36,10 @@ export abstract class AbstractQuest implements Saveable {
     }
 
 
-    protected constructor(id: QuestId, name: string, initialInjection: AbstractInjection, steps: AbstractQuestStep[], requirement: Requirement, features: IgtFeatures) {
-        this._features = features;
+    protected constructor(id: QuestId, name: string,) {
         this.id = id;
         this.name = name;
-        this.initialStep = initialInjection;
-        this.steps = steps;
-        this.requirement = requirement;
+        this.requirement = new NoRequirement();
 
         this.saveKey = id;
     }
@@ -60,6 +57,10 @@ export abstract class AbstractQuest implements Saveable {
      */
     abstract completion(): void
 
+    initialize(features: IgtFeatures) {
+        this._features = features;
+    }
+
     completeStep(id: number) {
         if (this.currentStep.id !== id) {
             console.warn(`Cannot complete step ${id} if we're currently at ${this.currentStep.id}`);
@@ -69,6 +70,9 @@ export abstract class AbstractQuest implements Saveable {
     }
 
     private nextStep() {
+        if (!this.isStarted) {
+            console.error("Cannot next step quest if it's not started");
+        }
         if (this.currentStep) {
             this.currentStep.after(this._features);
         }
@@ -79,6 +83,8 @@ export abstract class AbstractQuest implements Saveable {
             return;
         }
         this.currentIndex++;
+        console.log("next", this.currentIndex)
+
 
         this.currentStep.before(this._features);
 
@@ -96,6 +102,7 @@ export abstract class AbstractQuest implements Saveable {
     }
 
     start(notify: boolean = true) {
+        console.log("starting quest")
         if (!this.requirement.isCompleted || this.isStarted) {
             console.warn(`Cannot start quest ${this.id}`);
             return;
@@ -131,7 +138,6 @@ export abstract class AbstractQuest implements Saveable {
         for (let i = this.currentIndex; i < data.currentIndex; i++) {
             this.completeStep(i);
         }
-        this.myNumber = data.currentIndex;
 
         data.steps?.forEach(stepData => {
             const step = this.steps[stepData.step];

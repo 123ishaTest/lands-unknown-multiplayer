@@ -29,13 +29,14 @@ export class Quests extends IgtFeature {
     initialize(features: IgtFeatures) {
         super.initialize(features);
         this.list = [
-            new TutorialQuest(features),
+            new TutorialQuest(),
         ]
 
         this.list.forEach(quest => {
             quest.onQuestCompleted.one(quest => {
                 this._onQuestCompleted.dispatch(quest);
             })
+            quest.initialize(features)
         })
     }
 
