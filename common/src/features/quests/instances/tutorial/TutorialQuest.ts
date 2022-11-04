@@ -49,7 +49,6 @@ export class TutorialQuest extends AbstractQuest {
             new DialogSequence(TutorialDialog.Intro, [
                     new DialogText(NpcId.TutorialSurvivor, "I'm badly injured, please help me out"),
                     new DialogText(NpcId.Player, "What can I do?", () => {
-                        console.log("hasdklasd")
                         this.start();
                     }),
                 ],
@@ -67,7 +66,6 @@ export class TutorialQuest extends AbstractQuest {
                                 new DialogText(NpcId.Player, "How will I carry them?"),
                                 new DialogText(NpcId.TutorialSurvivor, "You can take my bag, it allows you to carry items"),
                                 new DialogText(NpcId.Player, "I will try my best", () => {
-                                    console.log("step 1 completed after read")
                                         features.inventory.gainItemById(ItemId.FishingNet)
                                         this.completeStep(TutorialStepId.Explanation)
                                     }

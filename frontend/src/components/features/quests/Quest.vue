@@ -13,7 +13,6 @@ const status = computed(() => {
 })
 
 const color = computed(() => {
-  console.log(status.value, props.quest.isCompleted)
   switch (status.value) {
     case QuestStatus.NotStarted:
       return 'text-red-500 hover:text-red-400';
@@ -29,7 +28,7 @@ const color = computed(() => {
 </script>
 
 <template>
-  <div class="no-select cursor-pointer" >
+  <div class="no-select cursor-pointer">
     <span :class="color">{{ quest.name }}</span>
   </div>
 
