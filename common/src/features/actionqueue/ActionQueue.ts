@@ -48,6 +48,7 @@ export class ActionQueue extends IgtFeature {
                 return;
             } else {
                 this.currentAction.complete();
+                this._onActionCompletion.dispatch(this.currentAction);
                 this.generators[0]?.actionCompleted();
                 this.currentAction = null;
             }
@@ -142,14 +143,6 @@ export class ActionQueue extends IgtFeature {
             console.log(`You already have ${this.MAX_GENERATORS} generators scheduled.`);
             return;
         }
-
-        // TODO fix pubsub
-        // const sub = generator.onCompletion.subscribe((generator) => {
-        //     this._onActionCompletion.dispatch(generator);
-        // })
-        // generator.onFinished.one(() => {
-        //     sub();
-        // })
         this.generators.push(generator);
     }
 

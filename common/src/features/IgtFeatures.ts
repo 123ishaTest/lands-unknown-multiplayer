@@ -12,6 +12,7 @@ import {PlayerEquipment} from "common/features/equipment/PlayerEquipment";
 import {NpcList} from "common/features/npcs/NpcList";
 import {KeyItems} from "common/features/keyitems/keyItems";
 import {ToolBelt} from "common/features/toolbelt/ToolBelt";
+import {Quests} from "common/features/quests/Quests";
 
 export interface IgtFeatures {
     actionList: ActionList;
@@ -28,4 +29,5 @@ export interface IgtFeatures {
     skills: Skills;
     keyItems: KeyItems;
     worldMap: WorldMap;
+    quests: Quests;
 }

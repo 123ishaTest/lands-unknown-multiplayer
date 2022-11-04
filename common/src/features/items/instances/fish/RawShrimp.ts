@@ -9,7 +9,7 @@ export class RawShrimp extends AbstractItem {
             name: 'Raw Shrimp',
             description: 'Maybe you can cook it?',
             image: "shrimp-raw",
-            maxStack: 2,
+            maxStack: 10,
         });
     }
 }

@@ -29,6 +29,7 @@ import {NpcList} from "common/features/npcs/NpcList";
 import {DialogTree} from "common/tools/dialog/DialogTree";
 import {KeyItems} from "common/features/keyitems/keyItems";
 import {ToolBelt} from "common/features/toolbelt/ToolBelt";
+import {Quests} from "common/features/quests/Quests";
 
 export class Player implements Saveable {
     userId: string;
@@ -56,6 +57,7 @@ export class Player implements Saveable {
 
     // TODO get worldmap from builder
     worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
+    quests: Quests = new Quests();
 
     dialog: Dialog<any>;
 
@@ -80,6 +82,7 @@ export class Player implements Saveable {
             skills: this.skills,
             keyItems: this.keyItems,
             worldMap: this.worldMap,
+            quests: this.quests,
         }
     }
 
@@ -93,6 +96,12 @@ export class Player implements Saveable {
         })
     }
 
+    public start() {
+        this.featureList.forEach(feature => {
+            feature.start();
+        })
+    }
+
     public update(delta: number) {
         this.featureList.forEach(feature => {
             feature.update(delta);
@@ -102,6 +111,7 @@ export class Player implements Saveable {
     logIn() {
         this.isLoggedIn = true;
         this.lastSeen = new Date();
+        this.start();
     }
 
     logOut() {

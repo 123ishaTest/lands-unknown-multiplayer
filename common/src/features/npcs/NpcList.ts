@@ -20,7 +20,7 @@ export class NpcList extends IgtFeature {
         this._features = features;
         this.npcs = {
             [NpcId.UnKnown]: new EmptyNpc(NpcId.Player, "Unknown"),
-            [NpcId.Player]: new EmptyNpc(NpcId.Player, "Player"),
+            [NpcId.Player]: new EmptyNpc(NpcId.Player, "Player", "player"),
 
             [NpcId.TutorialSurvivor]: new TutorialSurvivor(this._features.keyItems)
         }

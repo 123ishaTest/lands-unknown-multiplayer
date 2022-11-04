@@ -13,6 +13,7 @@ import type {TravelAction} from "common/features/worldmap/TravelAction";
 import type {ActionGeneratorSaveData} from "common/tools/actions/ActionGeneratorSaveData";
 import {MineCopperAction} from "common/features/actionlist/instances/mining/MineCopperAction";
 import {MineTinAction} from "common/features/actionlist/instances/mining/MineTinAction";
+import {ChopLogsAction} from "common/features/actionlist/instances/ChopLogsAction";
 
 
 /**
@@ -45,6 +46,12 @@ export class GeneratorList extends IgtFeature {
                 new Outcome(() => new FishShrimpAction(), 1),
                 new Outcome(() => new MineCopperAction(), 2),
                 new Outcome(() => new MineTinAction(), 2),
+            ])),
+            [GeneratorId.FishLowerTier]: () => new RandomActionGenerator(GeneratorId.FishLowerTier, "Fishing Spot", new WeightedDistribution<OutcomeFunction<Action>>([
+                new Outcome(() => new FishShrimpAction(), 1),
+            ])),
+            [GeneratorId.NormalTree]: () => new RandomActionGenerator(GeneratorId.NormalTree, "Chop tree", new WeightedDistribution<OutcomeFunction<Action>>([
+                new Outcome(() => new ChopLogsAction(), 1),
             ])),
         }
     }

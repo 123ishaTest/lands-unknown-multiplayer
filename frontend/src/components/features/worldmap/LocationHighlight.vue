@@ -11,6 +11,7 @@ import {GeneratorList} from "common/features/actionlist/GeneratorList";
 import Icon from "@/components/tools/Icon.vue";
 import {LocalPlayer} from "@/model/LocalPlayer";
 import {TalkToNpcRequest} from "common/api/npcs/TalkToNpcRequest";
+import Npc from "@/components/features/npcs/Npc.vue";
 
 const props = defineProps<{
   location: WorldLocation,
@@ -108,7 +109,8 @@ function scheduleGenerator(index: number) {
         <button v-for="(npc, index) in npcs" :key="npc.id"
                 @click="talkToNpc(index)"
                 class="border-2 border-black p-2 m-2">
-          {{ npc.name }}
+          <Npc :id="npc.id"></Npc>
+          <span>{{ npc.name }}</span>
         </button>
       </div>
     </div>

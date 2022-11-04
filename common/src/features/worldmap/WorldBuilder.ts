@@ -47,7 +47,7 @@ export class WorldBuilder {
             const to = this.getPropertyValue(properties, "to")
             const roadType = this.getPropertyValue(properties, "type") ?? TravelType.Walk;
             const id = `${from}-${to}` as WorldLocationId;
-            const baseDuration = this.getPropertyValue(properties, "baseDuration")
+            const baseDuration = this.getPropertyValue(properties, "baseDuration") ?? 1
 
             const points = object.polyline?.map(position => {
                 return this.globalToTilePosition(map, {
@@ -69,7 +69,7 @@ export class WorldBuilder {
         const facilitiesProperty = object?.properties?.find(property => {
             return property?.propertytype === "Facilities"
         });
-        if (!facilitiesProperty) {
+        if (!facilitiesProperty || facilitiesProperty.value == "") {
             return [];
         }
         return facilitiesProperty.value.split(",");
@@ -79,7 +79,7 @@ export class WorldBuilder {
         const npcsProperty = object?.properties?.find(property => {
             return property?.propertytype === "Npcs"
         });
-        if (!npcsProperty) {
+        if (!npcsProperty || npcsProperty.value == "") {
             return [];
         }
         return npcsProperty.value.split(",");
@@ -89,14 +89,14 @@ export class WorldBuilder {
         const generatorProperty = object?.properties?.find(property => {
             return property?.name === "generators";
         });
-        if (!generatorProperty) {
+        if (!generatorProperty || generatorProperty.value == "") {
             return [];
         }
         return generatorProperty.value.split(",");
     }
 
     static parseWorldLocations(map: TiledMap): RegionOfInterest[] {
-        const hitBoxLayer = this.getLayer(map, "Hitboxes") as ObjectGroup;
+        const hitBoxLayer = this.getLayer(map, "Navigation") as ObjectGroup;
 
         return hitBoxLayer?.objects?.filter(object => {
             // Only parse points.

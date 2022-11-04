@@ -14,12 +14,14 @@ import type {WorldSaveData} from "common/features/worldmap/WorldSaveData";
 import {Dijkstra} from "common/features/worldmap/Dijkstra";
 import {ActionId} from "common/features/actionlist/ActionId";
 import {TravelGenerator} from "common/features/actionlist/instances/travel/TravelGenerator";
+import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 
 export class WorldMap extends IgtFeature {
     _actionQueue!: ActionQueue;
     _actionList!: ActionList;
 
     playerLocation: WorldLocationIdentifier;
+    protected _onArrival = new SimpleEventDispatcher<WorldLocationIdentifier>();
 
     roads: Road[];
     rois: RegionOfInterest[];
@@ -33,7 +35,7 @@ export class WorldMap extends IgtFeature {
 
         this.locations = [...roads, ...rois];
 
-        this.playerLocation = new RoiLocationIdentifier(WorldLocationId.StartingHouse);
+        this.playerLocation = new RoiLocationIdentifier(WorldLocationId.TutorialStart);
     }
 
 
@@ -105,11 +107,12 @@ export class WorldMap extends IgtFeature {
                 return location;
             }
         }
-        console.error(`Could not find player location ${this.playerLocation}`);
+        console.error(`Could not find location ${id}`);
         return null;
     }
 
     setLocation(target: WorldLocationIdentifier) {
+        this._onArrival.dispatch(target);
         this.playerLocation = target;
     }
 
@@ -127,7 +130,13 @@ export class WorldMap extends IgtFeature {
         if (!data?.location) {
             return;
         }
-        this.playerLocation = new WorldLocationIdentifier(data.location.type, data.location.id);
+        const identifier = new WorldLocationIdentifier(data.location.type, data.location.id);
+
+        if (this.getLocation(identifier)) {
+            this.playerLocation = identifier;
+        } else {
+            this.playerLocation = new RoiLocationIdentifier(WorldLocationId.TutorialStart);
+        }
     }
 
     save(): WorldSaveData {
@@ -148,5 +157,12 @@ export class WorldMap extends IgtFeature {
             }
         })
         return reasons.join("\n");
+    }
+
+    /**
+     * Emitted whenever our location updated
+     */
+    public get onArrival(): ISimpleEvent<WorldLocationIdentifier> {
+        return this._onArrival.asEvent();
     }
 }

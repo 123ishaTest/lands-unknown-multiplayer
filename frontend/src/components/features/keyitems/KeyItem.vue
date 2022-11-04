@@ -11,7 +11,7 @@ const props = defineProps<{
 <template>
   <div class="w-12 h-12 b-2 bg-gray-500 m-0.5 border-gray-300 border-2 text-white text-sm lg:text-xl rounded"
        :class="{'bg-gray-400 grayscale': !item.isUnlocked}"
-       :title="item.isUnlocked ? item.description : item.unlockHint"
+       :title="item.name + ' - ' + (item.isUnlocked ? item.description : item.unlockHint)"
     >
     <div class="flex flex-row items-center justify-center p-1">
       <img style="width: 32px; height: 32px;"

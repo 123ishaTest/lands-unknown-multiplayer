@@ -9,6 +9,8 @@ import Inventory from "@/components/features/inventory/Inventory.vue";
 import Equipment from "@/components/features/equipment/Equipment.vue";
 import KeyItems from "@/components/features/keyitems/KeyItems.vue";
 import ToolBelt from "@/components/features/toolbelt/ToolBelt.vue";
+import Quests from "@/components/features/quests/Quests.vue";
+import {KeyItemId} from "common/features/keyitems/KeyItemId";
 
 LocalPlayer.init()
 
@@ -16,7 +18,6 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
   LocalPlayer.player.load(gameState.data);
   LocalPlayer.player.isLoggedIn = true;
 })
-
 </script>
 
 <template>
@@ -34,16 +35,19 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
           <ToolBelt :tool-belt="LocalPlayer.player.toolBelt"></ToolBelt>
           <Equipment class="flex-grow" :equipment="LocalPlayer.player.equipment"></Equipment>
         </div>
-        <WorldMap class="flex-grow w-96"
-                  :world-map="LocalPlayer.player.worldMap"
-                  :queue="LocalPlayer.player.actionQueue"
-                  :facility-list="LocalPlayer.player.facilityList"
-                  :action-list="LocalPlayer.player.actionList"
-                  :generator-list="LocalPlayer.player.generatorList"
-        ></WorldMap>
+        <div class="flex flex-col flex-grow">
+          <WorldMap class="flex-grow h-96"
+                    :world-map="LocalPlayer.player.worldMap"
+                    :queue="LocalPlayer.player.actionQueue"
+                    :facility-list="LocalPlayer.player.facilityList"
+                    :action-list="LocalPlayer.player.actionList"
+                    :generator-list="LocalPlayer.player.generatorList"
+          ></WorldMap>
+          <Quests class="h-56" :quests="LocalPlayer.player.quests"></Quests>
+        </div>
         <div class="flex flex-col w-96">
           <ActionQueue class="h-72" :queue="LocalPlayer.player.actionQueue"></ActionQueue>
-          <Inventory class="flex-grow" :inventory="LocalPlayer.player.inventory"></Inventory>
+          <Inventory v-if="LocalPlayer.player.keyItems.hasKeyItem(KeyItemId.LeatherBag)" class="flex-grow" :inventory="LocalPlayer.player.inventory"></Inventory>
         </div>
 
       </div>
