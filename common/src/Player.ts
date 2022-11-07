@@ -14,7 +14,6 @@ import {Skills} from "common/features/skills/Skills";
 import type {WorldMap} from "common/features/worldmap/WorldMap";
 import type {SessionTokenSync} from "common/connection/SessionTokenSync";
 import {WorldBuilder} from "common/features/worldmap/WorldBuilder";
-import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import type {PlayerPosition, PlayerPositionsSync} from "common/connection/PlayerPositionsSync";
 import type {WorldPosition} from "common/tiled/types/WorldPosition";
@@ -55,8 +54,11 @@ export class Player implements Saveable {
     skills: Skills = new Skills();
     keyItems: KeyItems = new KeyItems();
 
-    // TODO get worldmap from builder
-    worldMap: WorldMap = WorldBuilder.createWorld(WorldMapRepository.getWorldMap(WorldMapId.Tutorial));
+    worldMap: WorldMap = WorldBuilder.createWorld([
+        WorldMapId.Overworld,
+        WorldMapId.Tutorial,
+    ]);
+
     quests: Quests = new Quests();
 
     dialog: Dialog<any>;

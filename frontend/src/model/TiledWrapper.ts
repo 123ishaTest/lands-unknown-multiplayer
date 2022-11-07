@@ -65,6 +65,7 @@ export class TiledWrapper {
 
     renderTileMap(id: WorldMapId) {
         this.worldMap = WorldMapRepository.getWorldMap(id);
+        this.tileSetsLoaded = 0;
         this.tileHeight = this.worldMap.tileheight;
         this.tileWidth = this.worldMap.tilewidth;
 

@@ -14,6 +14,8 @@ import {TiledObject} from "common/tiled/types/objects/TiledObject";
 import {FacilityType} from "common/features/facilities/FacilityType";
 import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {NpcId} from "common/features/npcs/NpcId";
+import {WorldMapId} from "common/tiled/WorldMapId";
+import {WorldMapRepository} from "common/tiled/WorldMapRepository";
 
 export class WorldBuilder {
 
@@ -36,7 +38,9 @@ export class WorldBuilder {
 
     static parsePaths(map: TiledMap): Road[] {
         const pathLayer = this.getLayer(map, "Navigation") as ObjectGroup;
-
+        if (!pathLayer) {
+            return [];
+        }
         return pathLayer?.objects?.filter(object => {
             // Skip single points, we will parse them later.
             return !object.point
@@ -97,6 +101,9 @@ export class WorldBuilder {
 
     static parseWorldLocations(map: TiledMap): RegionOfInterest[] {
         const hitBoxLayer = this.getLayer(map, "Navigation") as ObjectGroup;
+        if (!hitBoxLayer) {
+            return [];
+        }
 
         return hitBoxLayer?.objects?.filter(object => {
             // Only parse points.
@@ -110,9 +117,15 @@ export class WorldBuilder {
         });
     }
 
-    static createWorld(map: TiledMap): WorldMap {
-        const roads = this.parsePaths(map);
-        const rois = this.parseWorldLocations(map);
+    static createWorld(mapIds: WorldMapId[]): WorldMap {
+        let roads = [];
+        let rois = [];
+        for (const id of mapIds) {
+            const map = WorldMapRepository.getWorldMap(id);
+            roads = roads.concat(this.parsePaths(map));
+            rois = rois.concat(this.parseWorldLocations(map));
+        }
+
         return new WorldMap(roads, rois);
     }
 

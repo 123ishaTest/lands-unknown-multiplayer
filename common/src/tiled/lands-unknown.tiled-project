@@ -21,6 +21,17 @@
             "valuesAsFlags": true
         },
         {
+            "id": 3,
+            "name": "Maps",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "overworld",
+                "tutorial"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "id": 2,
             "name": "Npcs",
             "storageType": "string",
