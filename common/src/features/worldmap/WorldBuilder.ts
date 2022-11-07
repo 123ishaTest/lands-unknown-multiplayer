@@ -16,6 +16,7 @@ import {GeneratorId} from "common/features/actionlist/GeneratorId";
 import {NpcId} from "common/features/npcs/NpcId";
 import {WorldMapId} from "common/tiled/WorldMapId";
 import {WorldMapRepository} from "common/tiled/WorldMapRepository";
+import {MapPortal} from "common/features/worldmap/roi/MapPortal";
 
 export class WorldBuilder {
 
@@ -99,6 +100,23 @@ export class WorldBuilder {
         return generatorProperty.value.split(",");
     }
 
+    static parseMapPortals(map: TiledMap): MapPortal[] {
+        const hitBoxLayer = this.getLayer(map, "Navigation") as ObjectGroup;
+        if (!hitBoxLayer) {
+            return [];
+        }
+
+        return hitBoxLayer?.objects?.filter(object => {
+            const mapProperty = object?.properties?.find(property => {
+                return property?.name === "map";
+            });
+            return mapProperty && mapProperty.value != "";
+        }).map(object => {
+            const worldPosition = this.globalToTilePosition(map, {x: object.x, y: object.y});
+            return new MapPortal(object.name as WorldLocationId, object.name, worldPosition);
+        });
+    }
+
     static parseWorldLocations(map: TiledMap): RegionOfInterest[] {
         const hitBoxLayer = this.getLayer(map, "Navigation") as ObjectGroup;
         if (!hitBoxLayer) {
@@ -120,12 +138,22 @@ export class WorldBuilder {
     static createWorld(mapIds: WorldMapId[]): WorldMap {
         let roads = [];
         let rois = [];
+        const mapKeys: Record<string, WorldMapId> = {};
+
         for (const id of mapIds) {
             const map = WorldMapRepository.getWorldMap(id);
-            roads = roads.concat(this.parsePaths(map));
-            rois = rois.concat(this.parseWorldLocations(map));
-        }
+            const newPaths = this.parsePaths(map);
+            roads = roads.concat(newPaths);
+            const newLocations = this.parseWorldLocations(map).concat(this.parseMapPortals(map));
+            rois = rois.concat(newLocations);
 
+            for (const path of newPaths) {
+                mapKeys[path.identifier.id] = id;
+            }
+            for (const location of newLocations) {
+                mapKeys[location.identifier.id] = id;
+            }
+        }
         return new WorldMap(roads, rois);
     }
 

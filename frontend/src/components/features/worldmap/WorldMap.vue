@@ -41,6 +41,17 @@ const showPointer = computed(() => {
   return tiledWrapper.value && tiledWrapper.value.isHoveringOverClickBox;
 });
 
+const mapOptions = ref([
+  {text: 'Overworld', value: WorldMapId.Overworld},
+  {text: 'Tutorial Island', value: WorldMapId.Tutorial},
+  {text: 'Example TOwn', value: WorldMapId.ExampleTown},
+])
+const currentMapId = ref(WorldMapId.Tutorial);
+
+function selectedMapChanged() {
+  tiledWrapper.value.renderTileMap(currentMapId.value);
+}
+
 ApiClient.onPlayerPositionsSync.subscribe((sync) => {
   // Throw away ourselves from the server, overwrite with more accurate local data
   sync.data = sync.data.filter(position => {
@@ -107,6 +118,9 @@ onMounted(() => {
           <div class="h-min p-2 bg-gray-600 opacity-90 flex flex-col flex-grow">
             <span>Location: {{ worldMap.playerLocation.id }}: {{ playerPosition }} </span>
             <span>end of queue: {{ queue.getPlayerLocationAtEndOfQueue() }}</span>
+            <select @change="selectedMapChanged" v-model="currentMapId" class="pointer-events-auto bg-gray-500">
+              <option v-for="option in mapOptions" :value="option.value">{{ option.text }}</option>
+            </select>
           </div>
           <LocationHighlight v-if="showHighlight"
                              class="pointer-events-auto"

@@ -35,7 +35,7 @@ ApiClient.onGameStateSync.subscribe((gameState) => {
           <ToolBelt :tool-belt="LocalPlayer.player.toolBelt"></ToolBelt>
           <Equipment class="flex-grow" :equipment="LocalPlayer.player.equipment"></Equipment>
         </div>
-        <div class="flex flex-col flex-grow">
+        <div class="flex flex-col w-1/2">
           <WorldMap class="flex-grow h-96"
                     :world-map="LocalPlayer.player.worldMap"
                     :queue="LocalPlayer.player.actionQueue"

@@ -1,4 +1,5 @@
 export enum WorldMapId {
     Tutorial = 'tutorial',
-    Overworld = 'overworld'
+    Overworld = 'overworld',
+    ExampleTown = 'example-town',
 }

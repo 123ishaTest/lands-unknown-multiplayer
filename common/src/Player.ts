@@ -57,6 +57,7 @@ export class Player implements Saveable {
     worldMap: WorldMap = WorldBuilder.createWorld([
         WorldMapId.Overworld,
         WorldMapId.Tutorial,
+        WorldMapId.ExampleTown,
     ]);
 
     quests: Quests = new Quests();
